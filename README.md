@@ -1,3 +1,3 @@
-# teamname-tcss360.github.io
+# teamname-TCSS360.github.io
 
 Hello World! 
