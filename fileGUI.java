@@ -1,16 +1,58 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-class fileGUI{
+class fileGUI implements ActionListener{
 
     void guiBuilder(){
         JFrame frame = new JFrame();
+        frame.setTitle("File Organizer - v0.0.1");
+
+
         JPanel j = new JPanel();
-        JButton about = new JButton();
-        j.add(about);
+        // Menu's
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutMenu = new JMenuItem("About");
+        aboutMenu.addActionListener(this);
+        
+        helpMenu.add(aboutMenu);
+        menuBar.add(helpMenu);
+        frame.setJMenuBar(menuBar);
+        
+
+        frame.setSize(800,800);
+        
+    
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JFrame f = new JFrame();
+        f.setTitle("About the builders");
+        f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        f.setSize(400,400);
+
+
+
+        JPanel j = new JPanel();
+        j.setSize(400,400);
+        JLabel l = new JLabel();
+        l.setSize(400,400);
+        JTextArea jta = new JTextArea();
+        
+        jta.setText("Version - 0.0.1"+"\n"+"\n"+"\n"+"Jasharn Thiara --- Covid carrier"+"\n"+"\n"+"Michael Theisen ---- Beer connoisseur"+"\n"+"\n"+"Patrick Tibbals ---- Sometimes mildly inteligent"
+        +"\n"+"\n"+"Trevor Tomlin ---- The real brains");
+        j.add(jta);
+        f.add(j);
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);        
     }
 }
 class main{
