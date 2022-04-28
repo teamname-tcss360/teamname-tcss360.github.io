@@ -49,17 +49,10 @@ class fileGUI implements ActionListener{
         
         jta.setText("Version - 0.0.1"+"\n"+"\n"+"\n"+"Jasharn Thiara --- Covid carrier"+"\n"+"\n"+"Michael Theisen ---- Beer connoisseur"+"\n"+"\n"+"Patrick Tibbals ---- Sometimes mildly inteligent"
         +"\n"+"\n"+"Trevor Tomlin ---- The real brains");
-        j.add(jta);
+	jta.setEditable(false);
+	j.add(jta);
         f.add(j);
         f.setLocationRelativeTo(null);
         f.setVisible(true);        
     }
-}
-class main{
-    public static void main(String[] args) {
-        new fileGUI().guiBuilder();
-        System.out.println("Help");
-    }
-
-
 }
