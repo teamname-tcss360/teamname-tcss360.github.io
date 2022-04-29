@@ -5,9 +5,11 @@ import java.awt.event.*;
 
 class fileGUI implements ActionListener{
 
+    static final private String version = "v0.0.1";
+
     void guiBuilder(){
         JFrame frame = new JFrame();
-        frame.setTitle("File Organizer - v0.0.1");
+        frame.setTitle("File Organizer - " + version);
 
 
         JPanel j = new JPanel();
@@ -47,7 +49,7 @@ class fileGUI implements ActionListener{
         l.setSize(400,400);
         JTextArea jta = new JTextArea();
         
-        jta.setText("Version - 0.0.1"+"\n"+"\n"+"\n"+"Jasharn Thiara --- Covid carrier"+"\n"+"\n"+"Michael Theisen ---- Beer connoisseur"+"\n"+"\n"+"Patrick Tibbals ---- Sometimes mildly inteligent"
+        jta.setText("Version - " + version +"\n"+"\n"+"\n"+"Jasharn Thiara --- Covid carrier"+"\n"+"\n"+"Michael Theisen ---- Beer connoisseur"+"\n"+"\n"+"Patrick Tibbals ---- Sometimes mildly inteligent"
         +"\n"+"\n"+"Trevor Tomlin ---- The real brains");
 	jta.setEditable(false);
 	j.add(jta);
