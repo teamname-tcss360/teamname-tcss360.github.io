@@ -1,4 +1,4 @@
-import java.awt.*;
+//import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -7,7 +7,7 @@ class fileGUI implements ActionListener{
 
     void guiBuilder(){
         JFrame frame = new JFrame();
-        frame.setTitle("File Organizer - v0.0.1");
+        frame.setTitle("File Organizer - " + VersionControl.getVersion());
 
 
         JPanel j = new JPanel();
@@ -24,7 +24,7 @@ class fileGUI implements ActionListener{
         
 
         frame.setSize(800,800);
-        
+        frame.add(j);
     
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -47,19 +47,20 @@ class fileGUI implements ActionListener{
         l.setSize(400,400);
         JTextArea jta = new JTextArea();
         
-        jta.setText("Version - 0.0.1"+"\n"+"\n"+"\n"+"Jasharn Thiara --- Covid carrier"+"\n"+"\n"+"Michael Theisen ---- Beer connoisseur"+"\n"+"\n"+"Patrick Tibbals ---- Sometimes mildly inteligent"
+        jta.setText(VersionControl.getVersion() +"\n"+"\n"+"\n"+"Jasharn Thiara --- Covid carrier"+"\n"+"\n"+"Michael Theisen ---- Beer connoisseur"+"\n"+"\n"+"Patrick Tibbals ---- Sometimes mildly inteligent"
         +"\n"+"\n"+"Trevor Tomlin ---- The real brains");
+        
         j.add(jta);
         f.add(j);
         f.setLocationRelativeTo(null);
         f.setVisible(true);        
     }
+
 }
-class main{
+class Main{
+
     public static void main(String[] args) {
         new fileGUI().guiBuilder();
         System.out.println("Help");
     }
-
-
 }
