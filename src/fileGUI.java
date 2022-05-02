@@ -1,16 +1,13 @@
-import java.awt.*;
+// import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
 
 class fileGUI implements ActionListener{
 
-    static final private String version = "v0.0.1";
-
     void guiBuilder(){
         JFrame frame = new JFrame();
-        frame.setTitle("File Organizer - " + version);
-
+        frame.setTitle("File Organizer - " + VersionControl.getVersion());
 
         JPanel j = new JPanel();
         // Menu's
@@ -27,7 +24,8 @@ class fileGUI implements ActionListener{
 
         frame.setSize(800,800);
         
-    
+	frame.add(j);
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -49,8 +47,9 @@ class fileGUI implements ActionListener{
         l.setSize(400,400);
         JTextArea jta = new JTextArea();
         
-        jta.setText("Version - " + version +"\n"+"\n"+"\n"+"Jasharn Thiara --- Covid carrier"+"\n"+"\n"+"Michael Theisen ---- Beer connoisseur"+"\n"+"\n"+"Patrick Tibbals ---- Sometimes mildly inteligent"
+	jta.setText(VersionControl.getVersion() +"\n"+"\n"+"\n"+"Jasharn Thiara --- Covid carrier"+"\n"+"\n"+"Michael Theisen ---- Beer connoisseur"+"\n"+"\n"+"Patrick Tibbals ---- Sometimes mildly inteligent"
         +"\n"+"\n"+"Trevor Tomlin ---- The real brains");
+	
 	jta.setEditable(false);
 	j.add(jta);
         f.add(j);
