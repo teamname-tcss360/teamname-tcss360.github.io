@@ -1,32 +1,23 @@
 /**
- * TCSS 360
- */
-
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
-
-/**
- * Class represents testing for TeamName project, class has functionality to test version control so far. 
+ * Class represents version control 
  * 
  * @author TeamName
- * @version Spring 2022
- * 
+ *
  */
-
-class VersionControlTest {
+public class VersionControl {
 	
-	private VersionControl myVersionControl;
+	/**
+	 * String to represent version number
+	 */
+	private static String myVersion;
 	
-	private String myVersion = "0.0.1";
-
-	
-    /**
-     * Test method for {@VersionControl#getVersion()}.
-     */
-	@Test
-	void testGetVersion() {
-		myVersionControl = new VersionControl("0.0.1");
-		assertEquals(myVersion, myVersionControl.getVersion(), "getVersion() method fail");
+	public VersionControl(String theVersion) {
+		myVersion = theVersion;
 	}
+	
+    public String getVersion(){
+        return myVersion;
+
+    }
 
 }
