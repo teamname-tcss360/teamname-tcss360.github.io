@@ -9,8 +9,10 @@ class fileGUI implements ActionListener{
         JFrame frame = new JFrame();
         frame.setTitle("File Organizer - " + VersionControl.getVersion());
 
-        JPanel j = new JPanel();
-        // Menu's
+        //JPanel j = new JPanel();
+        //JPanel j = LogInScreen.createButtonPanel();
+	JPanel j = LogInScreen.createLogInPanel();
+	// Menu's
         JMenuBar menuBar = new JMenuBar();
 
         JMenu helpMenu = new JMenu("Help");
