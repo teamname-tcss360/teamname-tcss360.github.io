@@ -14,8 +14,7 @@ import org.junit.jupiter.api.Test;
  */
 
 class VersionControlTest {
-	
-	private VersionControl myVersionControl;
+
 	
 	private String myVersion = "0.0.1";
 
@@ -25,8 +24,7 @@ class VersionControlTest {
      */
 	@Test
 	void testGetVersion() {
-		myVersionControl = new VersionControl("0.0.1");
-		assertEquals(myVersion, myVersionControl.getVersion(), "getVersion() method fail");
+		assertEquals(myVersion, VersionControl.getVersion(), "getVersion() method fail");
 	}
 
 }
