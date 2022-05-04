@@ -1,5 +1,9 @@
-// import java.awt.*;
+import java.awt.*;
 import javax.swing.*;
+
+import javafx.scene.chart.Axis;
+
+import java.awt.LayoutManager;
 import java.awt.event.*;
 
 
@@ -42,16 +46,23 @@ class fileGUI implements ActionListener{
 
 
         JPanel j = new JPanel();
+        j.setLayout(new GridLayout(0,1));
         j.setSize(400,400);
-        JLabel l = new JLabel();
-        l.setSize(400,400);
-        JTextArea jta = new JTextArea();
+        JLabel verison = new JLabel("Version - "+VersionControl.getVersion());        
+        JLabel user = new JLabel("This app is registered to: Bob Keener");
+        JLabel providedBy = new JLabel("<html>This app provided by:<br>Michael Theisen ------ Brother in mead<br>Jasharn Thiara ------- Covid carrier<br>Trevor Tomlin -------- The real brains<br>Patrick Tibbals ------- Sometimes mildly inteligent<br></html>");
         
-	jta.setText(VersionControl.getVersion() +"\n"+"\n"+"\n"+"Jasharn Thiara --- Covid carrier"+"\n"+"\n"+"Michael Theisen ---- Beer connoisseur"+"\n"+"\n"+"Patrick Tibbals ---- Sometimes mildly inteligent"
-        +"\n"+"\n"+"Trevor Tomlin ---- The real brains");
-	
-	jta.setEditable(false);
-	j.add(jta);
+        verison.setHorizontalAlignment(JLabel.CENTER);
+        user.setHorizontalAlignment(JLabel.CENTER);
+        providedBy.setHorizontalAlignment(JLabel.CENTER);
+     
+
+        j.add(verison);
+        j.add(user);
+        j.add(providedBy);
+      
+
+        
         f.add(j);
         f.setLocationRelativeTo(null);
         f.setVisible(true);        
