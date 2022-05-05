@@ -65,6 +65,14 @@ class LogInScreen {
 		JButton signOnBut = new JButton("Sign On");
 		JButton cancelBut = new JButton("Cancel");
 
+		signOnBut.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				myFrame.getContentPane().removeAll();
+				myFrame.validate();
+				myFrame.repaint();
+			}
+		});
 		cancelBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changePanel(buttonPanel);
