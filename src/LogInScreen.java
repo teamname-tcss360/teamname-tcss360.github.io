@@ -7,55 +7,83 @@ class LogInScreen {
     private JPanel buttonPanel;
     private JPanel logInPanel;
 
-    public void LogInScreen() {
+	private JFrame myFrame;
 
-	buttonPanel = createButtonPanel();
+    public LogInScreen(JFrame frame) {
 
-    }
+		myFrame = frame;
 
-    public static JPanel createButtonPanel() {
+		buttonPanel = createButtonPanel();
+		logInPanel = createLogInPanel();
 
-	JPanel panel = new JPanel();
-
-	JButton signOnBut = new JButton("Sign On");
-
-	panel.add(signOnBut);
-
-	return panel;
+		myFrame.add(buttonPanel);
 
     }
 
-    public static JPanel createLogInPanel() {
+	private void changePanel(JPanel panel) {
 
-	JPanel panel = new JPanel(new GridLayout(4, 2));
-	
-	panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 400, 100));
-	
-	JLabel userNameText = new JLabel("Username:");
-	JTextField userNameField = new JTextField("Bob");
+		myFrame.getContentPane().removeAll();
+		myFrame.add(panel);
+		myFrame.validate();
+		myFrame.repaint();
 
-	JLabel emailText = new JLabel("Email:");
-	JTextField emailField = new JTextField("Bob@bob.com");
-	
-	JLabel pwdText = new JLabel("Password:");
-	JTextField pwdField = new JTextField("Bob");
+	}
 
-	JButton signOnBut = new JButton("Sign On");
-	JButton cancelBut = new JButton("Cancel");
-	
-	panel.add(userNameText);
-	panel.add(userNameField);
-	
-	panel.add(emailText);
-	panel.add(emailField);
-	
-	panel.add(pwdText);
-	panel.add(pwdField);
+    private JPanel createButtonPanel() {
 
-	panel.add(signOnBut);
-	panel.add(cancelBut);
+		JPanel panel = new JPanel();
 
-	return panel;
+		JButton signOnBut = new JButton("Sign On");
+
+		signOnBut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				changePanel(logInPanel);
+			}
+		});
+
+		panel.add(signOnBut);
+
+		return panel;
+
+    }
+
+    private JPanel createLogInPanel() {
+
+		JPanel panel = new JPanel(new GridLayout(4, 2));
+
+		panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 400, 100));
+
+		JLabel userNameText = new JLabel("Username:");
+		JTextField userNameField = new JTextField("Bob");
+
+		JLabel emailText = new JLabel("Email:");
+		JTextField emailField = new JTextField("Bob@bob.com");
+
+		JLabel pwdText = new JLabel("Password:");
+		JTextField pwdField = new JTextField("Bob");
+
+		JButton signOnBut = new JButton("Sign On");
+		JButton cancelBut = new JButton("Cancel");
+
+		cancelBut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				changePanel(buttonPanel);
+			}
+		});
+
+		panel.add(userNameText);
+		panel.add(userNameField);
+
+		panel.add(emailText);
+		panel.add(emailField);
+
+		panel.add(pwdText);
+		panel.add(pwdField);
+
+		panel.add(signOnBut);
+		panel.add(cancelBut);
+
+		return panel;
     
     }
 
