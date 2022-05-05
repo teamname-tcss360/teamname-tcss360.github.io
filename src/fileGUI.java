@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-import javafx.scene.chart.Axis;
+//import javafx.scene.chart.Axis;
 
 import java.awt.LayoutManager;
 import java.awt.event.*;
@@ -13,10 +13,9 @@ class fileGUI implements ActionListener{
         JFrame frame = new JFrame();
         frame.setTitle("File Organizer - " + VersionControl.getVersion());
 
-        //JPanel j = new JPanel();
-        //JPanel j = LogInScreen.createButtonPanel();
-	JPanel j = LogInScreen.createLogInPanel();
-	// Menu's
+        new LogInScreen(frame);
+
+	    // Menu's
         JMenuBar menuBar = new JMenuBar();
 
         JMenu helpMenu = new JMenu("Help");
@@ -29,8 +28,6 @@ class fileGUI implements ActionListener{
         
 
         frame.setSize(800,800);
-        
-	frame.add(j);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
