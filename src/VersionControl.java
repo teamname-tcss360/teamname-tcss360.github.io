@@ -9,15 +9,10 @@ public class VersionControl {
 	/**
 	 * String to represent version number
 	 */
-	private static String myVersion;
+	private static String myVersion = "0.0.1";
 	
-	public VersionControl(String theVersion) {
-		myVersion = theVersion;
-	}
-	
-    public String getVersion(){
+    static String getVersion(){
         return myVersion;
-
     }
 
 }
