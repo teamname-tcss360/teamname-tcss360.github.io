@@ -4,12 +4,12 @@ import java.awt.GridLayout;
 
 class LogInScreen {
 
-    private JPanel buttonPanel;
-    private JPanel logInPanel;
+	private JPanel buttonPanel;
+	private JPanel logInPanel;
 
 	private JFrame myFrame;
 
-    public LogInScreen(JFrame frame) {
+	public LogInScreen(JFrame frame) {
 
 		myFrame = frame;
 
@@ -18,7 +18,7 @@ class LogInScreen {
 
 		myFrame.add(buttonPanel);
 
-    }
+	}
 
 	private void changePanel(JPanel panel) {
 
@@ -29,7 +29,7 @@ class LogInScreen {
 
 	}
 
-    private JPanel createButtonPanel() {
+	private JPanel createButtonPanel() {
 
 		JPanel panel = new JPanel();
 
@@ -45,24 +45,26 @@ class LogInScreen {
 
 		return panel;
 
-    }
+	}
 
-    private JPanel createLogInPanel() {
+	private JPanel createLogInPanel() {
 
 		JPanel panel = new JPanel(new GridLayout(4, 2));
 
-		panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 400, 100));
+		panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
 
 		JLabel userNameText = new JLabel("Username:");
-		JTextField userNameField = new JTextField("Bob");
+		JTextField userNameField = new JTextField("Bob_Keener");
 
 		JLabel emailText = new JLabel("Email:");
 		JTextField emailField = new JTextField("Bob@bob.com");
 
 		JLabel pwdText = new JLabel("Password:");
-		JTextField pwdField = new JTextField("Bob");
+		JTextField pwdField = new JTextField("**********");
 
 		JButton signOnBut = new JButton("Sign On");
+		signOnBut.setSize(20, 20);
+
 		JButton cancelBut = new JButton("Cancel");
 
 		signOnBut.addActionListener(new ActionListener() {
@@ -92,7 +94,7 @@ class LogInScreen {
 		panel.add(cancelBut);
 
 		return panel;
-    
-    }
+
+	}
 
 }
