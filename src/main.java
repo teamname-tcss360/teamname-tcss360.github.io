@@ -2,7 +2,7 @@ class Main {
 
     public static void main(String[] args) {
 
-        new fileGUI().guiBuilder();
+        new MainView().guiBuilder();
 
     }
 

@@ -23,7 +23,8 @@ class VersionControlTest {
     /**
      * Test method for {@VersionControl#getVersion()}.
      */
-	@Test
+	@org.junit.jupiter.api.Test
+
 	void testGetVersion() {
 		assertEquals(myVersion, VersionControl.getVersion(), "getVersion() method fail");
 	}
