@@ -6,16 +6,13 @@ class LogInScreen {
 
 	private JPanel buttonPanel;
 	private JPanel logInPanel;
-
 	private JFrame myFrame;
 
 	public LogInScreen(JFrame frame) {
 
 		myFrame = frame;
-
 		buttonPanel = createButtonPanel();
 		logInPanel = createLogInPanel();
-
 		myFrame.add(buttonPanel);
 
 	}
@@ -73,6 +70,7 @@ class LogInScreen {
 				myFrame.getContentPane().removeAll();
 				myFrame.validate();
 				myFrame.repaint();
+				new FileView(myFrame);
 			}
 		});
 		cancelBut.addActionListener(new ActionListener() {
