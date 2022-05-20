@@ -1,5 +1,6 @@
 package src;
 
+import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.GridLayout;
@@ -31,8 +32,14 @@ class LogInScreen {
 	private JPanel createButtonPanel() {
 
 		JPanel panel = new JPanel();
+		JPanel panel2 = new JPanel();
+		JPanel panel3 = new JPanel();
+		JPanel panel4 = new JPanel();
+		JPanel panelNest = new JPanel();
 
 		JButton signOnBut = new JButton("Sign On");
+		JButton importButton = new JButton("Import Button");
+		JButton exportButton = new JButton("Export Button");
 
 		signOnBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -40,7 +47,45 @@ class LogInScreen {
 			}
 		});
 
-		panel.add(signOnBut);
+		// importButton.addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent e) {
+		// changePanel(?????????);
+		// }
+		// });
+
+		// exportButton.addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent e) {
+		// changePanel(??????????);
+		// }
+		// });
+
+		ImageIcon profileImage = new ImageIcon("src/resources/profile.png");
+		Image imageProfile = profileImage.getImage();
+		Image newImageProfile = imageProfile.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+		profileImage = new ImageIcon(newImageProfile);
+
+		JLabel signOnLabel = new JLabel();
+		JLabel userNameText = new JLabel("Bob");
+
+		panel.setLayout(new BorderLayout());
+		panel.add(panel2, BorderLayout.CENTER);
+
+		panel.add(panelNest, BorderLayout.SOUTH);
+
+		panelNest.setLayout(new GridLayout(0, 1));
+
+		panelNest.add(panel3);
+		panelNest.add(panel4);
+
+		signOnLabel.setIcon(profileImage);
+
+		panel2.add(signOnLabel);
+		panel2.add(userNameText);
+
+		panel3.add(signOnBut);
+
+		panel4.add(importButton);
+		panel4.add(exportButton);
 
 		return panel;
 
