@@ -1,5 +1,12 @@
+package src;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Arrays;
+import java.util.Stack;
 
 /**
  * File view panel for the GUI
@@ -13,6 +20,8 @@ import java.awt.*;
 class FileView{
     private JFrame frame;
     String[] strings = {"Bob","Kitchen","Dining room","Garage","Bedrooms"};
+    private JPanel right = new JPanel();;
+    
     public FileView(JFrame f){
         frame = f;
 
@@ -30,7 +39,6 @@ class FileView{
 
     }
     void visualInterpretation(){
-        JPanel right = new JPanel();
         right.setLayout(new GridLayout(4,4));
         for (int i = 1; i < 16; i++) {
             JPanel panel = new JPanel();
@@ -58,7 +66,20 @@ class FileView{
     void toolBar(){
         JToolBar jToolBar = new JToolBar();
         JButton newFile = new JButton("Import File");
+        newFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
+			}
+				
+		});
+        
         JButton exportFile = new JButton("Export File");
+        exportFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
+			}
+		});
+        
         JLabel searchLabel = new JLabel("Search");
         JTextField jTextField = new JTextField(25);
         searchLabel.add(jTextField);
@@ -66,6 +87,34 @@ class FileView{
         JLabel sortLabel = new JLabel("Sort By: ");
         JRadioButton aToZRadioButton = new JRadioButton("A-Z");
         JRadioButton zToARadioButton = new JRadioButton("Z-A");
+        aToZRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (zToARadioButton.isSelected()) {
+					aToZRadioButton.setSelected(false);
+				}
+				sortList(strings);
+				right.removeAll();
+				visualInterpretation();
+				right.repaint();
+				right.validate();
+				
+			}
+		});
+        
+        zToARadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (aToZRadioButton.isSelected()) {
+					aToZRadioButton.setSelected(false);
+				}
+				reverseSort(strings);
+				right.removeAll();
+				visualInterpretation();
+				right.repaint();
+				right.validate();
+				
+			}
+		});
+        
         JRadioButton dateRadioButton = new JRadioButton("Date");
         sortChoices.add(sortLabel);
         sortChoices.add(aToZRadioButton);
@@ -103,6 +152,23 @@ class FileView{
             left.add(button);
         }
         frame.add(left,BorderLayout.WEST);
+    }
+    
+    void sortList(String[] theString) { 
+    	Arrays.sort(theString);
+    }
+    
+    void reverseSort(String[] theString) {
+    	Stack<String >temp = new Stack<String>();
+    	Arrays.sort(theString);
+    	for (int i = 0; i < theString.length; i++) {
+    		temp.push(theString[i]);
+    	}
+    	int j = 0;
+    	while (!temp.isEmpty()) {
+    		theString[j] = temp.pop();
+    		j++;
+    	}
     }
 
 }
