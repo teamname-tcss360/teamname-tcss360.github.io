@@ -1,3 +1,5 @@
+package src;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -41,7 +43,7 @@ class FileView{
 
 
 
-                ImageIcon icon = new ImageIcon("C:\\Users\\tibba\\teamname-tcss360.github.io\\src\\resources\\folder.png");
+                ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
                 Image imageNew = icon.getImage();
                 Image newImgNew = imageNew.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
                 icon = new ImageIcon(newImgNew);
@@ -73,7 +75,7 @@ class FileView{
         sortChoices.add(dateRadioButton);
 
 
-        ImageIcon icon = new ImageIcon("C:\\Users\\tibba\\teamname-tcss360.github.io\\src\\resources\\magnifying-glass.png");
+        ImageIcon icon = new ImageIcon("src\\resources\\magnifying-glass.png");
         Image imageNew = icon.getImage();
         Image newImgNew = imageNew.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImgNew);
