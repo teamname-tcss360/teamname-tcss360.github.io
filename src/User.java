@@ -1,9 +1,12 @@
+package src;
+
 /**
  * TCSS 360
  * 
  * @author Jasharn Thiara
  * @version Spring 2022
  */
+
 public class User {
 	
 	/**
@@ -20,6 +23,30 @@ public class User {
 		myName = theName;
 		myPassword = thePassword;
 		hasPriveleges = theHasPriveleges;
+	}
+	
+	/**
+	 * getter for User name
+	 * @return String UserName
+	 */
+	public String getUserName() {
+		return this.myName;
+	}
+	
+	/**
+	 * getter for Password 
+	 * @return String myPasssword
+	 */
+	public String getPassword() {
+		return this.myPassword;
+	}
+	
+	/**
+	 * getter for hasPriveleges
+	 * @return boolean hasPriveleges
+	 */
+	public Boolean getPriveleges() {
+		return this.hasPriveleges;
 	}
 
 }

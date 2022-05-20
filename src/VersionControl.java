@@ -1,3 +1,5 @@
+package src;
+
 /**
  * Class represents version control
  * 
