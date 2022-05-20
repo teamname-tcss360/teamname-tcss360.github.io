@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * Class represents testing for TeamName project, class has functionality to test version control so far. 
  * 
- * @author TeamName
+ * @author Jasharn Thiara
  * @version Spring 2022
  * 
  */

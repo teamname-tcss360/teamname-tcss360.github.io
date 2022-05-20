@@ -1,7 +1,7 @@
 /**
  * TCSS 360
  * 
- * @author jashthiara
+ * @author Jasharn Thiara
  * @version Spring 2022
  */
 public class User {

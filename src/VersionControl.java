@@ -1,7 +1,8 @@
 /**
  * Class represents version control
  * 
- * @author TeamName
+ * @author Jasharn Thiara
+ * @version Spring 2022
  *
  */
 public class VersionControl {
