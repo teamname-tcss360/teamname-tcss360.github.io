@@ -1,9 +1,18 @@
+/**
+ * TCSS 360
+ * 
+ * Class represents a view panel for the GUI. Class will occupy jframe with a two main panels.
+ * A panel for the drop down menu, and a panel  with the folders for the user to interact with.
+ */
+
 package src;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Stack;
@@ -18,10 +27,31 @@ import java.util.Stack;
  */
 
 class FileView{
+	
+	/**
+	 * JFrame field.
+	 */
     private JFrame frame;
-    String[] strings = {"Bob","Kitchen","Dining room","Garage","Bedrooms"};
+    
+    /**
+     * JPanel field (right side with folders).
+     */
     private JPanel right = new JPanel();;
     
+    /**
+     * String array field to represent folder names. 
+     */
+    String[] strings = {"Bob","Kitchen","Dining room","Garage","Bedrooms"};
+    
+    /**
+     * Image field used for folder picture.
+     */
+    ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
+    
+    /**
+     * FileView Constructor.
+     * @param f
+     */
     public FileView(JFrame f){
         frame = f;
 
@@ -30,14 +60,20 @@ class FileView{
 
         view();
     }
+    
+    /**
+     * Method is called by constructor and creates desired GUI functionality.
+     */
     void view(){
-
         fileList();
         toolBar();
         visualInterpretation();
         frame.validate();
-
     }
+    
+    /**
+     * Method populates right side panel with folders (made of labels and images) to add to our JFrame.
+     */
     void visualInterpretation(){
         right.setLayout(new GridLayout(4,4));
         for (int i = 1; i < 16; i++) {
@@ -46,14 +82,45 @@ class FileView{
 
                 panel.setLayout(new BorderLayout());
                 JLabel jLabel = new JLabel(strings[i],JLabel.CENTER);
-
-
-
-                ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
+                
                 Image imageNew = icon.getImage();
                 Image newImgNew = imageNew.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
                 icon = new ImageIcon(newImgNew);
+                
+                //Create label and add action Listener to "open folder" when clicked
                 JLabel imageLabel = new JLabel(icon,JLabel.CENTER);
+                imageLabel.addMouseListener(new MouseListener() {
+        				@Override
+        				public void mouseClicked(MouseEvent e) {
+        					right.removeAll();
+        					right.repaint();
+        					right.validate();
+        				}
+        				
+        				@Override
+        				public void mouseEntered(MouseEvent e) {
+        					//currently doesnt work but could be used to highlight folder
+        					imageLabel.setBackground(Color.BLACK);
+        					right.repaint();
+        					right.validate();
+        				}
+        				
+        				@Override
+        				public void mousePressed(MouseEvent e) {
+        					//TODO 
+        				}
+        				
+        				@Override
+        				public void mouseExited(MouseEvent e) {
+        					//could be used to unhighlight folder
+        				}
+
+						@Override
+						public void mouseReleased(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+        		});
 
                 panel.add(imageLabel, BorderLayout.CENTER);
                 panel.add(jLabel, BorderLayout.SOUTH);
@@ -63,6 +130,9 @@ class FileView{
         frame.add(right,BorderLayout.CENTER);
     }
 
+    /**
+     * Method creates a tool bar and populates it with necessary functions
+     */
     void toolBar(){
         JToolBar jToolBar = new JToolBar();
         JButton newFile = new JButton("Import File");
@@ -87,10 +157,13 @@ class FileView{
         JLabel sortLabel = new JLabel("Sort By: ");
         JRadioButton aToZRadioButton = new JRadioButton("A-Z");
         JRadioButton zToARadioButton = new JRadioButton("Z-A");
+        
+        // When the A-Z button is clicked the array of strings will be sorted and then the form will be updated
+        // and create the buttons in the new order.
         aToZRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (zToARadioButton.isSelected()) {
-					aToZRadioButton.setSelected(false);
+					zToARadioButton.setSelected(false);
 				}
 				sortList(strings);
 				right.removeAll();
@@ -101,6 +174,8 @@ class FileView{
 			}
 		});
         
+        // When the Z-A button is clicked the array of strings will be sorted and then reversed
+        // the form will then be reshown in the desired order.
         zToARadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (aToZRadioButton.isSelected()) {
@@ -138,7 +213,10 @@ class FileView{
         frame.add(jToolBar,BorderLayout.PAGE_START);
 
     }
-
+    
+    /**
+     * Method creates file list along the left side of the JFrame.
+     */
     void fileList(){
         JPanel left = new JPanel();
         left.setLayout(new GridLayout(0,1));
@@ -154,10 +232,18 @@ class FileView{
         frame.add(left,BorderLayout.WEST);
     }
     
+    /**
+     * Helper method to organize methods and sort List.
+     * @param theString
+     */
     void sortList(String[] theString) { 
     	Arrays.sort(theString);
     }
     
+    /**
+     * Helper method to organize methods and reverse sort List.
+     * @param theString
+     */
     void reverseSort(String[] theString) {
     	Stack<String >temp = new Stack<String>();
     	Arrays.sort(theString);
