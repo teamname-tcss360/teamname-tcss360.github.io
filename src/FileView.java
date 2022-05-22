@@ -44,11 +44,6 @@ class FileView{
     String[] strings = {"Bob","Kitchen","Dining room","Garage","Bedrooms"};
     
     /**
-     * Image field used for folder picture.
-     */
-    ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
-    
-    /**
      * FileView Constructor.
      * @param f
      */
@@ -75,7 +70,10 @@ class FileView{
      * Method populates right side panel with folders (made of labels and images) to add to our JFrame.
      */
     void visualInterpretation(){
+    	ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
+    	ImageIcon icon2 = new ImageIcon("sr\\resources\\file.png");
         right.setLayout(new GridLayout(4,4));
+        
         for (int i = 1; i < 16; i++) {
             JPanel panel = new JPanel();
             if(i < strings.length) {
@@ -83,9 +81,8 @@ class FileView{
                 panel.setLayout(new BorderLayout());
                 JLabel jLabel = new JLabel(strings[i],JLabel.CENTER);
                 
-                Image imageNew = icon.getImage();
-                Image newImgNew = imageNew.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-                icon = new ImageIcon(newImgNew);
+                Image imageNew = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+                icon = new ImageIcon(imageNew);
                 
                 //Create label and add action Listener to "open folder" when clicked
                 JLabel imageLabel = new JLabel(icon,JLabel.CENTER);

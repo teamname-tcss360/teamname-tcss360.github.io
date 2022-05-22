@@ -4,7 +4,8 @@ package src;
  * TCSS 360
  * 
  * @author Jasharn Thiara
- * @version Spring 2022
+ * @version 1.0
+ * @since   2022-05-2
  */
 
 public class User {
@@ -19,6 +20,13 @@ public class User {
 	
 	private boolean hasPriveleges;
 	
+	/**
+	 * User constructor
+	 * 
+	 * @param theName
+	 * @param thePassword
+	 * @param theHasPriveleges
+	 */
 	public User(String theName, String thePassword, boolean theHasPriveleges) {
 		myName = theName;
 		myPassword = thePassword;
