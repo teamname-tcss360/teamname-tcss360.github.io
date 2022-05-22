@@ -9,6 +9,7 @@ package src;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 import java.awt.GridLayout;
 
 class LogInScreen {
@@ -147,10 +148,21 @@ class LogInScreen {
 		signOnBut.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				myFrame.getContentPane().removeAll();
-				myFrame.validate();
-				myFrame.repaint();
-				new FileView(myFrame);
+				try {
+					Registration r = new Registration();
+					
+					// Will pass to login successful and get boolean result
+					// of whether or not the login was successful.
+					if (r.loginSuccesful(userNameField.getText(), pwdField.getText())) {
+						myFrame.getContentPane().removeAll();
+						myFrame.validate();
+						myFrame.repaint();
+						new FileView(myFrame);
+					}
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		

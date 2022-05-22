@@ -49,6 +49,22 @@ public class Registration {
     }
     
     /**
+     * Checks if Username and password given is in database 
+     * 
+     * @return boolean login result
+     */
+    public boolean loginSuccesful(String theUserName, String thePassword) { 
+    	
+    	for (int i = 0; i < myUserList.size(); i++) {
+    		if ((myUserList.get(i).getUserName().equals(theUserName)) 
+    				&& (myUserList.get(i).getPassword().equals(thePassword))) {
+    			return true;
+    		} 
+    	}
+    	return false;
+    }
+    
+    /**
      * Method reads from User file and creates an array of user objeccts.
      * 
      * @param theFile
