@@ -73,6 +73,7 @@ class FileView{
     	ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
     	ImageIcon icon2 = new ImageIcon("sr\\resources\\file.png");
         right.setLayout(new GridLayout(4,4));
+        
         for (int i = 1; i < 16; i++) {
             JPanel panel = new JPanel();
             if(i < strings.length) {

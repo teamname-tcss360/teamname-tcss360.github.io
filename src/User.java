@@ -20,6 +20,13 @@ public class User {
 	
 	private boolean hasPriveleges;
 	
+	/**
+	 * User constructor
+	 * 
+	 * @param theName
+	 * @param thePassword
+	 * @param theHasPriveleges
+	 */
 	public User(String theName, String thePassword, boolean theHasPriveleges) {
 		myName = theName;
 		myPassword = thePassword;
