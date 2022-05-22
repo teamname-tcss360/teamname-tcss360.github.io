@@ -4,7 +4,8 @@ package src;
  * TCSS 360
  * 
  * @author Jasharn Thiara
- * @version Spring 2022
+ * @version 1.0
+ * @since   2022-05-2
  */
 
 public class User {

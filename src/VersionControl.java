@@ -1,11 +1,15 @@
+/**
+ * TCSS 360
+ */
+
 package src;
 
 /**
- * Class represents version control
+ * Class represents version control for TeamName Project
  * 
- * @author Jasharn Thiara
- * @version Spring 2022
- *
+ * @author  Jasharn Thiara
+ * @version 1.0
+ * @since   2022-04-10
  */
 public class VersionControl {
 

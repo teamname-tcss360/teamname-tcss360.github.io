@@ -1,3 +1,9 @@
+/**
+ * TCSS 360
+ * 
+ * Class represents the Login screen for the program.
+ */
+
 package src;
 
 import java.awt.*;
@@ -6,11 +12,24 @@ import java.awt.event.*;
 import java.awt.GridLayout;
 
 class LogInScreen {
+	/**
+	 * Login Screen for GUI.
+	 * First state loaded after start of program.
+	 *
+	 * @author  Patrick Tibbals
+	 * @version 1.0
+	 * @since   2022-05-18
+	 */
 
 	private JPanel buttonPanel;
 	private JPanel logInPanel;
 	private JFrame myFrame;
 
+	/**
+	 * Constructor that take in a frame and populates the frame with desired qualities
+	 * of the login page.
+	 * @param frame
+	 */
 	public LogInScreen(JFrame frame) {
 
 		myFrame = frame;
@@ -20,6 +39,10 @@ class LogInScreen {
 
 	}
 
+	/**
+	 * Helper Method taht clears panel and shows new state of program.
+	 * @param panel
+	 */
 	private void changePanel(JPanel panel) {
 
 		myFrame.getContentPane().removeAll();
@@ -29,6 +52,10 @@ class LogInScreen {
 
 	}
 
+	/**
+	 * Method used to create button panel for our login screen.
+	 * @return
+	 */
 	private JPanel createButtonPanel() {
 
 		JPanel panel = new JPanel();
@@ -41,6 +68,7 @@ class LogInScreen {
 		JButton importButton = new JButton("Import Button");
 		JButton exportButton = new JButton("Export Button");
 
+		//When user has clicked sign on the state of the program changes
 		signOnBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changePanel(logInPanel);
@@ -91,6 +119,10 @@ class LogInScreen {
 
 	}
 
+	/**
+	 * Method creates the login panel after the user has selected sign-on.
+	 * @return
+	 */
 	private JPanel createLogInPanel() {
 
 		JPanel panel = new JPanel(new GridLayout(4, 2));
@@ -111,6 +143,7 @@ class LogInScreen {
 
 		JButton cancelBut = new JButton("Cancel");
 
+		//Action Listener called when user has clicked sign on.
 		signOnBut.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -120,6 +153,8 @@ class LogInScreen {
 				new FileView(myFrame);
 			}
 		});
+		
+		//Action Listener creates previous form if cancel button is clicked.
 		cancelBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changePanel(buttonPanel);
