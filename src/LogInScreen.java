@@ -9,8 +9,12 @@ package src;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.awt.GridLayout;
+import java.io.IOException;
+import java.rmi.server.ExportException;
+import java.util.ArrayList;
 
 class LogInScreen {
 	/**
@@ -21,7 +25,7 @@ class LogInScreen {
 	 * @version 1.0
 	 * @since   2022-05-18
 	 */
-
+	String temp = "";
 	private JPanel buttonPanel;
 	private JPanel logInPanel;
 	private JFrame myFrame;
@@ -31,7 +35,7 @@ class LogInScreen {
 	 * of the login page.
 	 * @param frame
 	 */
-	public LogInScreen(JFrame frame) {
+	public LogInScreen(JFrame frame) throws src.ExportException , java.io.IOException{
 
 		myFrame = frame;
 		buttonPanel = createButtonPanel();
@@ -57,7 +61,7 @@ class LogInScreen {
 	 * Method used to create button panel for our login screen.
 	 * @return
 	 */
-	private JPanel createButtonPanel() {
+	private JPanel createButtonPanel() throws src.ExportException , java.io.IOException{
 
 		JPanel panel = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -76,17 +80,57 @@ class LogInScreen {
 			}
 		});
 
-		// importButton.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent e) {
-		// changePanel(?????????);
-		// }
-		// });
+		importButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				File file = new File(String.valueOf(fileChooser));
 
-		// exportButton.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent e) {
-		// changePanel(??????????);
-		// }
-		// });
+			}
+		});
+
+
+		exportButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					JFrame frame = new JFrame("Pick a User to Export");
+					JPanel jPanel = new JPanel(new GridLayout(0,4));
+					Registration r = new Registration();
+					ArrayList<User> myUserList = r.getMyUserList();
+					for (User user : myUserList) {
+						JButton jButton = new JButton(user.getUserName());
+						jButton.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								try {
+									temp = "src/Exports/"+jButton.getText()+".txt" ;
+									String trueOrfalse;
+									if(user.getPriveleges() == true){
+										trueOrfalse = "true";
+									}else{
+										trueOrfalse = "false";
+									}
+									src.ImporterExporter.exportSettings(temp, new String[]{"username", "email", "password"}
+											, new String[]{user.getUserName(), user.getPassword(), trueOrfalse});
+								} catch (src.ExportException | java.io.IOException ex ) {
+									ex.printStackTrace();
+								}
+
+
+							}
+						});
+						jPanel.add(jButton);
+					}
+					frame.add(jPanel);
+					frame.setLocationRelativeTo(null);
+					frame.pack();
+
+					frame.setVisible(true);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		ImageIcon profileImage = new ImageIcon("src/resources/profile.png");
 		Image imageProfile = profileImage.getImage();
@@ -149,11 +193,13 @@ class LogInScreen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+
 					Registration r = new Registration();
-					
 					// Will pass to login successful and get boolean result
 					// of whether or not the login was successful.
 					if (r.loginSuccesful(userNameField.getText(), pwdField.getText())) {
+						//new src.User(userNameField.getText(), emailText.getText(), pwdField.getText(), true);
+
 						myFrame.getContentPane().removeAll();
 						myFrame.validate();
 						myFrame.repaint();

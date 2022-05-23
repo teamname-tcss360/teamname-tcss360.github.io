@@ -1,0 +1,2 @@
+username,email,password
+joe,123123123,true

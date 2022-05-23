@@ -13,9 +13,10 @@ public class User {
 	/**
 	 * Class represents a User object for team project.
 	 */
-	
-	private String myName; 
-	
+
+
+	private String myName;
+
 	private String myPassword;
 	
 	private boolean hasPriveleges;
@@ -27,7 +28,7 @@ public class User {
 	 * @param thePassword
 	 * @param theHasPriveleges
 	 */
-	public User(String theName, String thePassword, boolean theHasPriveleges) {
+	public User( String theName,  String thePassword, boolean theHasPriveleges) {
 		myName = theName;
 		myPassword = thePassword;
 		hasPriveleges = theHasPriveleges;
