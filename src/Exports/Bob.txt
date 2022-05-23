@@ -1,2 +1,0 @@
-username,email,password
-Bob,123,true
