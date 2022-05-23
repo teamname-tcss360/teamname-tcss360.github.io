@@ -11,7 +11,12 @@ class MainView implements ActionListener {
         JFrame frame = new JFrame();
         frame.setTitle("File Organizer - " + VersionControl.getVersion());
 
-        new LogInScreen(frame);
+        try {
+            new LogInScreen(frame);
+        } catch (src.ExportException | java.io.IOException ex){
+            ex.printStackTrace();
+        }
+
 
         // Menu's
         JMenuBar menuBar = new JMenuBar();

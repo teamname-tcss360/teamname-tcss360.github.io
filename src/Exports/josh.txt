@@ -1,0 +1,2 @@
+username,email,password
+josh,1423232,false

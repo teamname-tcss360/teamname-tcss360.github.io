@@ -19,7 +19,7 @@ public class User {
 	private String myPassword;
 	
 	private String myEmail;
-	
+
 	private boolean hasPriveleges;
 	
 	/**
@@ -59,7 +59,7 @@ public class User {
 	public String getEmail() {
 		return this.myEmail;
 	}
-	
+
 	/**
 	 * getter for hasPriveleges
 	 * @return boolean hasPriveleges

@@ -26,7 +26,7 @@ public class ImporterExporter {
      * @throws ExportException
      * @throws IOException
      */
-    public static void exportSettings(String filePath, String[] headers, String[] row) throws ExportException, IOException {
+    public static void exportSettings(String fileName, String[] headers, String[] row) throws ExportException, IOException {
 
         if (headers.length != row.length) {
 
@@ -34,7 +34,10 @@ public class ImporterExporter {
 
         }
 
-        File file = new File(filePath);
+        File file = new File(fileName);
+
+        String userHomeFolder = System.getProperty("user.home")+"\\Desktop";
+        File textFile = new File(userHomeFolder, row[0]+".txt");
 
         String headerLine = arrayToCSV(headers);
         String rowLine = arrayToCSV(row);
@@ -43,21 +46,21 @@ public class ImporterExporter {
         System.out.println(rowLine);
 
         boolean fileExists = file.isFile();
+        boolean textFileExists = textFile.isFile();
 
         FileWriter writer = new FileWriter(file, fileExists);
-
+        BufferedWriter out = new BufferedWriter(new FileWriter(textFile));
         try {
-
-            if (!fileExists) {
-
+            if (!fileExists && !textFileExists){
                 writer.write(headerLine + "\n");
 
+                writer.write(rowLine + "\n");
+
             }
-
-            writer.write(rowLine + "\n");
-
+            out.write(rowLine +"\n");
+            out.write(headerLine + "\n");
+            out.close();
             writer.close();
-
         }
 
         catch (Exception e) {
