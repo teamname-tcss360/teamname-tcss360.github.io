@@ -13,12 +13,13 @@ public class User {
 	/**
 	 * Class represents a User object for team project.
 	 */
-
-
-	private String myName;
-
+	
+	private String myName; 
+	
 	private String myPassword;
 	
+	private String myEmail;
+
 	private boolean hasPriveleges;
 	
 	/**
@@ -28,9 +29,10 @@ public class User {
 	 * @param thePassword
 	 * @param theHasPriveleges
 	 */
-	public User( String theName,  String thePassword, boolean theHasPriveleges) {
+	public User(String theName, String theEmail, String thePassword, boolean theHasPriveleges) {
 		myName = theName;
 		myPassword = thePassword;
+		myEmail = theEmail;
 		hasPriveleges = theHasPriveleges;
 	}
 	
@@ -50,6 +52,14 @@ public class User {
 		return this.myPassword;
 	}
 	
+	/**
+	 * getter for myEmail
+	 * @return String myEmail
+	 */
+	public String getEmail() {
+		return this.myEmail;
+	}
+
 	/**
 	 * getter for hasPriveleges
 	 * @return boolean hasPriveleges

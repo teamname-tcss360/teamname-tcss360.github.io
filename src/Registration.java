@@ -6,6 +6,8 @@ package src;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,7 +29,7 @@ public class Registration {
     /**
      * The registered user list for signin.
      */
-    final ArrayList<User> myUserList;
+    ArrayList<User> myUserList;
 
     /**
      * Constructs a sigin/registration system.
@@ -53,15 +55,32 @@ public class Registration {
      * 
      * @return boolean login result
      */
-    public boolean loginSuccesful(String theUserName, String thePassword) { 
+    public boolean loginSuccesful( String theUserName, String theEmail, String thePassword) { 
     	
     	for (int i = 0; i < myUserList.size(); i++) {
     		if ((myUserList.get(i).getUserName().equals(theUserName)) 
-    				&& (myUserList.get(i).getPassword().equals(thePassword))) {
+    				&& (myUserList.get(i).getPassword().equals(thePassword)) && (myUserList.get(i).getEmail().equals(theEmail))) {
     			return true;
     		} 
     	}
     	return false;
+    }
+    
+    /**
+     * Method will take in a email, username, password, and priviliges and create a new user to add into the userList arraylist
+     * @throws IOException 
+     */ 
+    public void addToList(String theName, String theEmail, String thePassword, boolean thePrivileges) throws IOException {
+    	myUserList.add(new User(theName, theEmail, thePassword, false)); 
+    	
+		FileWriter writer = new FileWriter(USERFILE, true);
+    	
+    	if (thePrivileges) {
+    		writer.write(theName + " " + theEmail + " " + thePassword + " yes");
+    	} else {
+    		writer.write(theName + " " + theEmail + " " + thePassword + " no");
+    	}
+    	writer.close();
     }
     
     /**
@@ -78,6 +97,7 @@ public class Registration {
         
         Scanner reader = new Scanner(theFile);
         String myName = "";
+        String myEmail = "";
         String myPassword = "";
         String myPrivileges = "";
         
@@ -85,6 +105,10 @@ public class Registration {
 
         	if (reader.hasNext()) {
         		myName = reader.next();
+        	}
+        	
+        	if(reader.hasNext()) {
+        		myEmail = reader.next();
         	}
         	
         	if (reader.hasNext()) {
@@ -95,9 +119,9 @@ public class Registration {
         	}
         	
         	if (myPrivileges.toLowerCase().equals("yes")) {
-        		userList.add(new User(myName, myPassword, true));
+        		userList.add(new User(myName, myEmail, myPassword, true));
         	} else {
-        		userList.add(new User(myName, myPassword, false));
+        		userList.add(new User(myName, myEmail, myPassword, false));
         	}
         }
         	
@@ -108,8 +132,12 @@ public class Registration {
     public static void main(String[] args) throws FileNotFoundException {
     	Registration r = new Registration();
     	
+    	//for sake of testing 
     	for (int i = 0; i < r.myUserList.size(); i++) {
-    		System.out.println(r.myUserList.get(i).getUserName() + " " + r.myUserList.get(i).getPassword() + " " + r.myUserList.get(i).getPriveleges());
+    		System.out.println("Username = " + r.myUserList.get(i).getUserName());
+    		System.out.println("Email = "  + r.myUserList.get(i).getEmail());
+    	    System.out.println("Password = " + r.myUserList.get(i).getPassword());
+    	    System.out.println("priveleges = " + r.myUserList.get(i).getPriveleges());
     	}
     }
 }
