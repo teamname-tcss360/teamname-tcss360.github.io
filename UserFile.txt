@@ -1,4 +1,3 @@
-Bob 123 YES
-josh 1423232 no
-joe 123123123 yes
-Bob_Keener ********** yes
+josh josh@josh.com 1423232 no
+joe joe@joe.com 123123123 yes
+Bob_Keener Bob@bob.com ********** yes

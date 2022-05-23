@@ -18,6 +18,8 @@ public class User {
 	
 	private String myPassword;
 	
+	private String myEmail;
+	
 	private boolean hasPriveleges;
 	
 	/**
@@ -27,9 +29,10 @@ public class User {
 	 * @param thePassword
 	 * @param theHasPriveleges
 	 */
-	public User(String theName, String thePassword, boolean theHasPriveleges) {
+	public User(String theName, String theEmail, String thePassword, boolean theHasPriveleges) {
 		myName = theName;
 		myPassword = thePassword;
+		myEmail = theEmail;
 		hasPriveleges = theHasPriveleges;
 	}
 	
@@ -47,6 +50,14 @@ public class User {
 	 */
 	public String getPassword() {
 		return this.myPassword;
+	}
+	
+	/**
+	 * getter for myEmail
+	 * @return String myEmail
+	 */
+	public String getEmail() {
+		return this.myEmail;
 	}
 	
 	/**
