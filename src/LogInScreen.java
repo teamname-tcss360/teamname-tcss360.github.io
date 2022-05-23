@@ -158,6 +158,9 @@ class LogInScreen {
 						myFrame.validate();
 						myFrame.repaint();
 						new FileView(myFrame);
+					} else {
+						JOptionPane.showMessageDialog(null, "Please try entering your information again", 
+								"Incorrect password/username", JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
