@@ -153,14 +153,14 @@ class LogInScreen {
 					
 					// Will pass to login successful and get boolean result
 					// of whether or not the login was successful.
-					if (r.loginSuccesful(userNameField.getText(), pwdField.getText())) {
+					if (r.loginSuccesful(userNameField.getText(), emailField.getText(), pwdField.getText())) {
 						myFrame.getContentPane().removeAll();
 						myFrame.validate();
 						myFrame.repaint();
 						new FileView(myFrame);
 					} else {
 						JOptionPane.showMessageDialog(null, "Please try entering your information again", 
-								"Incorrect password/username", JOptionPane.ERROR_MESSAGE);
+								"Incorrect Email/Username/Password", JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
