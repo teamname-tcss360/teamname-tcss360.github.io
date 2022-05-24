@@ -46,19 +46,18 @@ public class ImporterExporter {
         System.out.println(rowLine);
 
         boolean fileExists = file.isFile();
-        boolean textFileExists = textFile.isFile();
 
         FileWriter writer = new FileWriter(file, fileExists);
         BufferedWriter out = new BufferedWriter(new FileWriter(textFile));
         try {
-            if (!fileExists && !textFileExists){
+            if (!fileExists){
                 writer.write(headerLine + "\n");
 
                 writer.write(rowLine + "\n");
 
             }
-            out.write(rowLine +"\n");
-            out.write(headerLine + "\n");
+            out.write(headerLine +"\n");
+            out.write(rowLine + "\n");
             out.close();
             writer.close();
         }

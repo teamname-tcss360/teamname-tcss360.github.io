@@ -71,14 +71,15 @@ public class Registration {
      * @throws IOException 
      */ 
     public void addToList(String theName, String theEmail, String thePassword, boolean thePrivileges) throws IOException {
-    	myUserList.add(new User(theName, theEmail, thePassword, false)); 
+
+		myUserList.add(new User(theName, theEmail, thePassword, false));
     	
 		FileWriter writer = new FileWriter(USERFILE, true);
     	
     	if (thePrivileges) {
-    		writer.write(theName + " " + theEmail + " " + thePassword + " yes");
+    		writer.write("\n"+theName + " " + theEmail + " " + thePassword + " yes");
     	} else {
-    		writer.write(theName + " " + theEmail + " " + thePassword + " no");
+    		writer.write("\n"+theName + " " + theEmail + " " + thePassword + " no");
     	}
     	writer.close();
     }
