@@ -6,15 +6,18 @@
 
 package src;
 
+import javafx.beans.binding.BooleanExpression;
+
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.awt.GridLayout;
-import java.io.IOException;
 import java.rmi.server.ExportException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 class LogInScreen {
 	/**
@@ -29,7 +32,7 @@ class LogInScreen {
 	private JPanel buttonPanel;
 	private JPanel logInPanel;
 	private JFrame myFrame;
-
+	private Registration r = new Registration();
 	/**
 	 * Constructor that take in a frame and populates the frame with desired qualities
 	 * of the login page.
@@ -70,8 +73,8 @@ class LogInScreen {
 		JPanel panelNest = new JPanel();
 
 		JButton signOnBut = new JButton("Sign On");
-		JButton importButton = new JButton("Import Button");
-		JButton exportButton = new JButton("Export Button");
+		JButton importButton = new JButton("Import Profile");
+		JButton exportButton = new JButton("Export Profile");
 
 		//When user has clicked sign on the state of the program changes
 		signOnBut.addActionListener(new ActionListener() {
@@ -82,8 +85,31 @@ class LogInScreen {
 
 		importButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-				File file = new File(String.valueOf(fileChooser));
+				try {
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+					String userHomeFolder = System.getProperty("user.home")+"\\Desktop";
+					JFileChooser fileChooser = new JFileChooser(userHomeFolder);
+					fileChooser.setFileFilter(filter);
+					fileChooser.showOpenDialog(importButton);
+
+					File file = new File(fileChooser.getSelectedFile().toString());
+					Scanner scanner = new Scanner(file);
+
+					String temp = scanner.nextLine();
+					temp = scanner.nextLine();
+
+					String[] sArr = temp.split(",");
+
+					Boolean tempBool = false;
+					if(sArr[3].equals("true")){
+						tempBool = true;
+					}
+
+					r.addToList(sArr[0],sArr[1],sArr[2],tempBool);
+
+				} catch (java.io.IOException ex) {
+					ex.printStackTrace();
+				}
 
 			}
 		});
@@ -91,10 +117,9 @@ class LogInScreen {
 
 		exportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
+
 					JFrame frame = new JFrame("Pick a User to Export");
 					JPanel jPanel = new JPanel(new GridLayout(0,4));
-					Registration r = new Registration();
 					ArrayList<User> myUserList = r.getMyUserList();
 					for (User user : myUserList) {
 						JButton jButton = new JButton(user.getUserName());
@@ -109,8 +134,10 @@ class LogInScreen {
 									}else{
 										trueOrfalse = "false";
 									}
-									src.ImporterExporter.exportSettings(temp, new String[]{"username", "email", "password"}
-											, new String[]{user.getUserName(), user.getPassword(), trueOrfalse});
+									src.ImporterExporter.exportSettings(temp, new String[]{"Username", "Email", "Password","Permissions"}
+											, new String[]{user.getUserName(),user.getEmail(), user.getPassword(), trueOrfalse});
+									frame.dispose();
+
 								} catch (src.ExportException | java.io.IOException ex ) {
 									ex.printStackTrace();
 								}
@@ -125,10 +152,7 @@ class LogInScreen {
 					frame.pack();
 
 					frame.setVisible(true);
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+
 			}
 		});
 
@@ -192,9 +216,6 @@ class LogInScreen {
 		signOnBut.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Registration r = new Registration();
-					
 					// Will pass to login successful and get boolean result
 					// of whether or not the login was successful.
 					if (r.loginSuccesful(userNameField.getText(), emailField.getText(), pwdField.getText())) {
@@ -206,10 +227,7 @@ class LogInScreen {
 						JOptionPane.showMessageDialog(null, "Please try entering your information again",
 								"Incorrect Email/Username/Password", JOptionPane.ERROR_MESSAGE);
 					}
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+
 			}
 		});
 		
