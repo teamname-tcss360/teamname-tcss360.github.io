@@ -24,21 +24,24 @@ class LogInScreen {
 	 * Login Screen for GUI.
 	 * First state loaded after start of program.
 	 *
-	 * @author  Patrick Tibbals
+	 * @author Patrick Tibbals
 	 * @version 1.0
-	 * @since   2022-05-18
+	 * @since 2022-05-18
 	 */
 	String temp = "";
 	private JPanel buttonPanel;
 	private JPanel logInPanel;
 	private JFrame myFrame;
 	private Registration r = new Registration();
+
 	/**
-	 * Constructor that take in a frame and populates the frame with desired qualities
+	 * Constructor that take in a frame and populates the frame with desired
+	 * qualities
 	 * of the login page.
+	 * 
 	 * @param frame
 	 */
-	public LogInScreen(JFrame frame) throws src.ExportException , java.io.IOException{
+	public LogInScreen(JFrame frame) throws src.ExportException, java.io.IOException {
 
 		myFrame = frame;
 		buttonPanel = createButtonPanel();
@@ -49,6 +52,7 @@ class LogInScreen {
 
 	/**
 	 * Helper Method taht clears panel and shows new state of program.
+	 * 
 	 * @param panel
 	 */
 	private void changePanel(JPanel panel) {
@@ -62,9 +66,10 @@ class LogInScreen {
 
 	/**
 	 * Method used to create button panel for our login screen.
+	 * 
 	 * @return
 	 */
-	private JPanel createButtonPanel() throws src.ExportException , java.io.IOException{
+	private JPanel createButtonPanel() throws src.ExportException, java.io.IOException {
 
 		JPanel panel = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -76,7 +81,7 @@ class LogInScreen {
 		JButton importButton = new JButton("Import Profile");
 		JButton exportButton = new JButton("Export Profile");
 
-		//When user has clicked sign on the state of the program changes
+		// When user has clicked sign on the state of the program changes
 		signOnBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changePanel(logInPanel);
@@ -87,7 +92,7 @@ class LogInScreen {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
-					String userHomeFolder = System.getProperty("user.home")+"\\Desktop";
+					String userHomeFolder = System.getProperty("user.home") + "\\Desktop";
 					JFileChooser fileChooser = new JFileChooser(userHomeFolder);
 					fileChooser.setFileFilter(filter);
 					fileChooser.showOpenDialog(importButton);
@@ -101,11 +106,11 @@ class LogInScreen {
 					String[] sArr = temp.split(",");
 
 					Boolean tempBool = false;
-					if(sArr[3].equals("true")){
+					if (sArr[3].equals("true")) {
 						tempBool = true;
 					}
 
-					r.addToList(sArr[0],sArr[1],sArr[2],tempBool);
+					r.addToList(sArr[0], sArr[1], sArr[2], tempBool);
 
 				} catch (java.io.IOException ex) {
 					ex.printStackTrace();
@@ -114,44 +119,43 @@ class LogInScreen {
 			}
 		});
 
-
 		exportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-					JFrame frame = new JFrame("Pick a User to Export");
-					JPanel jPanel = new JPanel(new GridLayout(0,4));
-					ArrayList<User> myUserList = r.getMyUserList();
-					for (User user : myUserList) {
-						JButton jButton = new JButton(user.getUserName());
-						jButton.addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								try {
-									temp = "src/Exports/"+jButton.getText()+".txt" ;
-									String trueOrfalse;
-									if(user.getPriveleges() == true){
-										trueOrfalse = "true";
-									}else{
-										trueOrfalse = "false";
-									}
-									src.ImporterExporter.exportSettings(temp, new String[]{"Username", "Email", "Password","Permissions"}
-											, new String[]{user.getUserName(),user.getEmail(), user.getPassword(), trueOrfalse});
-									frame.dispose();
-
-								} catch (src.ExportException | java.io.IOException ex ) {
-									ex.printStackTrace();
+				JFrame frame = new JFrame("Pick a User to Export");
+				JPanel jPanel = new JPanel(new GridLayout(0, 4));
+				ArrayList<User> myUserList = r.getMyUserList();
+				for (User user : myUserList) {
+					JButton jButton = new JButton(user.getUserName());
+					jButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							try {
+								temp = "src/Exports/" + jButton.getText() + ".txt";
+								String trueOrfalse;
+								if (user.getPriveleges() == true) {
+									trueOrfalse = "true";
+								} else {
+									trueOrfalse = "false";
 								}
+								src.ImporterExporter.exportSettings(temp,
+										new String[] { "Username", "Email", "Password", "Permissions" }, new String[] {
+												user.getUserName(), user.getEmail(), user.getPassword(), trueOrfalse });
+								frame.dispose();
 
-
+							} catch (src.ExportException | java.io.IOException ex) {
+								ex.printStackTrace();
 							}
-						});
-						jPanel.add(jButton);
-					}
-					frame.add(jPanel);
-					frame.setLocationRelativeTo(null);
-					frame.pack();
 
-					frame.setVisible(true);
+						}
+					});
+					jPanel.add(jButton);
+				}
+				frame.add(jPanel);
+				frame.setLocationRelativeTo(null);
+				frame.pack();
+
+				frame.setVisible(true);
 
 			}
 		});
@@ -190,6 +194,7 @@ class LogInScreen {
 
 	/**
 	 * Method creates the login panel after the user has selected sign-on.
+	 * 
 	 * @return
 	 */
 	private JPanel createLogInPanel() {
@@ -212,26 +217,26 @@ class LogInScreen {
 
 		JButton cancelBut = new JButton("Cancel");
 
-		//Action Listener called when user has clicked sign on.
+		// Action Listener called when user has clicked sign on.
 		signOnBut.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					// Will pass to login successful and get boolean result
-					// of whether or not the login was successful.
-					if (r.loginSuccesful(userNameField.getText(), emailField.getText(), pwdField.getText())) {
-						myFrame.getContentPane().removeAll();
-						myFrame.validate();
-						myFrame.repaint();
-						new FileView(myFrame);
-					} else {
-						JOptionPane.showMessageDialog(null, "Please try entering your information again",
-								"Incorrect Email/Username/Password", JOptionPane.ERROR_MESSAGE);
-					}
+				// Will pass to login successful and get boolean result
+				// of whether or not the login was successful.
+				if (r.loginSuccesful(userNameField.getText(), emailField.getText(), pwdField.getText())) {
+					myFrame.getContentPane().removeAll();
+					myFrame.validate();
+					myFrame.repaint();
+					new FileView(myFrame);
+				} else {
+					JOptionPane.showMessageDialog(null, "Please try entering your information again",
+							"Incorrect Email/Username/Password", JOptionPane.ERROR_MESSAGE);
+				}
 
 			}
 		});
-		
-		//Action Listener creates previous form if cancel button is clicked.
+
+		// Action Listener creates previous form if cancel button is clicked.
 		cancelBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changePanel(buttonPanel);
