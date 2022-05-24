@@ -55,7 +55,7 @@ public class Registration {
      * 
      * @return boolean login result
      */
-    public boolean loginSuccesful( String theUserName, String theEmail, String thePassword) { 
+    public boolean loginSuccessful( String theUserName, String theEmail, String thePassword) { 
     	
     	for (int i = 0; i < myUserList.size(); i++) {
     		if ((myUserList.get(i).getUserName().equals(theUserName)) 
@@ -72,16 +72,18 @@ public class Registration {
      */ 
     public void addToList(String theName, String theEmail, String thePassword, boolean thePrivileges) throws IOException {
 
-		myUserList.add(new User(theName, theEmail, thePassword, false));
+    	if (!loginSuccessful(theName, theEmail, thePassword)) {
+    		FileWriter writer = new FileWriter(USERFILE, true);
     	
-		FileWriter writer = new FileWriter(USERFILE, true);
-    	
-    	if (thePrivileges) {
-    		writer.write("\n"+theName + " " + theEmail + " " + thePassword + " yes");
-    	} else {
-    		writer.write("\n"+theName + " " + theEmail + " " + thePassword + " no");
+    		if (thePrivileges) {
+    			writer.write("\n"+theName + " " + theEmail + " " + thePassword + " yes");
+    			myUserList.add(new User(theName, theEmail, thePassword, true));
+    		} else {
+    			writer.write("\n"+theName + " " + theEmail + " " + thePassword + " no");
+    			myUserList.add(new User(theName, theEmail, thePassword, true));
+    		}
+    		writer.close();
     	}
-    	writer.close();
     }
     
     /**
