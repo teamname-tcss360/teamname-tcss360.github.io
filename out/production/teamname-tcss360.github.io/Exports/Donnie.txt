@@ -1,2 +1,0 @@
-Username,Email,Password,Permissions
-Donnie,Donnie@gmail.com,666666,false

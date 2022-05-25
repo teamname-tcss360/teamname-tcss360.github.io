@@ -1,2 +1,0 @@
-Username,Email,Password,Permissions
-Bob_Keener,Bob@bob.com,**********,true
