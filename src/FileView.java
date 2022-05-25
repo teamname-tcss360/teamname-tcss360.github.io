@@ -37,21 +37,32 @@ class FileView{
      * JPanel field (right side with folders).
      */
     private JPanel right = new JPanel();;
-    
+    private JPanel left = new JPanel();
     /**
      * String array field to represent folder names. 
      */
     String[] strings = {"Bob","Kitchen","Dining room","Garage","Bedrooms"};
-    
+    private File[] currentFileList;
     /**
      * FileView Constructor.
      * @param f
      */
-    public FileView(JFrame f){
-        frame = f;
+    private String userName;
+    private String currentFilePath;
 
+    public FileView(JFrame f, String user){
+        userName = user;
+        frame = f;
         frame.setBackground(Color.gray);
         frame.setLayout(new BorderLayout());
+        currentFilePath = "FileHub/"+userName;
+
+        File userHome = new File(currentFilePath);
+        currentFileList = userHome.listFiles();
+
+
+
+
 
         view();
     }
@@ -71,35 +82,55 @@ class FileView{
      */
     void visualInterpretation(){
     	ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
-    	ImageIcon icon2 = new ImageIcon("sr\\resources\\file.png");
+    	ImageIcon icon2 = new ImageIcon("src\\resources\\file.png");
         right.setLayout(new GridLayout(4,4));
         
-        for (int i = 1; i < 16; i++) {
+        for (int i = 0; i < 16; i++) {
             JPanel panel = new JPanel();
-            if(i < strings.length) {
+            if(i < currentFileList.length) {
 
                 panel.setLayout(new BorderLayout());
-                JLabel jLabel = new JLabel(strings[i],JLabel.CENTER);
-                
-                Image imageNew = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+                JLabel jLabel = new JLabel(currentFileList[i].getName(),JLabel.CENTER);
+                jLabel.setOpaque(false);
+                Image imageNew;
+                String fileOrFolder;
+                if(currentFileList[i].isFile()){
+                    imageNew = icon2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+                    fileOrFolder = "file";
+                }else {
+                    imageNew = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+                    fileOrFolder = "folder";
+                }
                 icon = new ImageIcon(imageNew);
                 
                 //Create label and add action Listener to "open folder" when clicked
                 JLabel imageLabel = new JLabel(icon,JLabel.CENTER);
+
+                // Name for clicked listener
+                imageLabel.setName(currentFileList[i].getName() + fileOrFolder);
+
+                imageLabel.setOpaque(false);
                 imageLabel.addMouseListener(new MouseListener() {
         				@Override
         				public void mouseClicked(MouseEvent e) {
-        					right.removeAll();
-        					right.repaint();
-        					right.validate();
+                            if(e.getComponent().getName().contains("file")){
+                                //Do nothing for now it is a file not a folder
+                            }else {
+                                currentFilePath = currentFilePath + "/" + e.getComponent().getName().replaceAll("folder","");
+                                currentFileList = new File(currentFilePath).listFiles();
+                                left.removeAll();
+                                right.removeAll();
+                                view();
+
+                            }
+
         				}
         				
         				@Override
         				public void mouseEntered(MouseEvent e) {
-        					//currently doesnt work but could be used to highlight folder
-        					imageLabel.setBackground(Color.BLACK);
-        					right.repaint();
-        					right.validate();
+        					panel.setBackground(Color.LIGHT_GRAY);
+                            panel.repaint();
+
         				}
         				
         				@Override
@@ -109,8 +140,9 @@ class FileView{
         				
         				@Override
         				public void mouseExited(MouseEvent e) {
-        					//could be used to unhighlight folder
-        				}
+                            panel.setBackground(null);
+                            panel.repaint();
+                        }
 
 						@Override
 						public void mouseReleased(MouseEvent e) {
@@ -215,16 +247,48 @@ class FileView{
      * Method creates file list along the left side of the JFrame.
      */
     void fileList(){
-        JPanel left = new JPanel();
-        left.setLayout(new GridLayout(0,1));
 
-        for (int i = 0; i < strings.length; i++) {
-            JButton button = new JButton(strings[i]);
-            if(i==0){
-                button.setBackground(Color.gray);
-            }else {
+        left.setLayout(new GridLayout(0,1));
+        JButton homeButton = new JButton(userName);
+
+        homeButton.setContentAreaFilled(false);
+
+        homeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentFilePath = "FileHub/"+userName;
+                currentFileList = new File(currentFilePath).listFiles();
+                left.removeAll();
+                right.removeAll();
+                view();
             }
-            left.add(button);
+        });
+
+
+        left.add(homeButton);
+        if(!currentFileList.equals(null)) {
+            for (int i = 0; i < currentFileList.length; i++) {
+                if(currentFileList[i].isFile()){
+                    //Do nothing not a folder
+                }else {
+                    JButton button = new JButton(currentFileList[i].getName());
+
+                    button.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            currentFilePath = currentFilePath + "/" + button.getText();
+                            currentFileList = new File(currentFilePath).listFiles();
+                            left.removeAll();
+                            right.removeAll();
+                            view();
+
+                        }
+                    });
+
+
+                    left.add(button);
+                }
+            }
         }
         frame.add(left,BorderLayout.WEST);
     }

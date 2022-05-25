@@ -45,7 +45,8 @@ class LogInScreen {
 
 		myFrame = frame;
 		buttonPanel = createButtonPanel();
-		logInPanel = createLogInPanel();
+		logInPanel = createLogInPanel("","","");
+
 		myFrame.add(buttonPanel);
 
 	}
@@ -72,10 +73,10 @@ class LogInScreen {
 	private JPanel createButtonPanel() throws src.ExportException, java.io.IOException {
 
 		JPanel panel = new JPanel();
-		JPanel panel2 = new JPanel();
-		JPanel panel3 = new JPanel();
-		JPanel panel4 = new JPanel();
-		JPanel panelNest = new JPanel();
+		JPanel userProfileDisplayPanel = new JPanel();
+		JPanel signOnButtonPanel = new JPanel();
+		JPanel importExportPanel = new JPanel();
+		JPanel signOnAndImportExportPanel = new JPanel();
 
 		JButton signOnBut = new JButton("Sign On");
 		JButton importButton = new JButton("Import Profile");
@@ -165,28 +166,76 @@ class LogInScreen {
 		Image newImageProfile = imageProfile.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
 		profileImage = new ImageIcon(newImageProfile);
 
-		JLabel signOnLabel = new JLabel();
-		JLabel userNameText = new JLabel("Bob");
+		ArrayList<User> myUserList = r.getMyUserList();
+		userProfileDisplayPanel.setLayout(new BorderLayout());
+		JPanel userGrid = new JPanel(new GridLayout());
+		for (User user:myUserList) {
+			JButton profileButton = new JButton();
+			profileButton.setOpaque(false);
+			profileButton.setContentAreaFilled(false);
+			profileButton.setBorderPainted(false);
+
+			JPanel userProfilePanel = new JPanel(new BorderLayout());
+			JLabel signOnLabel = new JLabel(profileImage,JLabel.CENTER);
+			JLabel userNameText = new JLabel(user.getUserName(),JLabel.CENTER);
+			userProfilePanel.add(signOnLabel,BorderLayout.CENTER);
+			userProfilePanel.add(userNameText,BorderLayout.SOUTH);
+			profileButton.add(userProfilePanel);
+
+			profileButton.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					changePanel(createLogInPanel(user.getUserName(),user.getEmail(),user.getPassword()));
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					profileButton.setBorderPainted(true);
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					profileButton.setBorderPainted(false);
+				}
+			});
+
+			userGrid.add(profileButton);
+
+		}
+
+		userProfileDisplayPanel.add(userGrid,BorderLayout.CENTER);
+
+
+
+
+
+
+
+		signOnButtonPanel.add(signOnBut);
+
+		importExportPanel.add(importButton);
+		importExportPanel.add(exportButton);
+
+		signOnAndImportExportPanel.setLayout(new GridLayout(0, 1));
+
+		signOnAndImportExportPanel.add(signOnButtonPanel);
+		signOnAndImportExportPanel.add(importExportPanel);
+
 
 		panel.setLayout(new BorderLayout());
-		panel.add(panel2, BorderLayout.CENTER);
 
-		panel.add(panelNest, BorderLayout.SOUTH);
-
-		panelNest.setLayout(new GridLayout(0, 1));
-
-		panelNest.add(panel3);
-		panelNest.add(panel4);
-
-		signOnLabel.setIcon(profileImage);
-
-		panel2.add(signOnLabel);
-		panel2.add(userNameText);
-
-		panel3.add(signOnBut);
-
-		panel4.add(importButton);
-		panel4.add(exportButton);
+		panel.add(userProfileDisplayPanel, BorderLayout.CENTER);
+		panel.add(signOnAndImportExportPanel, BorderLayout.SOUTH);
 
 		return panel;
 
@@ -197,20 +246,20 @@ class LogInScreen {
 	 * 
 	 * @return
 	 */
-	private JPanel createLogInPanel() {
+	private JPanel createLogInPanel(String username, String email, String password) {
 
 		JPanel panel = new JPanel(new GridLayout(4, 2));
 
 		panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
 
 		JLabel userNameText = new JLabel("Username:");
-		JTextField userNameField = new JTextField("Bob_Keener");
+		JTextField userNameField = new JTextField(username);
 
 		JLabel emailText = new JLabel("Email:");
-		JTextField emailField = new JTextField("Bob@bob.com");
+		JTextField emailField = new JTextField(email);
 
 		JLabel pwdText = new JLabel("Password:");
-		JTextField pwdField = new JTextField("**********");
+		JTextField pwdField = new JTextField(password);
 
 		JButton signOnBut = new JButton("Sign On");
 		signOnBut.setSize(20, 20);
@@ -227,7 +276,7 @@ class LogInScreen {
 					myFrame.getContentPane().removeAll();
 					myFrame.validate();
 					myFrame.repaint();
-					new FileView(myFrame);
+					new FileView(myFrame,userNameField.getText());
 				} else {
 					JOptionPane.showMessageDialog(null, "Please try entering your information again",
 							"Incorrect Email/Username/Password", JOptionPane.ERROR_MESSAGE);
