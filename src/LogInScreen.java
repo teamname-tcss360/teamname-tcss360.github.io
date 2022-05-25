@@ -223,7 +223,7 @@ class LogInScreen {
 			public void actionPerformed(ActionEvent e) {
 				// Will pass to login successful and get boolean result
 				// of whether or not the login was successful.
-				if (r.loginSuccesful(userNameField.getText(), emailField.getText(), pwdField.getText())) {
+				if (r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText())) {
 					myFrame.getContentPane().removeAll();
 					myFrame.validate();
 					myFrame.repaint();
