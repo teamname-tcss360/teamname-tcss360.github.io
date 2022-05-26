@@ -20,6 +20,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 class LogInScreen {
+
+	private static LogInScreen instance = null;
+
 	/**
 	 * Login Screen for GUI.
 	 * First state loaded after start of program.
@@ -32,18 +35,52 @@ class LogInScreen {
 	private JPanel buttonPanel;
 	private JPanel logInPanel;
 	private JFrame myFrame;
-	private Registration r = new Registration();
+	private Registration r = null;
 
 	/**
-	 * Constructor that take in a frame and populates the frame with desired
-	 * qualities
-	 * of the login page.
-	 * 
+	 * Gets the current instance, or creates on if one does not exist.
+	 * @return
+	 * @throws IOException
+	 * @throws src.ExportException
+	 */
+	public static LogInScreen getInstance() throws IOException, src.ExportException {
+		if(instance == null) {
+			instance = new LogInScreen();
+		}
+		return instance;
+	}
+
+	/**
+	 * Private constructor to stop instantiation
+	 */
+	private LogInScreen(){}
+
+	/**
+	 * Sets login screen frame to parameter
 	 * @param frame
 	 */
-	public LogInScreen(JFrame frame) throws src.ExportException, java.io.IOException {
+	public void setFrame(JFrame frame) {
 
 		myFrame = frame;
+
+	}
+
+	/**
+	 * Creates panels and registration for login screen.
+	 * Must be called before using login screen.
+	 * @throws IOException
+	 * @throws src.ExportException
+	 */
+	public void setup() throws IOException, src.ExportException {
+
+		try {
+
+			r =new Registration();
+
+		}
+
+		catch (Exception e) {}
+
 		buttonPanel = createButtonPanel();
 		logInPanel = createLogInPanel("","","");
 
