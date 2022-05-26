@@ -3,6 +3,7 @@ package src;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 
 class MainView implements ActionListener {
@@ -12,8 +13,10 @@ class MainView implements ActionListener {
         frame.setTitle("File Organizer - " + VersionControl.getVersion());
 
         try {
-            new LogInScreen(frame);
-        } catch (src.ExportException | java.io.IOException ex){
+            LogInScreen ls = LogInScreen.getInstance();
+            ls.setFrame(frame);
+            ls.setup();
+        } catch (src.ExportException | IOException ex){
             ex.printStackTrace();
         }
 
@@ -23,27 +26,27 @@ class MainView implements ActionListener {
 
         ImageIcon iconNew = new ImageIcon("src/resources/new.png");
         Image imageNew = iconNew.getImage();
-        Image newImgNew = imageNew.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+        Image newImgNew = imageNew.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconNew = new ImageIcon(newImgNew);
 
         ImageIcon iconOpen = new ImageIcon("src/resources/open.png");
         Image imageOpen = iconOpen.getImage();
-        Image newImgOpen = imageOpen.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+        Image newImgOpen = imageOpen.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconOpen = new ImageIcon(newImgOpen);
 
         ImageIcon iconSave = new ImageIcon("src/resources/save.png");
         Image imageSave = iconSave.getImage();
-        Image newImgSave = imageSave.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+        Image newImgSave = imageSave.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconSave = new ImageIcon(newImgSave);
 
         ImageIcon iconExit = new ImageIcon("src/resources/exit.png");
         Image imageExit = iconExit.getImage();
-        Image newImgExit = imageExit.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+        Image newImgExit = imageExit.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconExit = new ImageIcon(newImgExit);
 
         ImageIcon iconAbout = new ImageIcon("src/resources/about.png");
         Image imageAbout = iconAbout.getImage();
-        Image newImgAbout = imageAbout.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+        Image newImgAbout = imageAbout.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconAbout = new ImageIcon(newImgAbout);
 
         JMenu fileMenu = new JMenu("File");
