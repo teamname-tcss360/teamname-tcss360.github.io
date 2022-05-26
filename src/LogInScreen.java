@@ -6,7 +6,7 @@
 
 package src;
 
-import javafx.beans.binding.BooleanExpression;
+//import javafx.beans.binding.BooleanExpression;
 
 import java.awt.*;
 import javax.swing.*;
@@ -111,16 +111,17 @@ class LogInScreen {
 
 		JPanel panel = new JPanel();
 		JPanel userProfileDisplayPanel = new JPanel();
-		JPanel signOnButtonPanel = new JPanel();
+		JPanel creatNewButtonPanel = new JPanel();
 		JPanel importExportPanel = new JPanel();
 		JPanel signOnAndImportExportPanel = new JPanel();
 
-		JButton signOnBut = new JButton("Sign On");
+		JButton createNewProfileButton = new JButton("Create New Profile");
 		JButton importButton = new JButton("Import Profile");
 		JButton exportButton = new JButton("Export Profile");
 
+
 		// When user has clicked sign on the state of the program changes
-		signOnBut.addActionListener(new ActionListener() {
+		createNewProfileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changePanel(logInPanel);
 			}
@@ -258,14 +259,14 @@ class LogInScreen {
 
 
 
-		signOnButtonPanel.add(signOnBut);
+		creatNewButtonPanel.add(createNewProfileButton);
 
 		importExportPanel.add(importButton);
 		importExportPanel.add(exportButton);
 
 		signOnAndImportExportPanel.setLayout(new GridLayout(0, 1));
 
-		signOnAndImportExportPanel.add(signOnButtonPanel);
+		signOnAndImportExportPanel.add(creatNewButtonPanel);
 		signOnAndImportExportPanel.add(importExportPanel);
 
 
@@ -298,25 +299,51 @@ class LogInScreen {
 		JLabel pwdText = new JLabel("Password:");
 		JTextField pwdField = new JTextField(password);
 
-		JButton signOnBut = new JButton("Sign On");
-		signOnBut.setSize(20, 20);
+		JButton logInBut = new JButton("Log In");
+		logInBut.setSize(20, 20);
 
 		JButton cancelBut = new JButton("Cancel");
 
 		// Action Listener called when user has clicked sign on.
-		signOnBut.addActionListener(new ActionListener() {
+		logInBut.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Will pass to login successful and get boolean result
-				// of whether or not the login was successful.
-				if (r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText())) {
-					myFrame.getContentPane().removeAll();
-					myFrame.validate();
-					myFrame.repaint();
-					new FileView(myFrame,userNameField.getText());
-				} else {
-					JOptionPane.showMessageDialog(null, "Please try entering your information again",
-							"Incorrect Email/Username/Password", JOptionPane.ERROR_MESSAGE);
+				try {
+					// Will pass to login successful and get boolean result
+					// of whether or not the login was successful.
+					boolean createProf = false;
+					ArrayList<User> mUserList = r.getMyUserList();
+					for (User user : mUserList) {
+						if (user.getUserName().equals(userNameField.getText())) {
+							//do nothing, profile exists.
+						} else {
+							createProf = true;
+						}
+					}
+					if (r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText())) {
+						myFrame.getContentPane().removeAll();
+						myFrame.validate();
+						myFrame.repaint();
+						new FileView(myFrame, userNameField.getText());
+
+					} else if (!r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText()) && createProf) {
+						//if unsuccessful && profile is already here, make new.
+						r.addToList(userNameField.getText(), emailField.getText(), pwdField.getText(), false);
+						new File("FileHub/" + userNameField.getText()).mkdir();
+
+						myFrame.getContentPane().removeAll();
+						myFrame.validate();
+						myFrame.repaint();
+						new FileView(myFrame, userNameField.getText());
+
+
+						// if unsuccessful , AND  not already, then make new.
+					} else {
+						JOptionPane.showMessageDialog(null, "Please try entering your information again",
+								"Incorrect Email/Username/Password", JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (IOException ex){
+					ex.printStackTrace();
 				}
 
 			}
@@ -338,7 +365,7 @@ class LogInScreen {
 		panel.add(pwdText);
 		panel.add(pwdField);
 
-		panel.add(signOnBut);
+		panel.add(logInBut);
 		panel.add(cancelBut);
 
 		return panel;
