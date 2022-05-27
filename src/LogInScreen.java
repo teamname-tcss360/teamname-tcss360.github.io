@@ -150,8 +150,20 @@ class LogInScreen {
 					}
 
 					r.addToList(sArr[0], sArr[1], sArr[2], tempBool);
+					Boolean makeFile = true;
+					File[] homeDirs = new File("FileHub").listFiles();
+					for (File f : homeDirs) {
+						if(f.getName().equals(sArr[0])) {
+							makeFile = false;
+							break;
+						}
+					}
+					if(makeFile) {
+						new File("FileHub/" + sArr[0]).mkdir();
+					}
 
-				} catch (java.io.IOException ex) {
+					changePanel(createButtonPanel());
+				} catch (java.io.IOException | src.ExportException ex) {
 					ex.printStackTrace();
 				}
 
