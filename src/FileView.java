@@ -17,6 +17,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -191,8 +194,27 @@ class FileView{
         JButton newFile = new JButton("Import File");
         newFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
-			}
+				FileDialog fd = new FileDialog((java.awt.Frame) null);
+                fd.setVisible(true);
+
+                String dir = fd.getDirectory();
+                String file = fd.getFile();
+
+                if (file.isEmpty()) return;
+
+                try {
+                    Files.copy(Paths.get(dir,file), Paths.get(currentFilePath,file));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+                currentFileList = new File(currentFilePath).listFiles();
+                right.removeAll();
+                visualInterpretation();
+                right.repaint();
+                right.validate();
+
+            }
 				
 		});
         
