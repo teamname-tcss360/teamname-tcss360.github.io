@@ -142,18 +142,12 @@ class FileView{
                                     left.removeAll();
                                     right.removeAll();
                                     view();
-
                                 }
-
                             }
-
                             else {
-
                                 MouseEvent globalE = SwingUtilities.convertMouseEvent(e.getComponent(), e, frame);
                                 popupmenu.show(frame, globalE.getX()+15, globalE.getY());
-
                             }
-
         				}
         				
         				@Override
