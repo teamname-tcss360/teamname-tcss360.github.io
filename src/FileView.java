@@ -53,6 +53,9 @@ class FileView{
     private String userName;
     private String currentFilePath;
 
+    // Popup for right-clicking file
+    final JPopupMenu popupmenu = new JPopupMenu("Edit");
+
     public FileView(JFrame f, String user){
         userName = user;
         frame = f;
@@ -63,8 +66,10 @@ class FileView{
         File userHome = new File(currentFilePath);
         currentFileList = userHome.listFiles();
 
+        JMenuItem delete = new JMenuItem("Delete");
+        popupmenu.add(delete);
 
-
+        frame.add(popupmenu);
 
 
         view();
@@ -116,21 +121,36 @@ class FileView{
                 imageLabel.addMouseListener(new MouseListener() {
         				@Override
         				public void mouseClicked(MouseEvent e) {
-                            if(e.getComponent().getName().contains("file")){
 
-                                File f = new File(currentFilePath + "/" + e.getComponent().getName().replaceAll("file",""));
-                                try {
-                                    Desktop.getDesktop().open(f);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
+                            // Left click
+                            if (e.getButton() == MouseEvent.BUTTON1) {
+
+                                if (e.getComponent().getName().contains("file")) {
+
+
+                                    File f = new File(currentFilePath + "/" + e.getComponent().getName().replaceAll("file", ""));
+                                    try {
+                                        Desktop.getDesktop().open(f);
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+
+
+                                } else {
+                                    currentFilePath = currentFilePath + "/" + e.getComponent().getName().replaceAll("folder", "");
+                                    currentFileList = new File(currentFilePath).listFiles();
+                                    left.removeAll();
+                                    right.removeAll();
+                                    view();
+
                                 }
-                                
-                            }else {
-                                currentFilePath = currentFilePath + "/" + e.getComponent().getName().replaceAll("folder","");
-                                currentFileList = new File(currentFilePath).listFiles();
-                                left.removeAll();
-                                right.removeAll();
-                                view();
+
+                            }
+
+                            else {
+
+                                MouseEvent globalE = SwingUtilities.convertMouseEvent(e.getComponent(), e, frame);
+                                popupmenu.show(frame, globalE.getX()+15, globalE.getY());
 
                             }
 
