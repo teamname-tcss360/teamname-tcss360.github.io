@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -116,7 +117,14 @@ class FileView{
         				@Override
         				public void mouseClicked(MouseEvent e) {
                             if(e.getComponent().getName().contains("file")){
-                                //Do nothing for now it is a file not a folder
+
+                                File f = new File(currentFilePath + "/" + e.getComponent().getName().replaceAll("file",""));
+                                try {
+                                    Desktop.getDesktop().open(f);
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                
                             }else {
                                 currentFilePath = currentFilePath + "/" + e.getComponent().getName().replaceAll("folder","");
                                 currentFileList = new File(currentFilePath).listFiles();
