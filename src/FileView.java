@@ -10,6 +10,7 @@
 package src;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,8 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * File view panel for the GUI
@@ -96,11 +96,13 @@ class FileView{
     /**
      * Method populates right side panel with folders (made of labels and images) to add to our JFrame.
      */
+    Image imageNew;
     void visualInterpretation(){
     	ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
     	ImageIcon icon2 = new ImageIcon("src\\resources\\file.png");
         right.setLayout(new GridLayout(4,4));
-        
+
+        sortFilesFromFolders();
         for (int i = 0; i < 16; i++) {
             JPanel panel = new JPanel();
             if(i < currentFileList.length) {
@@ -108,19 +110,19 @@ class FileView{
                 panel.setLayout(new BorderLayout());
                 JLabel jLabel = new JLabel(currentFileList[i].getName(),JLabel.CENTER);
                 jLabel.setOpaque(false);
-                Image imageNew;
+
                 String fileOrFolder;
                 if(currentFileList[i].isFile()){
+                    //Add to 2nd list
+
                     imageNew = icon2.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
                     fileOrFolder = "file";
                 }else {
                     imageNew = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
                     fileOrFolder = "folder";
                 }
-                icon = new ImageIcon(imageNew);
-                
                 //Create label and add action Listener to "open folder" when clicked
-                JLabel imageLabel = new JLabel(icon,JLabel.CENTER);
+                JLabel imageLabel = new JLabel(new ImageIcon(imageNew),JLabel.CENTER);
 
                 // Name for clicked listener
                 imageLabel.setName(currentFileList[i].getName() + fileOrFolder);
@@ -142,8 +144,6 @@ class FileView{
                                     } catch (IOException ex) {
                                         ex.printStackTrace();
                                     }
-
-
                                 } else {
                                     currentFilePath = currentFilePath + "/" + e.getComponent().getName().replaceAll("folder", "");
                                     currentFileList = new File(currentFilePath).listFiles();
@@ -196,38 +196,50 @@ class FileView{
      */
     void toolBar(){
         JToolBar jToolBar = new JToolBar();
-        JButton newFile = new JButton("Import File");
-        newFile.addActionListener(new ActionListener() {
+        JButton importFile = new JButton("Import File");
+        importFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FileDialog fd = new FileDialog((java.awt.Frame) null);
+                FileDialog fd = new FileDialog((java.awt.Frame) null);
                 fd.setVisible(true);
 
                 String dir = fd.getDirectory();
                 String file = fd.getFile();
 
-                if (file.isEmpty()) return;
+                System.out.println(dir  );
+                System.out.println(file);
 
+                if (file.isEmpty()) return;
+                System.out.println(currentFilePath);
                 try {
-                    Files.copy(Paths.get(dir,file), Paths.get(currentFilePath,file));
+                    Files.copy(Paths.get(dir, file), Paths.get(currentFilePath, file));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
                 currentFileList = new File(currentFilePath).listFiles();
+                left.removeAll();
                 right.removeAll();
-                visualInterpretation();
-                right.repaint();
-                right.validate();
-
+                view();
             }
-				
 		});
         
         JButton exportFile = new JButton("Export File");
+
         exportFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
-			}
+                JFileChooser jFileChooser = new JFileChooser("FileHub/"+userName);
+                jFileChooser.setVisible(true);
+                jFileChooser.showOpenDialog(exportFile);
+
+                File file = jFileChooser.getSelectedFile();
+
+                String userHomeFolder = System.getProperty("user.home")+"\\Desktop";
+
+                try {
+                    Files.copy(Paths.get(file.getAbsolutePath()),Paths.get(userHomeFolder,file.getName()));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
 		});
         
         JLabel searchLabel = new JLabel("Search");
@@ -236,6 +248,7 @@ class FileView{
         JPanel sortChoices = new JPanel();
         JLabel sortLabel = new JLabel("Sort By: ");
         JRadioButton aToZRadioButton = new JRadioButton("A-Z");
+        aToZRadioButton.setSelected(true);
         JRadioButton zToARadioButton = new JRadioButton("Z-A");
         
         // When the A-Z button is clicked the array of Files will be sorted and then the form will be updated
@@ -285,7 +298,7 @@ class FileView{
 
 
 
-        jToolBar.add(newFile);
+        jToolBar.add(importFile);
         jToolBar.add(exportFile);
         jToolBar.add(searchLabel);
         jToolBar.add(jTextField);
@@ -369,4 +382,18 @@ class FileView{
     	}
     }
 
+    void sortFilesFromFolders(){
+        Arrays.sort( currentFileList, (a, b) -> {
+            // do your comparison here returning -1 if a is before b, 0 if same, 1 if a is after b
+            if (a.isFile() && !b.isFile()) {
+                return 1;
+            } else if (a.isFile() && b.isFile()) {
+                return a.compareTo(b);
+            }else if (!a.isFile() && !b.isFile()) {
+                return a.compareTo(b);
+            }else {
+                return -1;
+            }
+        });
+    }
 }

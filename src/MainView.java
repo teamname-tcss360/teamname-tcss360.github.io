@@ -54,6 +54,7 @@ class MainView implements ActionListener {
         JMenu exportMenu = new JMenu("Export");
 
         JMenuItem importMenuItem = new JMenuItem("Import from: ");
+
         JMenuItem exportMenuItem = new JMenuItem("Export from: ");
 
         importMenu.add(importMenuItem);
@@ -62,10 +63,16 @@ class MainView implements ActionListener {
         JMenuItem newMenuItem = new JMenuItem("New", iconNew);
         JMenuItem openMenuItem = new JMenuItem("Open", iconOpen);
         JMenuItem saveMenuItem = new JMenuItem("Save", iconSave);
-        JMenuItem exitMenuItem = new JMenuItem("Exit", iconExit);
-        exitMenuItem.setToolTipText("Exit out of Application");
+        JMenuItem exitMenuItem = new JMenuItem("Sign Out", iconExit);
+        exitMenuItem.setToolTipText("Sign Out");
 
-        exitMenuItem.addActionListener((event) -> System.exit(0));
+        exitMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                guiBuilder();
+            }
+        });
 
         JMenu editMenu = new JMenu("Edit");
 
