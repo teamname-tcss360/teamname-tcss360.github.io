@@ -19,7 +19,7 @@ public class VersionControl {
 	 */
 	private static String myVersion = "1.2.0";
 
-	static String getVersion() {
+	public static String getVersion() {
 		return myVersion;
 	}
 

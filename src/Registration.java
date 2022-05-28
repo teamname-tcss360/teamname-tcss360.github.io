@@ -55,7 +55,7 @@ public class Registration {
      * 
      * @return boolean login result
      */
-    public boolean loginSuccessful( String theUserName, String theEmail, String thePassword) { 
+    public boolean loginSuccessful(String theUserName, String theEmail, String thePassword) { 
     	
     	for (int i = 0; i < myUserList.size(); i++) {
     		if ((myUserList.get(i).getUserName().equals(theUserName)) 
@@ -95,7 +95,7 @@ public class Registration {
      */
     public ArrayList<User> readItemsFromFile(File theFile) throws FileNotFoundException {
 
-    	//userList currently has capacity of 100.
+    	//userList
         final ArrayList<User> userList = new ArrayList<User>(); 
         
         Scanner reader = new Scanner(theFile);
@@ -134,6 +134,8 @@ public class Registration {
     
     public static void main(String[] args) throws FileNotFoundException {
     	Registration r = new Registration();
+    	
+    	System.out.println(r.loginSuccessful("Bob_Keener", "Bob@bob.com", "**********"));
     	
     	//for sake of testing 
     	for (int i = 0; i < r.myUserList.size(); i++) {
