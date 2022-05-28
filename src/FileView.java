@@ -43,7 +43,12 @@ class FileView{
      * JPanel field (right side with folders).
      */
     private JPanel right = new JPanel();;
+    
+    /**
+     * JPanel field (left side with names).
+     */
     private JPanel left = new JPanel();
+    
     /**
      * String array field to represent folder names. 
      */
@@ -233,14 +238,14 @@ class FileView{
         JRadioButton aToZRadioButton = new JRadioButton("A-Z");
         JRadioButton zToARadioButton = new JRadioButton("Z-A");
         
-        // When the A-Z button is clicked the array of strings will be sorted and then the form will be updated
+        // When the A-Z button is clicked the array of Files will be sorted and then the form will be updated
         // and create the buttons in the new order.
         aToZRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (zToARadioButton.isSelected()) {
 					zToARadioButton.setSelected(false);
 				}
-				sortList(strings);
+				sortList(currentFileList);
 				right.removeAll();
 				visualInterpretation();
 				right.repaint();
@@ -249,14 +254,14 @@ class FileView{
 			}
 		});
         
-        // When the Z-A button is clicked the array of strings will be sorted and then reversed
+        // When the Z-A button is clicked the array of Files will be sorted and then reversed
         // the form will then be reshown in the desired order.
         zToARadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (aToZRadioButton.isSelected()) {
 					aToZRadioButton.setSelected(false);
 				}
-				reverseSort(strings);
+				reverseSort(currentFileList);
 				right.removeAll();
 				visualInterpretation();
 				right.repaint();
@@ -340,26 +345,26 @@ class FileView{
     }
     
     /**
-     * Helper method to organize methods and sort List.
-     * @param theString
+     * Helper method to organize methods and sort File List.
+     * @param theFiles
      */
-    void sortList(String[] theString) { 
-    	Arrays.sort(theString);
+    void sortList(File[] theFiles) { 
+    	Arrays.sort(theFiles);
     }
     
     /**
-     * Helper method to organize methods and reverse sort List.
-     * @param theString
+     * Helper method to organize methods and reverse sort File List.
+     * @param theFiles
      */
-    void reverseSort(String[] theString) {
-    	Stack<String >temp = new Stack<String>();
-    	Arrays.sort(theString);
-    	for (int i = 0; i < theString.length; i++) {
-    		temp.push(theString[i]);
+    void reverseSort(File[] theFiles) {
+    	Stack<File> temp = new Stack<File>();
+    	Arrays.sort(theFiles);
+    	for (int i = 0; i < theFiles.length; i++) {
+    		temp.push(theFiles[i]);
     	}
     	int j = 0;
     	while (!temp.isEmpty()) {
-    		theString[j] = temp.pop();
+    		theFiles[j] = temp.pop();
     		j++;
     	}
     }
