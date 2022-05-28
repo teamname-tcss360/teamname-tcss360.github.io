@@ -1,2 +1,4 @@
 /src/*.class
-/bin/
+/bin
+/out
+.idea
