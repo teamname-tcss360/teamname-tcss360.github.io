@@ -10,6 +10,7 @@
 package src;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -138,8 +139,6 @@ class FileView{
                                     } catch (IOException ex) {
                                         ex.printStackTrace();
                                     }
-
-
                                 } else {
                                     currentFilePath = currentFilePath + "/" + e.getComponent().getName().replaceAll("folder", "");
                                     currentFileList = new File(currentFilePath).listFiles();
@@ -195,36 +194,47 @@ class FileView{
         JButton importFile = new JButton("Import File");
         importFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FileDialog fd = new FileDialog((java.awt.Frame) null);
+                FileDialog fd = new FileDialog((java.awt.Frame) null);
                 fd.setVisible(true);
 
                 String dir = fd.getDirectory();
                 String file = fd.getFile();
 
+                System.out.println(dir  );
+                System.out.println(file);
+
                 if (file.isEmpty()) return;
                 System.out.println(currentFilePath);
                 try {
-                    Files.copy(Paths.get(dir,file), Paths.get(currentFilePath,file));
+                    Files.copy(Paths.get(dir, file), Paths.get(currentFilePath, file));
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                System.out.println(currentFilePath);
-                System.out.println(Arrays.toString(currentFileList));
                 currentFileList = new File(currentFilePath).listFiles();
-                System.out.println(Arrays.toString(currentFileList));
                 left.removeAll();
                 right.removeAll();
                 view();
-
             }
-				
 		});
         
         JButton exportFile = new JButton("Export File");
+
         exportFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
-			}
+                JFileChooser jFileChooser = new JFileChooser("FileHub/"+userName);
+                jFileChooser.setVisible(true);
+                jFileChooser.showOpenDialog(exportFile);
+
+                File file = jFileChooser.getSelectedFile();
+
+                String userHomeFolder = System.getProperty("user.home")+"\\Desktop";
+
+                try {
+                    Files.copy(Paths.get(file.getAbsolutePath()),Paths.get(userHomeFolder,file.getName()));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
 		});
         
         JLabel searchLabel = new JLabel("Search");

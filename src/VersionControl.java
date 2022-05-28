@@ -17,7 +17,7 @@ public class VersionControl {
 	/**
 	 * String to represent version number
 	 */
-	private static String myVersion = "0.0.1";
+	private static String myVersion = "1.2.0";
 
 	static String getVersion() {
 		return myVersion;
