@@ -2,12 +2,14 @@
  * TCSS 360
  */
 
-package src;
+package testing;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import src.VersionControl;
+
 /**
- * Class represents testing for TeamName project, class has functionality to test version control so far. 
+ * Class represents testing for TeamName project, class has functionality to test version control.
  * 
  * @author Jasharn Thiara
  * @version 1.0
