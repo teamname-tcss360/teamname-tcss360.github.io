@@ -62,6 +62,8 @@ class FileView {
      */
     private String userName;
     private String currentFilePath;
+    private String fileToDelete;
+
 
     // Popup for right-clicking file
     final JPopupMenu popupmenu = new JPopupMenu("Edit");
@@ -77,12 +79,48 @@ class FileView {
         currentFileList = userHome.listFiles();
 
         JMenuItem delete = new JMenuItem("Delete");
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteFile(fileToDelete);
+            }
+        });
+
         popupmenu.add(delete);
 
         frame.add(popupmenu);
 
         sortFilesFromFolders();
         view();
+    }
+
+    void deleteFile(String fileToDelete){
+        if(fileToDelete.contains("file")) {
+            fileToDelete = fileToDelete.replaceAll("file", "");
+            System.out.println(currentFilePath+"\\"+fileToDelete);
+            File file = new File(currentFilePath+"\\"+fileToDelete);
+            file.delete();
+            currentFileList = new File(currentFilePath).listFiles();
+        }else {
+            fileToDelete = fileToDelete.replaceAll("folder", "");
+            File file = new File(currentFilePath+"\\"+fileToDelete);
+            currentFileList = file.listFiles();
+            for (File f : currentFileList) {
+                if (f.isFile()){
+                    f.delete();
+                }else {
+                    deleteFile(f.getName());
+                }
+            }
+            file.delete();
+        }
+        currentFileList = new File(currentFilePath).listFiles();
+        sortFilesFromFolders();
+        left.removeAll();
+        right.removeAll();
+        view();
+
+
     }
 
     /**
@@ -154,6 +192,7 @@ class FileView {
                                 view();
                             }
                         } else {
+                            fileToDelete = e.getComponent().getName();
                             MouseEvent globalE = SwingUtilities.convertMouseEvent(e.getComponent(), e, frame);
                             popupmenu.show(frame, globalE.getX() + 15, globalE.getY());
                         }
