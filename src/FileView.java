@@ -63,6 +63,11 @@ public class FileView {
     private String userName;
     private String currentFilePath;
     private String fileToDelete;
+    
+    /**
+     * Helper class instance
+     */
+    private FileTools fileTools = new FileTools();
 
 
     // Popup for right-clicking file
@@ -91,7 +96,7 @@ public class FileView {
         frame.add(popupmenu);
 
         menuBar();
-        sortFilesFromFolders();
+        currentFileList = fileTools.sortFilesFromFolders(currentFileList);
         view();
     }
 
@@ -116,7 +121,7 @@ public class FileView {
             file.delete();
         }
         currentFileList = new File(currentFilePath).listFiles();
-        sortFilesFromFolders();
+        currentFileList = fileTools.sortFilesFromFolders(currentFileList);
         left.removeAll();
         right.removeAll();
         view();
@@ -258,7 +263,7 @@ public class FileView {
                     ex.printStackTrace();
                 }
                 currentFileList = new File(currentFilePath).listFiles();
-                sortFilesFromFolders();
+                currentFileList = fileTools.sortFilesFromFolders(currentFileList);
                 left.removeAll();
                 right.removeAll();
                 view();
@@ -327,7 +332,7 @@ public class FileView {
                 if (zToARadioButton.isSelected()) {
                     zToARadioButton.setSelected(false);
                 }
-                sortFilesFromFolders();
+                currentFileList = fileTools.sortFilesFromFolders(currentFileList);
                 left.removeAll();
                 right.removeAll();
                 view();
@@ -341,7 +346,7 @@ public class FileView {
                 if (aToZRadioButton.isSelected()) {
                     aToZRadioButton.setSelected(false);
                 }
-                reverseSortFilesFromFolders();
+                currentFileList = fileTools.reverseSortFilesFromFolders(currentFileList);
                 left.removeAll();
                 right.removeAll();
                 view();
@@ -490,7 +495,7 @@ public class FileView {
             public void actionPerformed(ActionEvent e) {
                 currentFilePath = "FileHub/" + userName;
                 currentFileList = new File(currentFilePath).listFiles();
-                sortFilesFromFolders();
+                currentFileList = fileTools.sortFilesFromFolders(currentFileList);
                 left.removeAll();
                 right.removeAll();
                 view();
@@ -511,7 +516,7 @@ public class FileView {
                         public void actionPerformed(ActionEvent e) {
                             currentFilePath = currentFilePath + "/" + button.getText();
                             currentFileList = new File(currentFilePath).listFiles();
-                            sortFilesFromFolders();
+                            currentFileList = fileTools.sortFilesFromFolders(currentFileList);
                             left.removeAll();
                             right.removeAll();
                             view();
@@ -525,41 +530,6 @@ public class FileView {
         frame.add(left, BorderLayout.WEST);
     }
 
-    /**
-     * Helper method to organize methods and sort File List.
-     */
-    void sortFilesFromFolders() {
-        Arrays.sort(currentFileList, (a, b) -> {
-            // do your comparison here returning -1 if a is before b, 0 if same, 1 if a is after b
-            if (a.isFile() && !b.isFile()) {
-                return 1;
-            } else if (a.isFile() && b.isFile()) {
-                return a.compareTo(b);
-            } else if (!a.isFile() && !b.isFile()) {
-                return a.compareTo(b);
-            } else {
-                return -1;
-            }
-        });
-    }
-
-    /**
-     * Helper method to organize methods and reverse sort File List.
-     **/
-    void reverseSortFilesFromFolders() {
-        Arrays.sort(currentFileList, (a, b) -> {
-            // do your comparison here returning -1 if a is before b, 0 if same, 1 if a is after b
-            if (a.isFile() && !b.isFile()) {
-                return 1;
-            } else if (a.isFile() && b.isFile()) {
-                return b.compareTo(a);
-            } else if (!a.isFile() && !b.isFile()) {
-                return b.compareTo(a);
-            } else {
-                return -1;
-            }
-        });
-    }
 
     void search(String searchInput) {
         searchResults.clear();
