@@ -327,18 +327,19 @@ class LogInScreen {
 					ArrayList<User> mUserList = r.getMyUserList();
 					for (User user : mUserList) {
 						if (user.getUserName().equals(userNameField.getText())) {
-							//do nothing, profile exists.
+							//do nothing
 						} else {
 							createProf = true;
 						}
 					}
+					//System.out.println(createProf);
 					if (r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText())) {
 						myFrame.getContentPane().removeAll();
 						myFrame.validate();
 						myFrame.repaint();
 						new FileView(myFrame, userNameField.getText());
 
-					} else if (!r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText()) && createProf) {
+					} else if (!(r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText())) && !createProf) {
 						//if unsuccessful && profile is already here, make new.
 						r.addToList(userNameField.getText(), emailField.getText(), pwdField.getText(), false);
 						new File("FileHub/" + userNameField.getText()).mkdir();
