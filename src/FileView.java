@@ -32,7 +32,7 @@ import java.util.*;
  * @since   2022-05-18
  */
 
-class FileView {
+public class FileView {
 
     /**
      * JFrame field.
