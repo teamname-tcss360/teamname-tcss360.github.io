@@ -49,52 +49,14 @@ class MainView implements ActionListener {
         Image newImgAbout = imageAbout.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconAbout = new ImageIcon(newImgAbout);
 
-        JMenu fileMenu = new JMenu("File");
-        JMenu importMenu = new JMenu("Import");
-        JMenu exportMenu = new JMenu("Export");
-
-        JMenuItem importMenuItem = new JMenuItem("Import from: ");
-
-        JMenuItem exportMenuItem = new JMenuItem("Export from: ");
-
-        importMenu.add(importMenuItem);
-        exportMenu.add(exportMenuItem);
-
-        JMenuItem newMenuItem = new JMenuItem("New", iconNew);
-        JMenuItem openMenuItem = new JMenuItem("Open", iconOpen);
-        JMenuItem saveMenuItem = new JMenuItem("Save", iconSave);
-        JMenuItem exitMenuItem = new JMenuItem("Sign Out", iconExit);
-        exitMenuItem.setToolTipText("Sign Out");
-
-        exitMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                guiBuilder();
-            }
-        });
-
-        JMenu editMenu = new JMenu("Edit");
-
+       
         JMenu helpMenu = new JMenu("Help");
         JMenuItem aboutMenuItem = new JMenuItem("About", iconAbout);
 
         aboutMenuItem.addActionListener(this);
 
-        fileMenu.add(newMenuItem);
-        fileMenu.add(openMenuItem);
-        fileMenu.add(saveMenuItem);
-        fileMenu.addSeparator();
-        fileMenu.add(importMenu);
-        fileMenu.add(exportMenu);
-        fileMenu.addSeparator();
-        fileMenu.add(exitMenuItem);
-
         // editMenu.add();
         helpMenu.add(aboutMenuItem);
-
-        menuBar.add(fileMenu);
-        menuBar.add(editMenu);
         menuBar.add(helpMenu);
 
         helpMenu.add(aboutMenuItem);
