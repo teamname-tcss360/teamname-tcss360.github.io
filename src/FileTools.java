@@ -9,7 +9,9 @@ package src;
 
 import java.io.File;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * Filez utility class 
@@ -59,6 +61,70 @@ public class FileTools {
         });
         return theFileList;
     }
-	
-	
+    
+    private String currentFilePath;
+    private File[] currentFileList;
+    
+    File[] search(String searchInput, String theUser) {
+        searchResults.clear();
+        searchResultsCount = 0;
+        if (searchInput.equals(null) || searchInput.equals("")) {
+            //Nothing to search
+        } else {
+            currentFilePath = "FileHub/" + theUser;
+            currentFileList = new File(currentFilePath).listFiles();
+            searchHelper(searchInput);
+
+            File[] temp = new File[searchResultsCount];
+            for (int i = 0; i < searchResultsCount; i++) {
+                temp[i] = searchResults.get(i);
+            }
+            currentFileList = temp;
+        }
+        return currentFileList;
+    }
+
+    /**
+     * Search the folders and files by keyword
+     * @param input keyword to search for
+     */
+    ArrayList<File> searchResults=new ArrayList<>(20);
+    int searchResultsCount = 0;
+    void searchHelper(String input){
+        //Recurse down folders and files to find occurrences
+        for (File file : currentFileList) {
+            if(file.isFile() && file.getName().toLowerCase(Locale.ROOT).contains(input)){
+                searchResults.add(file);
+                searchResultsCount++;
+            }else if(!file.isFile()){
+                currentFileList = file.listFiles();
+                searchHelper(input);
+            }
+        }
+    }
+    
+    File[] deleteFile(String fileToDelete){
+        if(fileToDelete.contains("file")) {
+            fileToDelete = fileToDelete.replaceAll("file", "");
+            System.out.println(currentFilePath+"\\"+fileToDelete);
+            File file = new File(currentFilePath+"\\"+fileToDelete);
+            file.delete();
+            
+            currentFileList = new File(currentFilePath).listFiles();
+        }else {
+            fileToDelete = fileToDelete.replaceAll("folder", "");
+            File file = new File(currentFilePath+"\\"+fileToDelete);
+            currentFileList = file.listFiles();
+            for (File f : currentFileList) {
+                if (f.isFile()){
+                    f.delete();
+                }else {
+                    deleteFile(f.getName());
+                }
+            }
+            file.delete();
+        }
+        currentFileList = new File(currentFilePath).listFiles();
+        return sortFilesFromFolders(currentFileList);
+    }
 }

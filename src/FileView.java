@@ -87,7 +87,10 @@ public class FileView {
         delete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                deleteFile(fileToDelete);
+                currentFileList = fileTools.deleteFile(fileToDelete);
+                left.removeAll();
+                right.removeAll();
+                view();
             }
         });
 
@@ -100,34 +103,6 @@ public class FileView {
         view();
     }
 
-    void deleteFile(String fileToDelete){
-        if(fileToDelete.contains("file")) {
-            fileToDelete = fileToDelete.replaceAll("file", "");
-            System.out.println(currentFilePath+"\\"+fileToDelete);
-            File file = new File(currentFilePath+"\\"+fileToDelete);
-            file.delete();
-            currentFileList = new File(currentFilePath).listFiles();
-        }else {
-            fileToDelete = fileToDelete.replaceAll("folder", "");
-            File file = new File(currentFilePath+"\\"+fileToDelete);
-            currentFileList = file.listFiles();
-            for (File f : currentFileList) {
-                if (f.isFile()){
-                    f.delete();
-                }else {
-                    deleteFile(f.getName());
-                }
-            }
-            file.delete();
-        }
-        currentFileList = new File(currentFilePath).listFiles();
-        currentFileList = fileTools.sortFilesFromFolders(currentFileList);
-        left.removeAll();
-        right.removeAll();
-        view();
-
-
-    }
 
     /**
      * Method is called by constructor and creates desired GUI functionality.
@@ -297,7 +272,7 @@ public class FileView {
         jTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                search(jTextField.getText().toLowerCase(Locale.ROOT));
+                currentFileList = fileTools.search(jTextField.getText().toLowerCase(Locale.ROOT), userName);
                 jTextField.setText("");
             }
         });
@@ -313,8 +288,11 @@ public class FileView {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                search(jTextField.getText().toLowerCase(Locale.ROOT));
-                jTextField.setText("");
+            	currentFileList = fileTools.search(jTextField.getText().toLowerCase(Locale.ROOT), userName);
+            	jTextField.setText("");
+            	left.removeAll();
+                right.removeAll();
+                view();
             }
         });
 
@@ -530,44 +508,4 @@ public class FileView {
         frame.add(left, BorderLayout.WEST);
     }
 
-
-    void search(String searchInput) {
-        searchResults.clear();
-        searchResultsCount = 0;
-        if (searchInput.equals(null) || searchInput.equals("")) {
-            //Nothing to search
-        } else {
-            currentFilePath = "FileHub/" + userName;
-            currentFileList = new File(currentFilePath).listFiles();
-            searchHelper(searchInput);
-
-            File[] temp = new File[searchResultsCount];
-            for (int i = 0; i < searchResultsCount; i++) {
-                temp[i] = searchResults.get(i);
-            }
-            currentFileList = temp;
-            left.removeAll();
-            right.removeAll();
-            view();
-        }
-    }
-
-    /**
-     * Search the folders and files by keyword
-     * @param input keyword to search for
-     */
-    ArrayList<File> searchResults=new ArrayList<>(20);
-    int searchResultsCount = 0;
-    void searchHelper(String input){
-        //Recurse down folders and files to find occurrences
-        for (File file : currentFileList) {
-            if(file.isFile() && file.getName().toLowerCase(Locale.ROOT).contains(input)){
-                searchResults.add(file);
-                searchResultsCount++;
-            }else if(!file.isFile()){
-                currentFileList = file.listFiles();
-                searchHelper(input);
-            }
-        }
-    }
 }
