@@ -103,7 +103,9 @@ public class FileTools {
         }
     }
     
-    File[] deleteFile(String fileToDelete){
+    File[] deleteFile(String fileToDelete, String filePath){
+    	currentFilePath = filePath;
+    	
         if(fileToDelete.contains("file")) {
             fileToDelete = fileToDelete.replaceAll("file", "");
             System.out.println(currentFilePath+"\\"+fileToDelete);
@@ -119,7 +121,7 @@ public class FileTools {
                 if (f.isFile()){
                     f.delete();
                 }else {
-                    deleteFile(f.getName());
+                    deleteFile(f.getName(), currentFilePath);
                 }
             }
             file.delete();

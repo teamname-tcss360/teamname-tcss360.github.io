@@ -87,7 +87,7 @@ public class FileView {
         delete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentFileList = fileTools.deleteFile(fileToDelete);
+                currentFileList = fileTools.deleteFile(fileToDelete, currentFilePath);
                 left.removeAll();
                 right.removeAll();
                 view();
