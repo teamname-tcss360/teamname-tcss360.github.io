@@ -254,19 +254,27 @@ public class FileView {
      * Method creates file list along the left side of the JFrame.
      */
     void fileList() {
-
+        String[] pathArr = currentFilePath.split("/");
         left.setLayout(new GridLayout(0, 1));
-        JButton homeButton = new JButton(userName);
+        JButton homeButton = new JButton(pathArr[pathArr.length-1]);
 
         homeButton.setContentAreaFilled(false);
 
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentFilePath = "FileHub/" + userName;
-                currentFileList = new File(currentFilePath).listFiles();
-                currentFileList = fileTools.sortFilesFromFolders(currentFileList);
-                view();
+                System.out.println(currentFilePath);
+                int index = currentFilePath.lastIndexOf('/');
+                System.out.println(currentFilePath.substring(index+1));
+                if(currentFilePath.substring(index+1).equals(userName)){
+                    //Do nothing
+                }else {
+                    currentFilePath = currentFilePath.substring(0, index);
+                    System.out.println(currentFilePath);
+                    currentFileList = new File(currentFilePath).listFiles();
+                    currentFileList = fileTools.sortFilesFromFolders(currentFileList);
+                    view();
+                }
             }
         });
 
