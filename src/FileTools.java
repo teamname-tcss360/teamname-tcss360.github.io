@@ -58,7 +58,7 @@ public class FileTools {
 
         exportFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                src.ImporterExporter.exportFile(exportFile,fileView.getUserName());
+                src.ImporterExporter.exportFile(exportFile,null,fileView.getUserName());
             }
         });
 

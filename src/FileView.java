@@ -87,6 +87,11 @@ public class FileView {
     public void setCurrentFileList(File[] fileList){
         currentFileList = fileList;
     }
+
+    public FileTools getFileTools() {
+        return fileTools;
+    }
+
     /**
      * Helper class instance
      */
@@ -134,6 +139,7 @@ public class FileView {
         fileList();
         visualInterpretation();
         frame.validate();
+        frame.repaint();
     }
 
     /**
