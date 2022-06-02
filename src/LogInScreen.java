@@ -18,28 +18,48 @@ import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-
+/**
+ * Login Screen for GUI.
+ * First state loaded after start of program.
+ *
+ * @author Trevor Tomlin
+ * @version 1.0
+ * @since 2022-05-18
+ */
 class LogInScreen {
 
+	/**
+	 * LogInScreen instance field
+	 */
 	private static LogInScreen instance = null;
 
 	/**
-	 * Login Screen for GUI.
-	 * First state loaded after start of program.
-	 *
-	 * @author Patrick Tibbals
-	 * @version 1.0
-	 * @since 2022-05-18
+	 *  Temp string for export profile
 	 */
-	String temp = "";
+	private String temp = "";
+
+	/**
+	 * Button panel field
+	 */
 	private JPanel buttonPanel;
+
+	/**
+	 * Log in panel field
+	 */
 	private JPanel logInPanel;
+
+	/**
+	 * myFrame field
+	 */
 	private JFrame myFrame;
+	/**
+	 * Registration instance field
+	 */
 	private Registration r;
 
 	/**
 	 * Gets the current instance, or creates on if one does not exist.
-	 * @return
+	 * @return instance of LogInScreen
 	 * @throws IOException
 	 * @throws src.ExportException
 	 */
@@ -60,9 +80,7 @@ class LogInScreen {
 	 * @param frame
 	 */
 	public void setFrame(JFrame frame) {
-
 		myFrame = frame;
-
 	}
 
 	/**
@@ -103,9 +121,9 @@ class LogInScreen {
 	}
 
 	/**
-	 * Method used to create button panel for our login screen.
+	 * Method used to create button panel for the login screen.
 	 *
-	 * @return
+	 * @return JPanel
 	 */
 	JPanel createButtonPanel() throws src.ExportException, java.io.IOException {
 
@@ -127,12 +145,13 @@ class LogInScreen {
 			}
 		});
 
+		//Import Profile
 		importButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					src.ImporterExporter.importProfile(importButton,r,instance);
 			}
 		});
-
+		//Export Profile
 		exportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -160,7 +179,6 @@ class LogInScreen {
 							} catch (src.ExportException | java.io.IOException ex) {
 								ex.printStackTrace();
 							}
-
 						}
 					});
 					jPanel.add(jButton);
@@ -168,19 +186,21 @@ class LogInScreen {
 				frame.add(jPanel);
 				frame.setLocationRelativeTo(null);
 				frame.pack();
-
 				frame.setVisible(true);
-
 			}
 		});
 
+		//Create the profiles buttons to choose a user
 		ImageIcon profileImage = new ImageIcon("src/resources/profile.png");
 		Image imageProfile = profileImage.getImage();
 		Image newImageProfile = imageProfile.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
 		profileImage = new ImageIcon(newImageProfile);
 
 		ArrayList<User> myUserList = r.getMyUserList();
+
 		userProfileDisplayPanel.setLayout(new BorderLayout());
+
+		//Grid for user buttons
 		JPanel userGrid = new JPanel(new GridLayout());
 		for (User user:myUserList) {
 			JButton profileButton = new JButton();
@@ -191,8 +211,11 @@ class LogInScreen {
 			JPanel userProfilePanel = new JPanel(new BorderLayout());
 			JLabel signOnLabel = new JLabel(profileImage,JLabel.CENTER);
 			JLabel userNameText = new JLabel(user.getUserName(),JLabel.CENTER);
+
 			userProfilePanel.add(signOnLabel,BorderLayout.CENTER);
+
 			userProfilePanel.add(userNameText,BorderLayout.SOUTH);
+
 			profileButton.add(userProfilePanel);
 
 			profileButton.addMouseListener(new MouseListener() {
@@ -225,17 +248,11 @@ class LogInScreen {
 			userGrid.add(profileButton);
 
 		}
-
+		//User Images
 		userProfileDisplayPanel.add(userGrid,BorderLayout.CENTER);
-
-
-
-
-
-
-
+		//Create Profile
 		creatNewButtonPanel.add(createNewProfileButton);
-
+		//ImportExport
 		importExportPanel.add(importButton);
 		importExportPanel.add(exportButton);
 
@@ -257,7 +274,7 @@ class LogInScreen {
 	/**
 	 * Method creates the login panel after the user has selected sign-on.
 	 *
-	 * @return
+	 * @return JPanel
 	 */
 	private JPanel createLogInPanel(String username, String email, String password) {
 

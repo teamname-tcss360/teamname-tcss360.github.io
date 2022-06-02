@@ -17,7 +17,7 @@ class Main {
 	 */
 
 	/**
-	 * Main method calls on guiBuilder method from the GUIfile class to display the start place
+	 * Main method calls on guiBuilder method from the MainView class to display the start place
 	 * of our program. Initally the program will load and give the user the option
 	 * to either import/export an item, or sign-on.
 	 * @param args

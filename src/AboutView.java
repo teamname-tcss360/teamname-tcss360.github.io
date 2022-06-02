@@ -3,11 +3,20 @@ package src;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author Patrick Tibbals
+ */
 public class AboutView {
-
+    /**
+     * Constructor
+     */
     public AboutView(){
         viewBuilder();
     }
+
+    /**
+     *  Build about Window
+     */
     void viewBuilder(){
         JFrame f = new JFrame();
         f.setTitle("About the builders");
@@ -20,7 +29,7 @@ public class AboutView {
         JLabel verison = new JLabel("Version - " + VersionControl.getVersion());
         JLabel user = new JLabel("This application is registered to: Bob Keener");
         JLabel providedBy = new JLabel(
-                "<html>This application provided by:<br><br>Michael Theisen ------ Brother in mead<br>Jasharn Thiara ------- Covid carrier<br>Trevor Tomlin -------- The real brains<br>Patrick Tibbals ------- Sometimes mildly inteligent<br></html>");
+                "<html>This application provided by:<br><br>Michael Theisen ------ Brother in mead<br>Jasharn Thiara ------- Covid carrier<br>Trevor Tomlin -------- The real brains<br>Patrick Tibbals ------- Sometimes mildly intelligent<br></html>");
 
         verison.setHorizontalAlignment(JLabel.CENTER);
         user.setHorizontalAlignment(JLabel.CENTER);
