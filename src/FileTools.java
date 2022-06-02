@@ -7,8 +7,14 @@
  */
 package src;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.Date;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
@@ -18,12 +24,118 @@ import java.util.Locale;
  * Program named Filez instead of file to avoid overriding original file class.
  *
  * @author  Jasharn Thiara
+ * @author  Patrick Tibbals
  * @version 1.0
  * @since   2022-05-24
  */
 
 public class FileTools {
-	
+    private String currentFilePath;
+    private File[] currentFileList;
+    private ArrayList<File> searchResults=new ArrayList<>(20);
+    private int searchResultsCount = 0;
+    private src.FileView fileView;
+
+    public FileTools(src.FileView fV){
+        fileView = fV;
+    }
+
+    public JToolBar toolBar(){
+        JToolBar jToolBar = new JToolBar();
+        JButton importFile = new JButton("Import File");
+
+        importFile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                src.ImporterExporter.importFile(fileView);
+                fileView.setCurrentFileList(sortFilesFromFolders(fileView.getCurrentFileList()));
+                fileView.view();
+
+            }
+        });
+
+        JButton exportFile = new JButton("Export File");
+
+        exportFile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                src.ImporterExporter.exportFile(exportFile,fileView.getUserName());
+            }
+        });
+
+        JLabel searchLabel = new JLabel("Search");
+        JButton searchButton = new JButton();
+        JTextField jTextField = new JTextField(25);
+
+        jTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fileView.setCurrentFileList(search(jTextField.getText().toLowerCase(Locale.ROOT), fileView.getUserName()));
+                jTextField.setText("");
+                fileView.view();
+            }
+        });
+
+        ImageIcon icon = new ImageIcon("src\\resources\\magnifying-glass.png");
+        Image imageNew = icon.getImage();
+        Image newImgNew = imageNew.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newImgNew);
+        searchLabel.setIcon(icon);
+        searchButton.add(searchLabel);
+        searchButton.setBorder(null);
+        searchButton.setOpaque(false);
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fileView.setCurrentFileList(search(jTextField.getText().toLowerCase(Locale.ROOT), fileView.getUserName()));
+                jTextField.setText("");
+                fileView.view();
+            }
+        });
+
+
+        JPanel sortChoices = new JPanel();
+        JLabel sortLabel = new JLabel("Sort By: ");
+        JRadioButton aToZRadioButton = new JRadioButton("A-Z");
+        aToZRadioButton.setSelected(true);
+        JRadioButton zToARadioButton = new JRadioButton("Z-A");
+
+        // When the A-Z button is clicked the array of Files will be sorted and then the form will be updated
+        // and create the buttons in the new order.
+        aToZRadioButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (zToARadioButton.isSelected()) {
+                    zToARadioButton.setSelected(false);
+                }
+                fileView.setCurrentFileList(sortFilesFromFolders(fileView.getCurrentFileList()));
+                fileView.view();
+            }
+        });
+
+        // When the Z-A button is clicked the array of Files will be sorted and then reversed
+        // the form will then be reshown in the desired order.
+        zToARadioButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (aToZRadioButton.isSelected()) {
+                    aToZRadioButton.setSelected(false);
+                }
+                fileView.setCurrentFileList(reverseSortFilesFromFolders(fileView.getCurrentFileList()));
+                fileView.view();
+            }
+        });
+
+        sortChoices.add(sortLabel);
+        sortChoices.add(aToZRadioButton);
+        sortChoices.add(zToARadioButton);
+        jToolBar.add(importFile);
+        jToolBar.add(exportFile);
+        jToolBar.add(searchButton);
+        jToolBar.add(jTextField);
+        jToolBar.add(sortChoices);
+        return jToolBar;
+
+    }
+
+
 	/**
      * Helper method to organize methods and sort File List.
      */
@@ -61,10 +173,7 @@ public class FileTools {
         });
         return theFileList;
     }
-    
-    private String currentFilePath;
-    private File[] currentFileList;
-    
+
     File[] search(String searchInput, String theUser) {
         searchResults.clear();
         searchResultsCount = 0;
@@ -88,8 +197,8 @@ public class FileTools {
      * Search the folders and files by keyword
      * @param input keyword to search for
      */
-    ArrayList<File> searchResults=new ArrayList<>(20);
-    int searchResultsCount = 0;
+
+
     void searchHelper(String input){
         //Recurse down folders and files to find occurrences
         for (File file : currentFileList) {

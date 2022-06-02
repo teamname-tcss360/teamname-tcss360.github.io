@@ -35,7 +35,7 @@ class LogInScreen {
 	private JPanel buttonPanel;
 	private JPanel logInPanel;
 	private JFrame myFrame;
-	private Registration r = null;
+	private Registration r;
 
 	/**
 	 * Gets the current instance, or creates on if one does not exist.
@@ -75,7 +75,7 @@ class LogInScreen {
 
 		try {
 
-			r =new Registration();
+			r = new Registration();
 
 		}
 
@@ -93,7 +93,7 @@ class LogInScreen {
 	 *
 	 * @param panel
 	 */
-	private void changePanel(JPanel panel) {
+	void changePanel(JPanel panel) {
 
 		myFrame.getContentPane().removeAll();
 		myFrame.add(panel);
@@ -107,7 +107,7 @@ class LogInScreen {
 	 *
 	 * @return
 	 */
-	private JPanel createButtonPanel() throws src.ExportException, java.io.IOException {
+	JPanel createButtonPanel() throws src.ExportException, java.io.IOException {
 
 		JPanel panel = new JPanel();
 		JPanel userProfileDisplayPanel = new JPanel();
@@ -129,44 +129,7 @@ class LogInScreen {
 
 		importButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
-					String userHomeFolder = System.getProperty("user.home") + "\\Desktop";
-					JFileChooser fileChooser = new JFileChooser(userHomeFolder);
-					fileChooser.setFileFilter(filter);
-					fileChooser.showOpenDialog(importButton);
-
-					File file = new File(fileChooser.getSelectedFile().toString());
-					Scanner scanner = new Scanner(file);
-
-					String temp = scanner.nextLine();
-					temp = scanner.nextLine();
-
-					String[] sArr = temp.split(",");
-
-					Boolean tempBool = false;
-					if (sArr[3].equals("true")) {
-						tempBool = true;
-					}
-
-					r.addToList(sArr[0], sArr[1], sArr[2], tempBool);
-					Boolean makeFile = true;
-					File[] homeDirs = new File("FileHub").listFiles();
-					for (File f : homeDirs) {
-						if(f.getName().equals(sArr[0])) {
-							makeFile = false;
-							break;
-						}
-					}
-					if(makeFile) {
-						new File("FileHub/" + sArr[0]).mkdir();
-					}
-
-					changePanel(createButtonPanel());
-				} catch (java.io.IOException | src.ExportException ex) {
-					ex.printStackTrace();
-				}
-
+					src.ImporterExporter.importProfile(importButton,r,instance);
 			}
 		});
 

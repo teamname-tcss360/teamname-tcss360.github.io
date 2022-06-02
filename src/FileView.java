@@ -55,6 +55,15 @@ public class FileView {
      */
 
     private File[] currentFileList;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
     /**
      * FileView Constructor.
      *
@@ -63,15 +72,29 @@ public class FileView {
     private String userName;
     private String currentFilePath;
     private String fileToDelete;
-    
+    private Image imageNew;
+
+    public File[] getCurrentFileList() {
+        return currentFileList;
+    }
+
+    public String getCurrentFilePath(){
+        return currentFilePath;
+    }
+    public void setCurrentFilePath(String filePath){
+        currentFilePath = filePath;
+    }
+    public void setCurrentFileList(File[] fileList){
+        currentFileList = fileList;
+    }
     /**
      * Helper class instance
      */
-    private FileTools fileTools = new FileTools();
+    private FileTools fileTools = new FileTools(this);
 
 
     // Popup for right-clicking file
-    final JPopupMenu popupmenu = new JPopupMenu("Edit");
+    private final JPopupMenu popupmenu = new JPopupMenu("Edit");
 
     public FileView(JFrame f, String user) {
         userName = user;
@@ -88,8 +111,6 @@ public class FileView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 currentFileList = fileTools.deleteFile(fileToDelete, currentFilePath);
-                left.removeAll();
-                right.removeAll();
                 view();
             }
         });
@@ -99,17 +120,18 @@ public class FileView {
         frame.add(popupmenu);
 
         menuBar();
+        toolBar();
+
         currentFileList = fileTools.sortFilesFromFolders(currentFileList);
         view();
     }
-
-
     /**
      * Method is called by constructor and creates desired GUI functionality.
      */
     void view() {
+        left.removeAll();
+        right.removeAll();
         fileList();
-        toolBar();
         visualInterpretation();
         frame.validate();
     }
@@ -117,7 +139,6 @@ public class FileView {
     /**
      * Method populates right side panel with folders (made of labels and images) to add to our JFrame.
      */
-    Image imageNew;
 
     void visualInterpretation() {
         ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
@@ -168,8 +189,6 @@ public class FileView {
                             } else {
                                 currentFilePath = currentFilePath + "/" + e.getComponent().getName().replaceAll("folder", "");
                                 currentFileList = new File(currentFilePath).listFiles();
-                                left.removeAll();
-                                right.removeAll();
                                 view();
                             }
                         } else {
@@ -183,12 +202,10 @@ public class FileView {
                     public void mouseEntered(MouseEvent e) {
                         panel.setBackground(Color.LIGHT_GRAY);
                         panel.repaint();
-
                     }
 
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        //TODO
                     }
 
                     @Override
@@ -198,10 +215,8 @@ public class FileView {
                     }
 
                     @Override
-                    public void mouseReleased(MouseEvent e) {
-                        // TODO Auto-generated method stub
+                    public void mouseReleased(MouseEvent e) {}
 
-                    }
                 });
 
                 panel.add(imageLabel, BorderLayout.CENTER);
@@ -216,247 +231,18 @@ public class FileView {
      * Method creates a tool bar and populates it with necessary functions
      */
     void toolBar() {
-        JToolBar jToolBar = new JToolBar();
-        JButton importFile = new JButton("Import File");
-
-        importFile.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                FileDialog fd = new FileDialog((java.awt.Frame) null);
-                fd.setVisible(true);
-
-                String dir = fd.getDirectory();
-                String file = fd.getFile();
-
-                System.out.println(dir);
-                System.out.println(file);
-
-                if (file.isEmpty()) return;
-                System.out.println(currentFilePath);
-                try {
-                    Files.copy(Paths.get(dir, file), Paths.get(currentFilePath, file));
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                currentFileList = new File(currentFilePath).listFiles();
-                currentFileList = fileTools.sortFilesFromFolders(currentFileList);
-                left.removeAll();
-                right.removeAll();
-                view();
-            }
-        });
-
-        JButton exportFile = new JButton("Export File");
-
-        exportFile.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser jFileChooser = new JFileChooser("FileHub/" + userName);
-                jFileChooser.setVisible(true);
-                jFileChooser.showOpenDialog(exportFile);
-
-                File file = jFileChooser.getSelectedFile();
-
-                String userHomeFolder = System.getProperty("user.home") + "\\Desktop";
-
-                try {
-                    Files.copy(Paths.get(file.getAbsolutePath()), Paths.get(userHomeFolder, file.getName()));
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-
-        JLabel searchLabel = new JLabel("Search");
-        JButton searchButton = new JButton();
-        JTextField jTextField = new JTextField(25);
-
-        jTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentFileList = fileTools.search(jTextField.getText().toLowerCase(Locale.ROOT), userName);
-                jTextField.setText("");
-            }
-        });
-
-        ImageIcon icon = new ImageIcon("src\\resources\\magnifying-glass.png");
-        Image imageNew = icon.getImage();
-        Image newImgNew = imageNew.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH);
-        icon = new ImageIcon(newImgNew);
-        searchLabel.setIcon(icon);
-        searchButton.add(searchLabel);
-        searchButton.setBorder(null);
-        searchButton.setOpaque(false);
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	currentFileList = fileTools.search(jTextField.getText().toLowerCase(Locale.ROOT), userName);
-            	jTextField.setText("");
-            	left.removeAll();
-                right.removeAll();
-                view();
-            }
-        });
-
-
-        JPanel sortChoices = new JPanel();
-        JLabel sortLabel = new JLabel("Sort By: ");
-        JRadioButton aToZRadioButton = new JRadioButton("A-Z");
-        aToZRadioButton.setSelected(true);
-        JRadioButton zToARadioButton = new JRadioButton("Z-A");
-
-        // When the A-Z button is clicked the array of Files will be sorted and then the form will be updated
-        // and create the buttons in the new order.
-        aToZRadioButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (zToARadioButton.isSelected()) {
-                    zToARadioButton.setSelected(false);
-                }
-                currentFileList = fileTools.sortFilesFromFolders(currentFileList);
-                left.removeAll();
-                right.removeAll();
-                view();
-            }
-        });
-
-        // When the Z-A button is clicked the array of Files will be sorted and then reversed
-        // the form will then be reshown in the desired order.
-        zToARadioButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (aToZRadioButton.isSelected()) {
-                    aToZRadioButton.setSelected(false);
-                }
-                currentFileList = fileTools.reverseSortFilesFromFolders(currentFileList);
-                left.removeAll();
-                right.removeAll();
-                view();
-            }
-        });
-
-        sortChoices.add(sortLabel);
-        sortChoices.add(aToZRadioButton);
-        sortChoices.add(zToARadioButton);
-
-
-        jToolBar.add(importFile);
-        jToolBar.add(exportFile);
-        jToolBar.add(searchButton);
-        jToolBar.add(jTextField);
-        jToolBar.add(sortChoices);
-        frame.add(jToolBar, BorderLayout.PAGE_START);
-
+        JToolBar jtb = fileTools.toolBar();
+        frame.add(jtb,BorderLayout.NORTH);
     }
     
     /**
      * Method creates file menubar
      */
     void menuBar() {
- 
     	// Menu's
-        JMenuBar menuBar = new JMenuBar();
-
-        ImageIcon iconNew = new ImageIcon("src/resources/new.png");
-        Image imageNew = iconNew.getImage();
-        Image newImgNew = imageNew.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconNew = new ImageIcon(newImgNew);
-
-        ImageIcon iconOpen = new ImageIcon("src/resources/open.png");
-        Image imageOpen = iconOpen.getImage();
-        Image newImgOpen = imageOpen.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconOpen = new ImageIcon(newImgOpen);
-
-        ImageIcon iconSave = new ImageIcon("src/resources/save.png");
-        Image imageSave = iconSave.getImage();
-        Image newImgSave = imageSave.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconSave = new ImageIcon(newImgSave);
-
-        ImageIcon iconExit = new ImageIcon("src/resources/exit.png");
-        Image imageExit = iconExit.getImage();
-        Image newImgExit = imageExit.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconExit = new ImageIcon(newImgExit);
-
-        ImageIcon iconAbout = new ImageIcon("src/resources/about.png");
-        Image imageAbout = iconAbout.getImage();
-        Image newImgAbout = imageAbout.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconAbout = new ImageIcon(newImgAbout);
-    	 JMenu fileMenu = new JMenu("File");
-         JMenu importMenu = new JMenu("Import");
-         JMenu exportMenu = new JMenu("Export");
-
-         JMenuItem importMenuItem = new JMenuItem("Import from: ");
-    	 JMenuItem exportMenuItem = new JMenuItem("Export from: ");
-
-         importMenu.add(importMenuItem);
-         exportMenu.add(exportMenuItem);
-
-         JMenuItem newMenuItem = new JMenuItem("New", iconNew);
-         JMenuItem openMenuItem = new JMenuItem("Open", iconOpen);
-         JMenuItem saveMenuItem = new JMenuItem("Save", iconSave);
-         JMenuItem exitMenuItem = new JMenuItem("Sign Out", iconExit);
-         exitMenuItem.setToolTipText("Sign Out");
-
-         exitMenuItem.addActionListener(new ActionListener() {
-             @Override
-             public void actionPerformed(ActionEvent e) {
-                 frame.dispose();
-                 MainView m = new MainView();
-                 m.guiBuilder();
-             }
-         });
-
-         JMenu editMenu = new JMenu("Edit");
-
-         JMenu helpMenu = new JMenu("Help");
-         JMenuItem aboutMenuItem = new JMenuItem("About", iconAbout);
-
-         aboutMenuItem.addActionListener(new ActionListener() {
-        	 
-        	 @Override
-        	 public void actionPerformed(ActionEvent e) {
-        		 JFrame f = new JFrame();
-        		 f.setTitle("About the builders");
-        		 f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        		 f.setSize(400, 400);
-
-        		 JPanel j = new JPanel();
-        		 j.setLayout(new GridLayout(0, 1));
-        		 j.setSize(400, 200);
-        		 JLabel verison = new JLabel("Version - " + VersionControl.getVersion());
-        		 JLabel user = new JLabel("This application is registered to: Bob Keener");
-        		 JLabel providedBy = new JLabel(
-                     "<html>This application provided by:<br><br>Michael Theisen ------ Brother in mead<br>Jasharn Thiara ------- Covid carrier<br>Trevor Tomlin -------- The real brains<br>Patrick Tibbals ------- Sometimes mildly inteligent<br></html>");
-
-        		 verison.setHorizontalAlignment(JLabel.CENTER);
-        		 user.setHorizontalAlignment(JLabel.CENTER);
-        		 providedBy.setHorizontalAlignment(JLabel.CENTER);
-
-        		 j.add(verison);
-        		 j.add(user);
-        		 j.add(providedBy);
-
-        		 f.add(j);
-        		 f.setLocationRelativeTo(null);
-        		 f.setVisible(true);
-        	 }
-         });
-
-         fileMenu.add(newMenuItem);
-         fileMenu.add(openMenuItem);
-         fileMenu.add(saveMenuItem);
-         fileMenu.addSeparator();
-         fileMenu.add(importMenu);
-         fileMenu.add(exportMenu);
-         fileMenu.addSeparator();
-         fileMenu.add(exitMenuItem);
-
-         // editMenu.add();
-         helpMenu.add(aboutMenuItem);
-
-         menuBar.add(fileMenu);
-         menuBar.add(editMenu);
-         menuBar.add(helpMenu);
-
-         helpMenu.add(aboutMenuItem);
-         menuBar.add(helpMenu);
-         frame.setJMenuBar(menuBar);
+        MenuGUI jMenuBar = new MenuGUI(this);
+        JMenuBar temp = jMenuBar.buildMenuBar();
+        frame.setJMenuBar(temp);
     }
     /**
      * Method creates file list along the left side of the JFrame.
@@ -474,8 +260,6 @@ public class FileView {
                 currentFilePath = "FileHub/" + userName;
                 currentFileList = new File(currentFilePath).listFiles();
                 currentFileList = fileTools.sortFilesFromFolders(currentFileList);
-                left.removeAll();
-                right.removeAll();
                 view();
             }
         });
@@ -495,8 +279,6 @@ public class FileView {
                             currentFilePath = currentFilePath + "/" + button.getText();
                             currentFileList = new File(currentFilePath).listFiles();
                             currentFileList = fileTools.sortFilesFromFolders(currentFileList);
-                            left.removeAll();
-                            right.removeAll();
                             view();
 
                         }
