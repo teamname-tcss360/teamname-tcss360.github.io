@@ -163,11 +163,15 @@ public class ImporterExporter {
         fV.setCurrentFileList(currentFileList);
     }
 
-    public static void exportFile(JButton button,String userName){
+    public static void exportFile(JButton button,JMenuItem menuButton,String userName){
         JFileChooser jFileChooser = new JFileChooser("FileHub/" + userName);
         jFileChooser.setApproveButtonText("Export");
         jFileChooser.setVisible(true);
-        jFileChooser.showOpenDialog(button);
+        if(button.getText().equals("")){
+            jFileChooser.showOpenDialog(menuButton);
+        }else {
+            jFileChooser.showOpenDialog(button);
+        }
         File file = jFileChooser.getSelectedFile();
 
         String userHomeFolder = System.getProperty("user.home") + "\\Desktop";
