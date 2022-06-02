@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.io.IOException;
 
 
-class MainView implements ActionListener {
+class MainView{
 
     void guiBuilder() {
         JFrame frame = new JFrame();
@@ -24,26 +24,6 @@ class MainView implements ActionListener {
         // Menu's
         JMenuBar menuBar = new JMenuBar();
 
-        ImageIcon iconNew = new ImageIcon("src/resources/new.png");
-        Image imageNew = iconNew.getImage();
-        Image newImgNew = imageNew.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconNew = new ImageIcon(newImgNew);
-
-        ImageIcon iconOpen = new ImageIcon("src/resources/open.png");
-        Image imageOpen = iconOpen.getImage();
-        Image newImgOpen = imageOpen.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconOpen = new ImageIcon(newImgOpen);
-
-        ImageIcon iconSave = new ImageIcon("src/resources/save.png");
-        Image imageSave = iconSave.getImage();
-        Image newImgSave = imageSave.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconSave = new ImageIcon(newImgSave);
-
-        ImageIcon iconExit = new ImageIcon("src/resources/exit.png");
-        Image imageExit = iconExit.getImage();
-        Image newImgExit = imageExit.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconExit = new ImageIcon(newImgExit);
-
         ImageIcon iconAbout = new ImageIcon("src/resources/about.png");
         Image imageAbout = iconAbout.getImage();
         Image newImgAbout = imageAbout.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
@@ -53,11 +33,13 @@ class MainView implements ActionListener {
         JMenu helpMenu = new JMenu("Help");
         JMenuItem aboutMenuItem = new JMenuItem("About", iconAbout);
 
-        aboutMenuItem.addActionListener(this);
+        aboutMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new src.AboutView();
+            }
+        });
 
-        // editMenu.add();
-        helpMenu.add(aboutMenuItem);
-        menuBar.add(helpMenu);
 
         helpMenu.add(aboutMenuItem);
         menuBar.add(helpMenu);
@@ -68,34 +50,6 @@ class MainView implements ActionListener {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JFrame f = new JFrame();
-        f.setTitle("About the builders");
-        f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        f.setSize(400, 400);
-
-        JPanel j = new JPanel();
-        j.setLayout(new GridLayout(0, 1));
-        j.setSize(400, 200);
-        JLabel verison = new JLabel("Version - " + VersionControl.getVersion());
-        JLabel user = new JLabel("This application is registered to: Bob Keener");
-        JLabel providedBy = new JLabel(
-                "<html>This application provided by:<br><br>Michael Theisen ------ Brother in mead<br>Jasharn Thiara ------- Covid carrier<br>Trevor Tomlin -------- The real brains<br>Patrick Tibbals ------- Sometimes mildly inteligent<br></html>");
-
-        verison.setHorizontalAlignment(JLabel.CENTER);
-        user.setHorizontalAlignment(JLabel.CENTER);
-        providedBy.setHorizontalAlignment(JLabel.CENTER);
-
-        j.add(verison);
-        j.add(user);
-        j.add(providedBy);
-
-        f.add(j);
-        f.setLocationRelativeTo(null);
-        f.setVisible(true);
     }
 }
+
