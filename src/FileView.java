@@ -43,74 +43,131 @@ public class FileView {
      * JPanel field (right side with folders).
      */
     private JPanel right = new JPanel();
-    ;
 
     /**
-     * JPanel field (left side with names).
+     * JPanel field (left side with folder names).
      */
     private JPanel left = new JPanel();
 
     /**
-     * String array field to represent folder names.
+     * File array of the current file list
      */
-
     private File[] currentFileList;
 
+    /**
+     * Username field
+     */
+    private String userName;
+
+    /**
+     * Current file path
+     */
+    private String currentFilePath;
+
+    /**
+     * File path for file to be deleted
+     */
+    private String fileToDelete;
+
+    /**
+     * Image field for folder and file options
+     */
+    private Image imageNew;
+
+    /**
+     * Instance field for fileTools Class
+     * Passing the instance of fileView
+     */
+    private FileTools fileTools = new FileTools(this);
+
+
+    /**
+     * Popup menu field
+     */
+    private final JPopupMenu popupmenu = new JPopupMenu("Edit");
+
+
+    /**
+     * Getter for userName
+     *
+     * @return userName
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * Getter for frame
+     *
+     * @return frame
+     */
     public JFrame getFrame() {
         return frame;
     }
 
     /**
-     * FileView Constructor.
+     * Getter for current file list
      *
-     * @param f
+     * @return currentFileList
      */
-    private String userName;
-    private String currentFilePath;
-    private String fileToDelete;
-    private Image imageNew;
-
     public File[] getCurrentFileList() {
         return currentFileList;
     }
 
-    public String getCurrentFilePath(){
+    /**
+     * Getter for current file path
+     *
+     * @return currentFilePath
+     */
+    public String getCurrentFilePath() {
         return currentFilePath;
     }
-    public void setCurrentFilePath(String filePath){
-        currentFilePath = filePath;
-    }
-    public void setCurrentFileList(File[] fileList){
-        currentFileList = fileList;
-    }
 
+    /**
+     * Getter for fileTools instance
+     *
+     * @return fileTools
+     */
     public FileTools getFileTools() {
         return fileTools;
     }
 
     /**
-     * Helper class instance
+     * Setter for currentFilePath
+     *
+     * @param filePath
      */
-    private FileTools fileTools = new FileTools(this);
+    public void setCurrentFilePath(String filePath) {
+        currentFilePath = filePath;
+    }
 
+    /**
+     * Setter for currentFileList
+     *
+     * @param fileList
+     */
+    public void setCurrentFileList(File[] fileList) {
+        currentFileList = fileList;
+    }
 
-    // Popup for right-clicking file
-    private final JPopupMenu popupmenu = new JPopupMenu("Edit");
-
+    /**
+     * FileView constructor
+     *
+     * @param f    frame pass from LogInScreen
+     * @param user userName from login
+     */
     public FileView(JFrame f, String user) {
         userName = user;
         frame = f;
         frame.setBackground(Color.gray);
         frame.setLayout(new BorderLayout());
+
+        //Establish current file path and current file list
         currentFilePath = "FileHub/" + userName;
-
         File userHome = new File(currentFilePath);
-        currentFileList = userHome.listFiles();
+        currentFileList = fileTools.sortFilesFromFolders(userHome.listFiles());
 
+        //Menu to allow right click delete
         JMenuItem delete = new JMenuItem("Delete");
         delete.addActionListener(new ActionListener() {
             @Override
@@ -121,17 +178,17 @@ public class FileView {
         });
 
         popupmenu.add(delete);
-
         frame.add(popupmenu);
 
+        //Generate the Menubar and toolbar only once
         menuBar();
         toolBar();
-
-        currentFileList = fileTools.sortFilesFromFolders(currentFileList);
         view();
     }
+
     /**
      * Method is called by constructor and creates desired GUI functionality.
+     * Also is used to update the view after actions.
      */
     void view() {
         left.removeAll();
@@ -139,13 +196,68 @@ public class FileView {
         fileList();
         visualInterpretation();
         frame.validate();
-        frame.repaint();
+
     }
+
+    /**
+     * Method creates file list along the left side of the JFrame.
+     */
+    void fileList() {
+        String[] pathArr = currentFilePath.split("/");
+        left.setLayout(new GridLayout(0, 1));
+
+        //Create Home button which is parent folder
+        JButton homeButton = new JButton(pathArr[pathArr.length-1]);
+        homeButton.setContentAreaFilled(false);
+        homeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(currentFilePath);
+                int index = currentFilePath.lastIndexOf('/');
+                System.out.println(currentFilePath.substring(index+1));
+                if(currentFilePath.substring(index+1).equals(userName)){
+                    //Do nothing
+                }else {
+                    currentFilePath = currentFilePath.substring(0, index);
+                    System.out.println(currentFilePath);
+                    currentFileList = new File(currentFilePath).listFiles();
+                    currentFileList = fileTools.sortFilesFromFolders(currentFileList);
+                    view();
+                }
+            }
+        });
+        left.add(homeButton);
+
+
+        //Generate the Folders within the home directory and create action listeners
+        if (!currentFileList.equals(null)) {
+            for (int i = 0; i < currentFileList.length; i++) {
+                if (currentFileList[i].isFile()) {
+                    //Do nothing not a folder
+                } else {
+                    JButton button = new JButton(currentFileList[i].getName());
+
+                    button.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            currentFilePath = currentFilePath + "/" + button.getText();
+                            currentFileList = new File(currentFilePath).listFiles();
+                            currentFileList = fileTools.sortFilesFromFolders(currentFileList);
+                            view();
+
+                        }
+                    });
+                    left.add(button);
+                }
+            }
+        }
+        frame.add(left, BorderLayout.WEST);
+    }
+
 
     /**
      * Method populates right side panel with folders (made of labels and images) to add to our JFrame.
      */
-
     void visualInterpretation() {
         ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
         ImageIcon icon2 = new ImageIcon("src\\resources\\file.png");
@@ -197,6 +309,7 @@ public class FileView {
                                 currentFileList = new File(currentFilePath).listFiles();
                                 view();
                             }
+                            // Right click
                         } else {
                             fileToDelete = e.getComponent().getName();
                             MouseEvent globalE = SwingUtilities.convertMouseEvent(e.getComponent(), e, frame);
@@ -221,10 +334,10 @@ public class FileView {
                     }
 
                     @Override
-                    public void mouseReleased(MouseEvent e) {}
+                    public void mouseReleased(MouseEvent e) {
+                    }
 
                 });
-
                 panel.add(imageLabel, BorderLayout.CENTER);
                 panel.add(jLabel, BorderLayout.SOUTH);
             }
@@ -238,70 +351,16 @@ public class FileView {
      */
     void toolBar() {
         JToolBar jtb = fileTools.toolBar();
-        frame.add(jtb,BorderLayout.NORTH);
+        frame.add(jtb, BorderLayout.NORTH);
     }
-    
+
     /**
      * Method creates file menubar
      */
     void menuBar() {
-    	// Menu's
+        // Menu's
         MenuGUI jMenuBar = new MenuGUI(this);
         JMenuBar temp = jMenuBar.buildMenuBar();
         frame.setJMenuBar(temp);
     }
-    /**
-     * Method creates file list along the left side of the JFrame.
-     */
-    void fileList() {
-        String[] pathArr = currentFilePath.split("/");
-        left.setLayout(new GridLayout(0, 1));
-        JButton homeButton = new JButton(pathArr[pathArr.length-1]);
-
-        homeButton.setContentAreaFilled(false);
-
-        homeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(currentFilePath);
-                int index = currentFilePath.lastIndexOf('/');
-                System.out.println(currentFilePath.substring(index+1));
-                if(currentFilePath.substring(index+1).equals(userName)){
-                    //Do nothing
-                }else {
-                    currentFilePath = currentFilePath.substring(0, index);
-                    System.out.println(currentFilePath);
-                    currentFileList = new File(currentFilePath).listFiles();
-                    currentFileList = fileTools.sortFilesFromFolders(currentFileList);
-                    view();
-                }
-            }
-        });
-
-
-        left.add(homeButton);
-        if (!currentFileList.equals(null)) {
-            for (int i = 0; i < currentFileList.length; i++) {
-                if (currentFileList[i].isFile()) {
-                    //Do nothing not a folder
-                } else {
-                    JButton button = new JButton(currentFileList[i].getName());
-
-                    button.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            currentFilePath = currentFilePath + "/" + button.getText();
-                            currentFileList = new File(currentFilePath).listFiles();
-                            currentFileList = fileTools.sortFilesFromFolders(currentFileList);
-                            view();
-
-                        }
-                    });
-                    left.add(button);
-                }
-            }
-        }
-        frame.add(left, BorderLayout.WEST);
-    }
-
 }

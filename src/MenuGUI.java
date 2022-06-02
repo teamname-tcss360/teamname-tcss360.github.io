@@ -5,18 +5,30 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
+
+/**
+ * Menu GUI creates the JMenuBar for the fileView Class
+ */
 public class MenuGUI {
-
+    /**
+     * Instance of fileView for use in MenuBar actions
+     */
     private src.FileView fileView;
+
+    /**
+     * Constructor for MenuGUI that also starts the buildMenuBar method
+     * @param fv current instance of fileView class
+     */
     public MenuGUI(src.FileView fv) {
         fileView = fv;
         buildMenuBar();
     }
 
+    /**
+     * Builds the MenuBar for fileView
+     * @return JMenuBar
+     */
     JMenuBar buildMenuBar(){
         // Menu's
         JMenuBar menuBar = new JMenuBar();
@@ -25,7 +37,7 @@ public class MenuGUI {
         Image imageNew = iconNew.getImage();
         Image newImgNew = imageNew.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconNew = new ImageIcon(newImgNew);
-
+/*
         ImageIcon iconOpen = new ImageIcon("src/resources/open.png");
         Image imageOpen = iconOpen.getImage();
         Image newImgOpen = imageOpen.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
@@ -35,7 +47,7 @@ public class MenuGUI {
         Image imageSave = iconSave.getImage();
         Image newImgSave = imageSave.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconSave = new ImageIcon(newImgSave);
-
+*/
         ImageIcon iconExit = new ImageIcon("src/resources/exit.png");
         Image imageExit = iconExit.getImage();
         Image newImgExit = imageExit.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
@@ -67,8 +79,8 @@ public class MenuGUI {
         });
 
         JMenuItem newMenu = new JMenu("New");
-        JMenuItem openMenuItem = new JMenuItem("Open", iconOpen);
-        JMenuItem saveMenuItem = new JMenuItem("Save", iconSave);
+      //  JMenuItem openMenuItem = new JMenuItem("Open", iconOpen);
+      //  JMenuItem saveMenuItem = new JMenuItem("Save", iconSave);
         JMenuItem exitMenuItem = new JMenuItem("Sign Out", iconExit);
         exitMenuItem.setToolTipText("Sign Out");
 
@@ -137,8 +149,8 @@ public class MenuGUI {
         });
 
         fileMenu.add(newMenu);
-        fileMenu.add(openMenuItem);
-        fileMenu.add(saveMenuItem);
+       // fileMenu.add(openMenuItem);
+       // fileMenu.add(saveMenuItem);
         fileMenu.addSeparator();
         fileMenu.add(importMenuItem);
         fileMenu.add(exportMenuItem);

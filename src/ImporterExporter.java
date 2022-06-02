@@ -22,21 +22,22 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class ImporterExporter {
-    private File[] currentFileList;
+
     /***
      * Exports row to file with given headers.
      * If file already exists, it appends the row to file.
-     * @param filePath
+     * Also exports to Desktop.
+     * @param fileName
      * @param headers
      * @param row
      * @throws ExportException
      * @throws IOException
      */
-    public static void exportSettings(String fileName, String[] headers, String[] row) throws ExportException, IOException {
+    public static void exportSettings(String fileName, String[] headers, String[] row) throws src.ExportException, IOException {
 
         if (headers.length != row.length) {
 
-            throw new ExportException("Length of headers does not match length of settings.");
+            throw new src.ExportException("Length of headers does not match length of settings.");
 
         }
 
@@ -99,6 +100,12 @@ public class ImporterExporter {
 
     }
 
+    /**
+     * Imports profile into system and generates home dir for user
+     * @param importButton
+     * @param r
+     * @param logInScreen
+     */
     public static void importProfile(JButton importButton , src.Registration r, src.LogInScreen logInScreen){
         try {
             FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
@@ -141,7 +148,10 @@ public class ImporterExporter {
     }
 
 
-
+    /**
+     * Imports file and updates the current file list
+     * @param fV
+     */
     public static void importFile(src.FileView fV){
         FileDialog fd = new FileDialog((java.awt.Frame) null);
         fd.setVisible(true);
@@ -157,12 +167,20 @@ public class ImporterExporter {
         try {
             Files.copy(Paths.get(dir, file), Paths.get(fV.getCurrentFilePath(), file));
         } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null,"File already exists in location.");
             ex.printStackTrace();
         }
         File[] currentFileList = new File(fV.getCurrentFilePath()).listFiles();
         fV.setCurrentFileList(currentFileList);
     }
 
+    /**
+     * Export a file from the system to the desktop location
+     * Allowed for use by JButton and MenuItem
+     * @param button
+     * @param menuButton
+     * @param userName
+     */
     public static void exportFile(JButton button,JMenuItem menuButton,String userName){
         JFileChooser jFileChooser = new JFileChooser("FileHub/" + userName);
         jFileChooser.setApproveButtonText("Export");

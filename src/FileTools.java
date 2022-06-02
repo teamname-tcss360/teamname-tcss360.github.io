@@ -20,8 +20,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 /**
- * Filez utility class 
- * Program named Filez instead of file to avoid overriding original file class.
+ * This class will create the JToolBar and contained action listeners for toolbar buttons
  *
  * @author  Jasharn Thiara
  * @author  Patrick Tibbals
@@ -30,23 +29,46 @@ import java.util.Locale;
  */
 
 public class FileTools {
+    /**
+     *  Current file path for storage during manipulation
+     */
     private String currentFilePath;
+    /**
+     * Current file list for storage during manipulation
+     */
     private File[] currentFileList;
+    /**
+     * Storage for search results
+     */
     private ArrayList<File> searchResults=new ArrayList<>(20);
+    /**
+     *  Counts the search results to send correct length File[]
+     */
     private int searchResultsCount = 0;
+    /**
+     *  Storage for the instance of FileView class
+     */
     private src.FileView fileView;
 
+    /**
+     * Constructor for FileTools class
+     * @param fV current fileView instance
+     */
     public FileTools(src.FileView fV){
         fileView = fV;
     }
 
+    /**
+     * Creates the JToolBar
+     * @return jToolBar
+     */
     public JToolBar toolBar(){
         JToolBar jToolBar = new JToolBar();
-        JButton importFile = new JButton("Import File");
 
+        //Import button
+        JButton importFile = new JButton("Import File");
         importFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 src.ImporterExporter.importFile(fileView);
                 fileView.setCurrentFileList(sortFilesFromFolders(fileView.getCurrentFileList()));
                 fileView.view();
@@ -54,18 +76,16 @@ public class FileTools {
             }
         });
 
+        //Export button
         JButton exportFile = new JButton("Export File");
-
         exportFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 src.ImporterExporter.exportFile(exportFile,null,fileView.getUserName());
             }
         });
 
-        JLabel searchLabel = new JLabel("Search");
-        JButton searchButton = new JButton();
+        //Search text field
         JTextField jTextField = new JTextField(25);
-
         jTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,14 +95,22 @@ public class FileTools {
             }
         });
 
+        //Search button
+        JLabel searchLabel = new JLabel("Search");
+
+        JButton searchButton = new JButton();
+
         ImageIcon icon = new ImageIcon("src\\resources\\magnifying-glass.png");
         Image imageNew = icon.getImage();
         Image newImgNew = imageNew.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImgNew);
+
+
         searchLabel.setIcon(icon);
         searchButton.add(searchLabel);
         searchButton.setBorder(null);
         searchButton.setOpaque(false);
+
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -92,7 +120,7 @@ public class FileTools {
             }
         });
 
-
+        //Sort buttons
         JPanel sortChoices = new JPanel();
         JLabel sortLabel = new JLabel("Sort By: ");
         JRadioButton aToZRadioButton = new JRadioButton("A-Z");
@@ -112,7 +140,7 @@ public class FileTools {
         });
 
         // When the Z-A button is clicked the array of Files will be sorted and then reversed
-        // the form will then be reshown in the desired order.
+        // the form will then be shown in the desired order.
         zToARadioButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (aToZRadioButton.isSelected()) {
@@ -141,7 +169,6 @@ public class FileTools {
      */
     File[] sortFilesFromFolders(File[] theFileList) {
         Arrays.sort(theFileList, (a, b) -> {
-            // do your comparison here returning -1 if a is before b, 0 if same, 1 if a is after b
             if (a.isFile() && !b.isFile()) {
                 return 1;
             } else if (a.isFile() && b.isFile()) {
@@ -160,7 +187,6 @@ public class FileTools {
      **/
     File[] reverseSortFilesFromFolders(File[] theFileList) {
         Arrays.sort(theFileList, (a, b) -> {
-            // do your comparison here returning -1 if a is before b, 0 if same, 1 if a is after b
             if (a.isFile() && !b.isFile()) {
                 return 1;
             } else if (a.isFile() && b.isFile()) {
@@ -174,6 +200,13 @@ public class FileTools {
         return theFileList;
     }
 
+    /**
+     * Uses the userName and search keyword to send the correct directory location
+     * to the recursive search method.
+     * @param searchInput search keyword
+     * @param theUser users directory to search in
+     * @return the file list of search results
+     */
     File[] search(String searchInput, String theUser) {
         searchResults.clear();
         searchResultsCount = 0;
@@ -182,8 +215,9 @@ public class FileTools {
         } else {
             currentFilePath = "FileHub/" + theUser;
             currentFileList = new File(currentFilePath).listFiles();
+            //Call to recursive method
             searchHelper(searchInput);
-
+            //Generate new File[] from search result arraylist
             File[] temp = new File[searchResultsCount];
             for (int i = 0; i < searchResultsCount; i++) {
                 temp[i] = searchResults.get(i);
@@ -198,7 +232,6 @@ public class FileTools {
      * @param input keyword to search for
      */
 
-
     void searchHelper(String input){
         //Recurse down folders and files to find occurrences
         for (File file : currentFileList) {
@@ -211,18 +244,24 @@ public class FileTools {
             }
         }
     }
-    
+
+    /**
+     * Used to delete the desired file or directory
+     * @param fileToDelete name of file to delete
+     * @param filePath current file path
+     * @return updated File[]
+     */
     File[] deleteFile(String fileToDelete, String filePath){
     	currentFilePath = filePath;
-    	
+    	//If File delete file
         if(fileToDelete.contains("file")) {
             fileToDelete = fileToDelete.replaceAll("file", "");
             System.out.println(currentFilePath+"\\"+fileToDelete);
             File file = new File(currentFilePath+"\\"+fileToDelete);
             file.delete();
-            
             currentFileList = new File(currentFilePath).listFiles();
         }else {
+            //File is a directory, loop through items and recurse
             fileToDelete = fileToDelete.replaceAll("folder", "");
             File file = new File(currentFilePath+"\\"+fileToDelete);
             currentFileList = file.listFiles();
