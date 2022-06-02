@@ -37,7 +37,6 @@ class RegistrationTest {
 		return new Registration();
 	} 
 	
-	
 	@Test
 	void testLogInSuccessful() throws FileNotFoundException {
 		Registration r = mySubClass();

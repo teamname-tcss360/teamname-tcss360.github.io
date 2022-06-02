@@ -1,7 +1,14 @@
+/**
+ * TCSS 360
+ * 
+ * Class represents a User object for team project. These objects will be created while reading from our user list file. 
+ * This class will work together with registration to create a list as well as add users to this list.
+*/
+
 package src;
 
 /**
- * TCSS 360
+ * User object class. 
  * 
  * @author Jasharn Thiara
  * @version 1.0
@@ -9,10 +16,6 @@ package src;
  */
 
 public class User {
-	
-	/**
-	 * Class represents a User object for team project.
-	 */
 	
 	private String myName; 
 	

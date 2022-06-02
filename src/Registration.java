@@ -1,5 +1,9 @@
 /**
  * TCSS 360
+ * 
+ * Class will have functionality to read from a txt and create an array list of users. 
+ * Will also provide login in checks to see if the fields match up with any users in the database.
+ * Functionality to add new users to our list. 
  */
 
 package src;
@@ -12,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Class represents version control for TeamName Project
+ * Class represents Registration in the TeamName project.
  * 
  * @author  Jasharn Thiara
  * @version 1.0
@@ -34,7 +38,6 @@ public class Registration {
     /**
      * Constructs a sigin/registration system.
      * @throws FileNotFoundException 
-     * 
      * 
      */
     public Registration() throws FileNotFoundException {
