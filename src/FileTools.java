@@ -29,6 +29,7 @@ import java.util.Locale;
  */
 
 public class FileTools {
+	
     /**
      *  Current file path for storage during manipulation
      */
