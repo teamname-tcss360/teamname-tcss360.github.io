@@ -216,7 +216,8 @@ public class FileView {
                 int index = currentFilePath.lastIndexOf('/');
                 System.out.println(currentFilePath.substring(index+1));
                 if(currentFilePath.substring(index+1).equals(userName)){
-                    //Do nothing
+                    currentFileList = (new File(currentFilePath).listFiles());
+                    view();
                 }else {
                     currentFilePath = currentFilePath.substring(0, index);
                     System.out.println(currentFilePath);
