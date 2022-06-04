@@ -168,7 +168,7 @@ public class FileTools {
 	/**
      * Helper method to organize methods and sort File List.
      */
-    File[] sortFilesFromFolders(File[] theFileList) {
+    public File[] sortFilesFromFolders(File[] theFileList) {
         Arrays.sort(theFileList, (a, b) -> {
             if (a.isFile() && !b.isFile()) {
                 return 1;
@@ -186,7 +186,7 @@ public class FileTools {
     /**
      * Helper method to organize methods and reverse sort File List.
      **/
-    File[] reverseSortFilesFromFolders(File[] theFileList) {
+    public File[] reverseSortFilesFromFolders(File[] theFileList) {
         Arrays.sort(theFileList, (a, b) -> {
             if (a.isFile() && !b.isFile()) {
                 return 1;
@@ -208,7 +208,7 @@ public class FileTools {
      * @param theUser users directory to search in
      * @return the file list of search results
      */
-    File[] search(String searchInput, String theUser) {
+    public File[] search(String searchInput, String theUser) {
         searchResults.clear();
         searchResultsCount = 0;
         if (searchInput.equals(null) || searchInput.equals("")) {

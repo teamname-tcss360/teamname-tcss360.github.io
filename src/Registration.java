@@ -36,27 +36,28 @@ public class Registration {
     ArrayList<User> myUserList;
 
     /**
-     * Constructs a sigin/registration system.
+     * @author Jasharn Thiara
      * @throws FileNotFoundException 
      * 
+     * Constructs a sigin/registration system.
      */
     public Registration() throws FileNotFoundException {
         myUserList = readItemsFromFile(USERFILE);
     }
 
     /**
-     * getter for myUserList.
-     * 
-     * @return myUserList
+     * @author Jasharn Thiara
+     * @return myUserList ~ Getter for myUserList.
      */
     public ArrayList<User> getMyUserList() {
         return myUserList;
     }
     
     /**
-     * Checks if Username and password given is in database 
-     * 
+     * @author Jasharn Thiara
      * @return boolean login result
+     * 
+     * Checks if Username and password given is in database. 
      */
     public boolean loginSuccessful(String theUserName, String theEmail, String thePassword) { 
     	
@@ -70,11 +71,14 @@ public class Registration {
     }
     
     /**
-     * Method will take in a email, username, password, and priviliges and create a new user to add into the userList arraylist
+     * @author Jasharn Thiara
      * @throws IOException 
+     * 
+     * Method will take in a email, username, password, and priviliges and create a new user to add into the userList arraylist.
      */ 
     public void addToList(String theName, String theEmail, String thePassword, boolean thePrivileges) throws IOException {
 
+    	//First we check to make sure user is not in our list already (checked with loginSuccessful).
     	if (!loginSuccessful(theName, theEmail, thePassword)) {
     		FileWriter writer = new FileWriter(USERFILE, true);
     	
@@ -90,15 +94,18 @@ public class Registration {
     }
     
     /**
-     * Method reads from User file and creates an array of user objeccts.
-     * 
+     * @author Jasharn Thiara
      * @param theFile
-     * @return
+     * @return Array List of Users
      * @throws FileNotFoundException 
+     * 
+     * Method reads from User file and creates an array of user objeccts.
+     * User File values are seperated by spaces, so the scanner rader will read token by token and get
+     * username, email, password and priveleges in this order until there are no more lines to read.
      */
     public ArrayList<User> readItemsFromFile(File theFile) throws FileNotFoundException {
 
-    	//userList
+    	//Instantiate an ArrayList of Users.
         final ArrayList<User> userList = new ArrayList<User>(); 
         
         Scanner reader = new Scanner(theFile);
@@ -124,23 +131,28 @@ public class Registration {
         		myPrivileges = reader.next();
         	}
         	
+        	//Creates boolean field for users depending on a yes or no in the text file.
         	if (myPrivileges.toLowerCase().equals("yes")) {
         		userList.add(new User(myName, myEmail, myPassword, true));
         	} else {
         		userList.add(new User(myName, myEmail, myPassword, false));
         	}
         }
-        	
         reader.close();
         return userList;
     }
     
+    /**
+     * @author Jasharn Thiara
+     * @param args
+     * @throws FileNotFoundException
+     * 
+     * For the sake of testing, prints out the current list of Users, as well as their email, password, and whether or not they
+     * have special privileges.
+     */
     public static void main(String[] args) throws FileNotFoundException {
     	Registration r = new Registration();
-    	
-    	System.out.println(r.loginSuccessful("Bob_Keener", "Bob@bob.com", "**********"));
-    	
-    	//for sake of testing 
+
     	for (int i = 0; i < r.myUserList.size(); i++) {
     		System.out.println("Username = " + r.myUserList.get(i).getUserName());
     		System.out.println("Email = "  + r.myUserList.get(i).getEmail());
