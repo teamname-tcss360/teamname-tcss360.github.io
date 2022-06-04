@@ -274,6 +274,7 @@ class LogInScreen {
 	/**
 	 * Method creates the login panel after the user has selected sign-on.
 	 *
+	 * @author Jasharn Thiara
 	 * @return JPanel
 	 */
 	private JPanel createLogInPanel(String username, String email, String password) {
@@ -307,6 +308,7 @@ class LogInScreen {
 					ArrayList<User> mUserList = r.getMyUserList();
 					for (User user : mUserList) {
 						if (user.getUserName().equals(userNameField.getText())) {
+							break;
 							//do nothing
 						} else {
 							createProf = true;
@@ -319,7 +321,7 @@ class LogInScreen {
 						myFrame.repaint();
 						new FileView(myFrame, userNameField.getText());
 
-					} else if (!(r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText())) && !createProf) {
+					} else if (!(r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText())) && createProf) {
 						//if unsuccessful && profile is already here, make new.
 						r.addToList(userNameField.getText(), emailField.getText(), pwdField.getText(), false);
 						new File("FileHub/" + userNameField.getText()).mkdir();

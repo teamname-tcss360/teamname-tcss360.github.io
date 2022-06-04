@@ -5,8 +5,6 @@
  * A panel for the drop down menu, and a panel  with the folders for the user to interact with.
  */
 
-
-
 package src;
 
 import javax.swing.*;
