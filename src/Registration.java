@@ -8,10 +8,10 @@
 
 package src;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,11 +24,16 @@ import java.util.Scanner;
  */
 
 public class Registration {
-	
+
+
 	/**
      * User Storage File.
      */
-    public static final File USERFILE = new File("UserFile.txt");
+    public static File USERFILE;
+
+
+
+
 
     /**
      * The registered user list for signin.
@@ -41,9 +46,26 @@ public class Registration {
      * 
      * Constructs a sigin/registration system.
      */
-    public Registration() throws FileNotFoundException {
-        myUserList = readItemsFromFile(USERFILE);
+    public Registration() throws FileNotFoundException, URISyntaxException {
+
+//		InputStream in = uri;
+		//USERFILE = new File(getClass().getResource("/Users/UserFile.txt").toExternalForm());
+		USERFILE = new File(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "Users" + "\\UserFile.txt");
+
+/*
+		InputStream is = getClass().getResourceAsStream("/Users/UserFile.txt");
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(isr);
+		try {
+			System.out.println(br.readLine());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//String files = dir.list();
+*/
+		myUserList = readItemsFromFile(USERFILE);
     }
+
 
     /**
      * @author Jasharn Thiara
@@ -94,7 +116,12 @@ public class Registration {
     }
     
     /**
+<<<<<<< HEAD
      * @author Jasharn Thiara
+=======
+     * Method reads from User file and creates an array of user objects.
+     * 
+>>>>>>> e5686c069c2c938b417a9bd90edb8f73f665f992
      * @param theFile
      * @return Array List of Users
      * @throws FileNotFoundException 
@@ -113,12 +140,12 @@ public class Registration {
         String myEmail = "";
         String myPassword = "";
         String myPrivileges = "";
-        
+
         while (reader.hasNextLine()) {
 
         	if (reader.hasNext()) {
         		myName = reader.next();
-        	}
+        	};
         	
         	if(reader.hasNext()) {
         		myEmail = reader.next();
@@ -134,13 +161,16 @@ public class Registration {
         	//Creates boolean field for users depending on a yes or no in the text file.
         	if (myPrivileges.toLowerCase().equals("yes")) {
         		userList.add(new User(myName, myEmail, myPassword, true));
+
         	} else {
         		userList.add(new User(myName, myEmail, myPassword, false));
+
         	}
         }
         reader.close();
         return userList;
     }
+<<<<<<< HEAD
     
     /**
      * @author Jasharn Thiara
@@ -151,6 +181,10 @@ public class Registration {
      * have special privileges.
      */
     public static void main(String[] args) throws FileNotFoundException {
+=======
+    /*
+    public static void main(String[] args) throws FileNotFoundException, URISyntaxException {
+>>>>>>> e5686c069c2c938b417a9bd90edb8f73f665f992
     	Registration r = new Registration();
 
     	for (int i = 0; i < r.myUserList.size(); i++) {
@@ -160,4 +194,6 @@ public class Registration {
     	    System.out.println("priveleges = " + r.myUserList.get(i).getPriveleges());
     	}
     }
+
+     */
 }
