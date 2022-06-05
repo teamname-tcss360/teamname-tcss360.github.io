@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -101,7 +102,8 @@ public class FileTools {
 
         JButton searchButton = new JButton();
 
-        ImageIcon icon = new ImageIcon("src\\resources\\magnifying-glass.png");
+        URL url = ClassLoader.getSystemClassLoader().getResource("magnifying-glass.png");
+        ImageIcon icon = new ImageIcon(url);
         Image imageNew = icon.getImage();
         Image newImgNew = imageNew.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImgNew);
@@ -169,6 +171,7 @@ public class FileTools {
      * Helper method to organize methods and sort File List.
      */
     File[] sortFilesFromFolders(File[] theFileList) {
+
         Arrays.sort(theFileList, (a, b) -> {
             if (a.isFile() && !b.isFile()) {
                 return 1;
@@ -214,7 +217,7 @@ public class FileTools {
         if (searchInput.equals(null) || searchInput.equals("")) {
             //Nothing to search
         } else {
-            currentFilePath = "FileHub/" + theUser;
+            currentFilePath = System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub\\" + theUser;
             currentFileList = new File(currentFilePath).listFiles();
             //Call to recursive method
             searchHelper(searchInput);
@@ -252,6 +255,7 @@ public class FileTools {
      * @param filePath current file path
      * @return updated File[]
      */
+
     File[] deleteFile(String fileToDelete, String filePath){
     	currentFilePath = filePath;
     	//If File delete file
@@ -263,19 +267,34 @@ public class FileTools {
             currentFileList = new File(currentFilePath).listFiles();
         }else {
             //File is a directory, loop through items and recurse
-            fileToDelete = fileToDelete.replaceAll("folder", "");
-            File file = new File(currentFilePath+"\\"+fileToDelete);
-            currentFileList = file.listFiles();
-            for (File f : currentFileList) {
-                if (f.isFile()){
-                    f.delete();
-                }else {
-                    deleteFile(f.getName(), currentFilePath);
-                }
-            }
-            file.delete();
+            deleteFolder(fileToDelete, currentFilePath);
+
         }
         currentFileList = new File(currentFilePath).listFiles();
         return sortFilesFromFolders(currentFileList);
+    }
+    void deleteFolder(String fileToDelete, String filePath){
+        //Recurse down folders and files to find occurrences
+        String recursiveFilePath;
+        if(fileToDelete.contains("folder")){
+            recursiveFilePath = filePath+"\\"+fileToDelete.replaceAll("folder","");
+        }else{
+            recursiveFilePath = filePath+"\\"+fileToDelete.replaceAll("file","");
+
+        }
+        File file = new File(recursiveFilePath);
+        currentFileList = file.listFiles();
+        if(currentFileList != null && currentFileList.length != 0) {
+            for (File f : currentFileList) {
+                if (f.isFile()) {
+                    f.delete();
+                } else {
+                    deleteFolder(f.getName(), recursiveFilePath);
+                }
+            }
+            file.delete();
+        } else {
+            file.delete();
+        }
     }
 }

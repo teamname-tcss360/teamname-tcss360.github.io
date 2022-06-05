@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URL;
 
 
 /**
@@ -32,8 +33,8 @@ public class MenuGUI {
     JMenuBar buildMenuBar(){
         // Menu's
         JMenuBar menuBar = new JMenuBar();
-
-        ImageIcon iconNew = new ImageIcon("src/resources/new.png");
+        URL url = ClassLoader.getSystemClassLoader().getResource("new.png");
+        ImageIcon iconNew = new ImageIcon(url);
         Image imageNew = iconNew.getImage();
         Image newImgNew = imageNew.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconNew = new ImageIcon(newImgNew);
@@ -48,12 +49,14 @@ public class MenuGUI {
         Image newImgSave = imageSave.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconSave = new ImageIcon(newImgSave);
 */
-        ImageIcon iconExit = new ImageIcon("src/resources/exit.png");
+        URL url2 = ClassLoader.getSystemClassLoader().getResource("exit.png");
+        ImageIcon iconExit = new ImageIcon(url2);
         Image imageExit = iconExit.getImage();
         Image newImgExit = imageExit.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconExit = new ImageIcon(newImgExit);
 
-        ImageIcon iconAbout = new ImageIcon("src/resources/about.png");
+        URL url3 = ClassLoader.getSystemClassLoader().getResource("about.png");
+        ImageIcon iconAbout = new ImageIcon(url3);
         Image imageAbout = iconAbout.getImage();
         Image newImgAbout = imageAbout.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconAbout = new ImageIcon(newImgAbout);
@@ -84,11 +87,11 @@ public class MenuGUI {
         JMenuItem exitMenuItem = new JMenuItem("Sign Out", iconExit);
         exitMenuItem.setToolTipText("Sign Out");
 
-        JMenuItem newRoomMenuItem = new JMenuItem("New Room");
+        JMenuItem newRoomMenuItem = new JMenuItem("New Folder");
         newRoomMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String roomName = JOptionPane.showInputDialog("Room Name");
+                String roomName = JOptionPane.showInputDialog("Folder Name");
                 File file = new File(fileView.getCurrentFilePath()+"\\"+roomName);
                 file.mkdir();
                 File[] currentFileList = new File(fileView.getCurrentFilePath()).listFiles();
@@ -102,7 +105,7 @@ public class MenuGUI {
         newItemMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String itemName = JOptionPane.showInputDialog("Room Name");
+                String itemName = JOptionPane.showInputDialog("Item Name");
                 File file = new File(fileView.getCurrentFilePath()+"\\"+itemName);
                 file.mkdir();
                 File notes = new File(file.getPath()+"\\"+itemName+" Notes");

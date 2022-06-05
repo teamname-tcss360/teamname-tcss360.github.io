@@ -16,11 +16,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.net.URL;
+import java.nio.file.*;
 import java.util.*;
 
 /**
@@ -156,17 +157,20 @@ public class FileView {
      * @param f    frame pass from LogInScreen
      * @param user userName from login
      */
-    public FileView(JFrame f, String user) {
+    public FileView(JFrame f, String user) throws IOException {
         userName = user;
         frame = f;
         frame.setBackground(Color.gray);
         frame.setLayout(new BorderLayout());
 
         //Establish current file path and current file list
-        currentFilePath = "FileHub/" + userName;
+        currentFilePath = System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub\\"+userName;
         File userHome = new File(currentFilePath);
-        currentFileList = fileTools.sortFilesFromFolders(userHome.listFiles());
-
+        if (isDirectoryEmpty(userHome)) {
+            currentFileList = userHome.listFiles();
+        }else {
+            currentFileList = fileTools.sortFilesFromFolders(userHome.listFiles());
+        }
         //Menu to allow right click delete
         JMenuItem delete = new JMenuItem("Delete");
         delete.addActionListener(new ActionListener() {
@@ -185,7 +189,10 @@ public class FileView {
         toolBar();
         view();
     }
-
+    public boolean isDirectoryEmpty(File directory) throws IOException {
+        DirectoryStream<Path> stream = Files.newDirectoryStream(directory.toPath());
+        return !stream.iterator().hasNext();
+    }
     /**
      * Method is called by constructor and creates desired GUI functionality.
      * Also is used to update the view after actions.
@@ -203,7 +210,12 @@ public class FileView {
      * Method creates file list along the left side of the JFrame.
      */
     void fileList() {
-        String[] pathArr = currentFilePath.split("/");
+        String[] pathArr;
+        if(currentFilePath.contains("/")) {
+            currentFilePath.replaceAll("/","\\\\");
+        }
+        pathArr = currentFilePath.split("\\\\");
+
         left.setLayout(new GridLayout(0, 1));
 
         //Create Home button which is parent folder
@@ -213,10 +225,16 @@ public class FileView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(currentFilePath);
-                int index = currentFilePath.lastIndexOf('/');
+                int index;
+                if(currentFilePath.contains("/")) {
+                    currentFilePath.replaceAll("/","\\\\");
+                }
+                index = currentFilePath.lastIndexOf("\\");
+
                 System.out.println(currentFilePath.substring(index+1));
                 if(currentFilePath.substring(index+1).equals(userName)){
                     currentFileList = (new File(currentFilePath).listFiles());
+                    currentFileList = fileTools.sortFilesFromFolders(currentFileList);
                     view();
                 }else {
                     currentFilePath = currentFilePath.substring(0, index);
@@ -241,7 +259,7 @@ public class FileView {
                     button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            currentFilePath = currentFilePath + "/" + button.getText();
+                            currentFilePath = currentFilePath + "\\" + button.getText();
                             currentFileList = new File(currentFilePath).listFiles();
                             currentFileList = fileTools.sortFilesFromFolders(currentFileList);
                             view();
@@ -260,8 +278,10 @@ public class FileView {
      * Method populates right side panel with folders (made of labels and images) to add to our JFrame.
      */
     void visualInterpretation() {
-        ImageIcon icon = new ImageIcon("src\\resources\\folder.png");
-        ImageIcon icon2 = new ImageIcon("src\\resources\\file.png");
+        URL url = ClassLoader.getSystemClassLoader().getResource("folder.png");
+        URL url2 = ClassLoader.getSystemClassLoader().getResource("file.png");
+        ImageIcon icon = new ImageIcon(url);
+        ImageIcon icon2 = new ImageIcon(url2);
         right.setLayout(new GridLayout(4, 4));
 
         for (int i = 0; i < 16; i++) {
@@ -299,15 +319,15 @@ public class FileView {
                             if (e.getComponent().getName().contains("file")) {
 
 
-                                File f = new File(currentFilePath + "/" + e.getComponent().getName().replaceAll("file", ""));
+                                File f = new File(currentFilePath + "\\" + e.getComponent().getName().replaceAll("file", ""));
                                 try {
                                     Desktop.getDesktop().open(f);
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
                             } else {
-                                currentFilePath = currentFilePath + "/" + e.getComponent().getName().replaceAll("folder", "");
-                                currentFileList = new File(currentFilePath).listFiles();
+                                currentFilePath = currentFilePath + "\\" + e.getComponent().getName().replaceAll("folder", "");
+                                currentFileList = fileTools.sortFilesFromFolders(new File(currentFilePath).listFiles());
                                 view();
                             }
                             // Right click
