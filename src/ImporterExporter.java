@@ -129,7 +129,7 @@ public class ImporterExporter {
 
             r.addToList(sArr[0], sArr[1], sArr[2], tempBool);
             Boolean makeFile = true;
-            File[] homeDirs = new File("FileHub").listFiles();
+            File[] homeDirs = new File(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub").listFiles();
             for (File f : homeDirs) {
                 if(f.getName().equals(sArr[0])) {
                     makeFile = false;
@@ -137,7 +137,7 @@ public class ImporterExporter {
                 }
             }
             if(makeFile) {
-                new File("FileHub/" + sArr[0]).mkdir();
+                new File(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub\\" + sArr[0]).mkdir();
             }
             logInScreen.changePanel(logInScreen.createButtonPanel());
 
@@ -154,6 +154,7 @@ public class ImporterExporter {
      */
     public static void importFile(src.FileView fV){
         FileDialog fd = new FileDialog((java.awt.Frame) null);
+        fd.setDirectory(System.getProperty("user.home") + "\\Desktop");
         fd.setVisible(true);
 
         String dir = fd.getDirectory();
@@ -182,7 +183,7 @@ public class ImporterExporter {
      * @param userName
      */
     public static void exportFile(JButton button,JMenuItem menuButton,String userName){
-        JFileChooser jFileChooser = new JFileChooser("FileHub/" + userName);
+        JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub\\" + userName);
         jFileChooser.setApproveButtonText("Export");
         jFileChooser.setVisible(true);
         if(button.getText().equals("")){

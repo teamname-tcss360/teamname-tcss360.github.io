@@ -1,2 +1,0 @@
-Username,Email,Password,Permissions
-joe,joe@joe.com,123123123,true

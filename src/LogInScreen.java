@@ -14,6 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.*;
 import java.io.*;
 import java.awt.GridLayout;
+import java.net.URL;
 import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +56,7 @@ class LogInScreen {
 	/**
 	 * Registration instance field
 	 */
-	private Registration r;
+	private src.Registration r;
 
 	/**
 	 * Gets the current instance, or creates on if one does not exist.
@@ -66,6 +67,7 @@ class LogInScreen {
 	public static LogInScreen getInstance() throws IOException, src.ExportException {
 		if(instance == null) {
 			instance = new LogInScreen();
+
 		}
 		return instance;
 	}
@@ -73,7 +75,9 @@ class LogInScreen {
 	/**
 	 * Private constructor to stop instantiation
 	 */
-	private LogInScreen(){}
+	private LogInScreen(){
+
+	}
 
 	/**
 	 * Sets login screen frame to parameter
@@ -93,7 +97,7 @@ class LogInScreen {
 
 		try {
 
-			r = new Registration();
+ 			r = new src.Registration();
 
 		}
 
@@ -125,7 +129,7 @@ class LogInScreen {
 	 *
 	 * @return JPanel
 	 */
-	JPanel createButtonPanel() throws src.ExportException, java.io.IOException {
+	JPanel createButtonPanel() throws src.ExportException, IOException {
 
 		JPanel panel = new JPanel();
 		JPanel userProfileDisplayPanel = new JPanel();
@@ -164,7 +168,7 @@ class LogInScreen {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							try {
-								temp = "src/Exports/" + jButton.getText() + ".txt";
+								temp = "src/resources/Exports/" + jButton.getText() + ".txt";
 								String trueOrfalse;
 								if (user.getPriveleges() == true) {
 									trueOrfalse = "true";
@@ -176,7 +180,7 @@ class LogInScreen {
 												user.getUserName(), user.getEmail(), user.getPassword(), trueOrfalse });
 								frame.dispose();
 
-							} catch (src.ExportException | java.io.IOException ex) {
+							} catch (src.ExportException | IOException ex) {
 								ex.printStackTrace();
 							}
 						}
@@ -190,10 +194,11 @@ class LogInScreen {
 			}
 		});
 
+		URL url = ClassLoader.getSystemClassLoader().getResource("profile.png");
 		//Create the profiles buttons to choose a user
-		ImageIcon profileImage = new ImageIcon("src/resources/profile.png");
+		ImageIcon profileImage = new ImageIcon(url);
 		Image imageProfile = profileImage.getImage();
-		Image newImageProfile = imageProfile.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+		Image newImageProfile = imageProfile.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 		profileImage = new ImageIcon(newImageProfile);
 
 		ArrayList<User> myUserList = r.getMyUserList();
@@ -306,6 +311,9 @@ class LogInScreen {
 					// of whether or not the login was successful.
 					boolean createProf = false;
 					ArrayList<User> mUserList = r.getMyUserList();
+					if(mUserList.isEmpty()){
+						createProf = true;
+					}
 					for (User user : mUserList) {
 						if (user.getUserName().equals(userNameField.getText())) {
 							break;
@@ -324,7 +332,10 @@ class LogInScreen {
 					} else if (!(r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText())) && createProf) {
 						//if unsuccessful && profile is already here, make new.
 						r.addToList(userNameField.getText(), emailField.getText(), pwdField.getText(), false);
-						new File("FileHub/" + userNameField.getText()).mkdir();
+
+
+						File file = new File(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub\\"+ userNameField.getText());
+						file.mkdir();
 
 						myFrame.getContentPane().removeAll();
 						myFrame.validate();
