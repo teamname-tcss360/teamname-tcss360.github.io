@@ -170,12 +170,8 @@ public class FileTools {
 	/**
      * Helper method to organize methods and sort File List.
      */
-<<<<<<< HEAD
     public File[] sortFilesFromFolders(File[] theFileList) {
-=======
-    File[] sortFilesFromFolders(File[] theFileList) {
 
->>>>>>> e5686c069c2c938b417a9bd90edb8f73f665f992
         Arrays.sort(theFileList, (a, b) -> {
             if (a.isFile() && !b.isFile()) {
                 return 1;
