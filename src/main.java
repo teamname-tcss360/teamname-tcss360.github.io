@@ -6,6 +6,8 @@
 
 package src;
 
+import java.io.IOException;
+
 class Main {
 	
 	/**
@@ -23,9 +25,12 @@ class Main {
 	 * @param args
 	 */
     public static void main(String[] args) {
-
-        new MainView().guiBuilder();
-
+		try {
+			new StartUP().fileHubInitializer();
+			new MainView().guiBuilder();
+		} catch (IOException exception){
+			exception.printStackTrace();
+		}
     }
 
 }
