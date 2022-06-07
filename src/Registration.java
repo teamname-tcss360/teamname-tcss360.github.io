@@ -112,13 +112,6 @@ public class Registration {
     }
     
     /**
-<<<<<<< HEAD
-     * 
-=======
-     * Method reads from User file and creates an array of user objects.
-     * 
->>>>>>> e5686c069c2c938b417a9bd90edb8f73f665f992
-     * 
      * Method reads from User file and creates an array of user objeccts.
      * User File values are seperated by spaces, so the scanner rader will read token by token and get
      * username, email, password and priveleges in this order until there are no more lines to read.
