@@ -60,6 +60,7 @@ class LogInScreen {
 
 	/**
 	 * Gets the current instance, or creates on if one does not exist.
+	 * @author Trevor Tomlin
 	 * @return instance of LogInScreen
 	 * @throws IOException
 	 * @throws src.ExportException
@@ -74,6 +75,7 @@ class LogInScreen {
 
 	/**
 	 * Private constructor to stop instantiation
+	 * @author Trevor Tomlin
 	 */
 	private LogInScreen(){
 
@@ -81,6 +83,7 @@ class LogInScreen {
 
 	/**
 	 * Sets login screen frame to parameter
+	 * @author Trevor Tomlin
 	 * @param frame
 	 */
 	public void setFrame(JFrame frame) {
@@ -90,6 +93,7 @@ class LogInScreen {
 	/**
 	 * Creates panels and registration for login screen.
 	 * Must be called before using login screen.
+	 * @author Trevor Tomlin
 	 * @throws IOException
 	 * @throws src.ExportException
 	 */
@@ -113,6 +117,7 @@ class LogInScreen {
 	/**
 	 * Helper Method taht clears panel and shows new state of program.
 	 *
+	 * @author Trevor Tomlin
 	 * @param panel
 	 */
 	void changePanel(JPanel panel) {
@@ -127,6 +132,7 @@ class LogInScreen {
 	/**
 	 * Method used to create button panel for the login screen.
 	 *
+	 * @author Trevor Tomlin
 	 * @return JPanel
 	 */
 	JPanel createButtonPanel() throws src.ExportException, IOException {
@@ -278,7 +284,7 @@ class LogInScreen {
 
 	/**
 	 * Method creates the login panel after the user has selected sign-on.
-	 *
+	 * 
 	 * @author Jasharn Thiara
 	 * @return JPanel
 	 */
