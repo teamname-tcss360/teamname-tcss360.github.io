@@ -26,8 +26,7 @@ class Main {
 	 */
     public static void main(String[] args) {
 		try {
-			new StartUP().fileHubInitializer();
-			new MainView().guiBuilder();
+			new src.MainView().guiBuilder(new src.StartUP().fileHubInitializer());
 		} catch (IOException exception){
 			exception.printStackTrace();
 		}

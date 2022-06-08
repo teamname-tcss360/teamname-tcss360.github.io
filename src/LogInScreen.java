@@ -59,6 +59,11 @@ class LogInScreen {
 	private src.Registration r;
 
 	/**
+	 * Folder location for filehub and userlist
+	 */
+	private String folder;
+
+	/**
 	 * Gets the current instance, or creates on if one does not exist.
 	 * @return instance of LogInScreen
 	 * @throws IOException
@@ -71,6 +76,7 @@ class LogInScreen {
 		}
 		return instance;
 	}
+
 
 	/**
 	 * Private constructor to stop instantiation
@@ -93,11 +99,11 @@ class LogInScreen {
 	 * @throws IOException
 	 * @throws src.ExportException
 	 */
-	public void setup() throws IOException, src.ExportException {
+	public void setup(String f) throws IOException, src.ExportException {
 
 		try {
-
- 			r = new src.Registration();
+			folder = f;
+ 			r = new src.Registration(folder);
 
 		}
 
@@ -152,7 +158,7 @@ class LogInScreen {
 		//Import Profile
 		importButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					src.ImporterExporter.importProfile(importButton,r,instance);
+					src.ImporterExporter.importProfile(importButton,r,instance,folder);
 			}
 		});
 		//Export Profile
@@ -327,20 +333,20 @@ class LogInScreen {
 						myFrame.getContentPane().removeAll();
 						myFrame.validate();
 						myFrame.repaint();
-						new FileView(myFrame, userNameField.getText());
+						new FileView(myFrame, userNameField.getText(),folder);
 
 					} else if (!(r.loginSuccessful(userNameField.getText(), emailField.getText(), pwdField.getText())) && createProf) {
 						//if unsuccessful && profile is already here, make new.
 						r.addToList(userNameField.getText(), emailField.getText(), pwdField.getText(), false);
 
 
-						File file = new File(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub\\"+ userNameField.getText());
+						File file = new File(folder + "\\FileHub\\"+ userNameField.getText());
 						file.mkdir();
 
 						myFrame.getContentPane().removeAll();
 						myFrame.validate();
 						myFrame.repaint();
-						new FileView(myFrame, userNameField.getText());
+						new FileView(myFrame, userNameField.getText(),folder);
 
 
 						// if unsuccessful , AND  not already, then make new.

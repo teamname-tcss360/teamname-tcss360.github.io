@@ -52,12 +52,15 @@ public class FileTools {
      */
     private src.FileView fileView;
 
+    private String folder;
+
     /**
      * Constructor for FileTools class
      * @param fV current fileView instance
      */
-    public FileTools(src.FileView fV){
+    public FileTools(src.FileView fV,String f){
         fileView = fV;
+        folder = f;
     }
 
     /**
@@ -82,7 +85,7 @@ public class FileTools {
         JButton exportFile = new JButton("Export File");
         exportFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                src.ImporterExporter.exportFile(exportFile,null,fileView.getUserName());
+                src.ImporterExporter.exportFile(exportFile,null,fileView.getUserName(),folder);
             }
         });
 
@@ -170,12 +173,8 @@ public class FileTools {
 	/**
      * Helper method to organize methods and sort File List.
      */
-<<<<<<< HEAD
     public File[] sortFilesFromFolders(File[] theFileList) {
-=======
-    File[] sortFilesFromFolders(File[] theFileList) {
 
->>>>>>> e5686c069c2c938b417a9bd90edb8f73f665f992
         Arrays.sort(theFileList, (a, b) -> {
             if (a.isFile() && !b.isFile()) {
                 return 1;
@@ -221,7 +220,7 @@ public class FileTools {
         if (searchInput.equals(null) || searchInput.equals("")) {
             //Nothing to search
         } else {
-            currentFilePath = System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub\\" + theUser;
+            currentFilePath = folder+ "\\FileHub\\" + theUser;
             currentFileList = new File(currentFilePath).listFiles();
             //Call to recursive method
             searchHelper(searchInput);

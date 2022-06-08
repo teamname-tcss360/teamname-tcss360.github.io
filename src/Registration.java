@@ -46,12 +46,11 @@ public class Registration {
      * 
      * Constructs a sigin/registration system.
      */
-    public Registration() throws FileNotFoundException, URISyntaxException {
-
-//		InputStream in = uri;
-		//USERFILE = new File(getClass().getResource("/Users/UserFile.txt").toExternalForm());
-		USERFILE = new File(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "Users" + "\\UserFile.txt");
-
+    public Registration(String folder) throws FileNotFoundException, URISyntaxException {
+		String temp = folder + "\\Users" + "\\UserFile.txt";
+		USERFILE = new File(temp);
+		System.out.println(USERFILE.getPath());
+		System.out.println(temp);
 /*
 		InputStream is = getClass().getResourceAsStream("/Users/UserFile.txt");
 		InputStreamReader isr = new InputStreamReader(is);
@@ -116,12 +115,9 @@ public class Registration {
     }
     
     /**
-<<<<<<< HEAD
      * @author Jasharn Thiara
-=======
      * Method reads from User file and creates an array of user objects.
      * 
->>>>>>> e5686c069c2c938b417a9bd90edb8f73f665f992
      * @param theFile
      * @return Array List of Users
      * @throws FileNotFoundException 
@@ -170,7 +166,6 @@ public class Registration {
         reader.close();
         return userList;
     }
-<<<<<<< HEAD
     
     /**
      * @author Jasharn Thiara
@@ -180,20 +175,18 @@ public class Registration {
      * For the sake of testing, prints out the current list of Users, as well as their email, password, and whether or not they
      * have special privileges.
      */
-    public static void main(String[] args) throws FileNotFoundException {
-=======
-    /*
+
     public static void main(String[] args) throws FileNotFoundException, URISyntaxException {
->>>>>>> e5686c069c2c938b417a9bd90edb8f73f665f992
-    	Registration r = new Registration();
+		//	Registration r = new Registration();
+/*
+		for (int i = 0; i < r.myUserList.size(); i++) {
+			System.out.println("Username = " + r.myUserList.get(i).getUserName());
+			System.out.println("Email = " + r.myUserList.get(i).getEmail());
+			System.out.println("Password = " + r.myUserList.get(i).getPassword());
+			System.out.println("priveleges = " + r.myUserList.get(i).getPriveleges());
+		}
+	}
 
-    	for (int i = 0; i < r.myUserList.size(); i++) {
-    		System.out.println("Username = " + r.myUserList.get(i).getUserName());
-    		System.out.println("Email = "  + r.myUserList.get(i).getEmail());
-    	    System.out.println("Password = " + r.myUserList.get(i).getPassword());
-    	    System.out.println("priveleges = " + r.myUserList.get(i).getPriveleges());
-    	}
-    }
-
-     */
+ */
+	}
 }

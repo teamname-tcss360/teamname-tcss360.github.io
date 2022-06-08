@@ -12,14 +12,15 @@ class MainView{
     /**
      * Starts the LogInScreen view or retrieves the instance as needed
      */
-    void guiBuilder() {
+    void guiBuilder(String folder) {
         JFrame frame = new JFrame();
         frame.setTitle("File Organizer - " + VersionControl.getVersion());
 
         try {
             LogInScreen ls = LogInScreen.getInstance();
             ls.setFrame(frame);
-            ls.setup();
+
+            ls.setup(folder);
         } catch (src.ExportException | IOException ex){
             ex.printStackTrace();
         }
