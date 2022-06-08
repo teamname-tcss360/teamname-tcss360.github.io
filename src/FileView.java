@@ -77,13 +77,15 @@ public class FileView {
      * Instance field for fileTools Class
      * Passing the instance of fileView
      */
-    private FileTools fileTools = new FileTools(this);
+    private FileTools fileTools;
 
 
     /**
      * Popup menu field
      */
     private final JPopupMenu popupmenu = new JPopupMenu("Edit");
+
+    private String folder;
 
 
     /**
@@ -163,14 +165,17 @@ public class FileView {
      * @param f    frame pass from LogInScreen
      * @param user userName from login
      */
-    public FileView(JFrame f, String user) throws IOException {
+    public FileView(JFrame f, String user,String folderLocation) throws IOException {
         userName = user;
         frame = f;
+        folder = folderLocation;
+        fileTools = new FileTools(this,folder);
+
         frame.setBackground(Color.gray);
         frame.setLayout(new BorderLayout());
 
         //Establish current file path and current file list
-        currentFilePath = System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub\\"+userName;
+        currentFilePath = folder + "\\FileHub\\"+userName;
         File userHome = new File(currentFilePath);
         if (isDirectoryEmpty(userHome)) {
             currentFileList = userHome.listFiles();
@@ -408,7 +413,7 @@ public class FileView {
      */
     void menuBar() {
         // Menu's
-        MenuGUI jMenuBar = new MenuGUI(this);
+        MenuGUI jMenuBar = new MenuGUI(this,folder);
         JMenuBar temp = jMenuBar.buildMenuBar();
         frame.setJMenuBar(temp);
     }
