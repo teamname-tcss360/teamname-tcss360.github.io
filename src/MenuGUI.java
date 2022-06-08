@@ -10,7 +10,13 @@ import java.net.URL;
 
 /**
  * Menu GUI creates the JMenuBar for the fileView Class
+ *
+ * @author Patrick Tibbals
+ * @author Michael Theisen
+ * @version 1.0
+ *
  */
+
 public class MenuGUI {
     /**
      * Instance of fileView for use in MenuBar actions
@@ -30,8 +36,10 @@ public class MenuGUI {
     }
 
     /**
-     * Builds the MenuBar for fileView
+     * Builds the MenuBar for fileView and adds Icon Images!
      * @return JMenuBar
+     * @author Patrick Tibbals
+     * @author Michael Theisen
      */
     JMenuBar buildMenuBar(){
         // Menu's
