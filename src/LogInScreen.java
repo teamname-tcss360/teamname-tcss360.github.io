@@ -133,6 +133,7 @@ class LogInScreen {
 	 * Method used to create button panel for the login screen.
 	 *
 	 * @author Trevor Tomlin
+	 * @author Michael Theisen
 	 * @return JPanel
 	 */
 	JPanel createButtonPanel() throws src.ExportException, IOException {
@@ -310,6 +311,10 @@ class LogInScreen {
 
 		// Action Listener called when user has clicked sign on.
 		logInBut.addActionListener(new ActionListener() {
+			/**
+			 * method to check if profile already exists and to make one new if it does not.
+			 * @author Michael Theisen
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
