@@ -27,6 +27,8 @@ public class ImporterExporter {
      * Exports row to file with given headers.
      * If file already exists, it appends the row to file.
      * Also exports to Desktop.
+     * 
+     * @author Trevor Tomlin
      * @param fileName
      * @param headers
      * @param row
@@ -81,6 +83,8 @@ public class ImporterExporter {
      * Takes a string array and converts it to a single string
      * where each value is seperated by a comma.
      * Does not currently check for invalid CSV characters.
+     * 
+     * @author Trevor Tomlin
      * @param array
      * @return String
      */
@@ -95,13 +99,14 @@ public class ImporterExporter {
             if (i < array.length - 1) result += ",";
 
         }
-
+        
         return result;
-
     }
 
     /**
      * Imports profile into system and generates home dir for user
+     * 
+     * @author Trevor Tomlin
      * @param importButton
      * @param r
      * @param logInScreen
@@ -150,6 +155,8 @@ public class ImporterExporter {
 
     /**
      * Imports file and updates the current file list
+     * 
+     * @author Trevor Tomlin
      * @param fV
      */
     public static void importFile(src.FileView fV){
@@ -178,6 +185,8 @@ public class ImporterExporter {
     /**
      * Export a file from the system to the desktop location
      * Allowed for use by JButton and MenuItem
+     * 
+     * @author Trevor Tomlin
      * @param button
      * @param menuButton
      * @param userName

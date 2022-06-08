@@ -19,6 +19,10 @@ public class VersionControl {
 	 */
 	private static String myVersion = "1.2.0";
 
+	/**
+	 * @author Jasharn Thiara
+	 * @return myVersion ~ getter for version.
+	 */
 	public static String getVersion() {
 		return myVersion;
 	}

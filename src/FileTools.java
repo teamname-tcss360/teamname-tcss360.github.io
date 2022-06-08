@@ -54,6 +54,8 @@ public class FileTools {
 
     /**
      * Constructor for FileTools class
+     * 
+     * @author Patrick Tibbals
      * @param fV current fileView instance
      */
     public FileTools(src.FileView fV){
@@ -62,6 +64,9 @@ public class FileTools {
 
     /**
      * Creates the JToolBar
+     * 
+     * @author Patrick Tibbals
+     * @author Jasharn Thiara
      * @return jToolBar
      */
     public JToolBar toolBar(){
@@ -169,6 +174,10 @@ public class FileTools {
 
 	/**
      * Helper method to organize methods and sort File List.
+     * 
+     * @author Jasharn Thiara
+     * @author Patrick Tibbals
+     * @return File[] array of sorted files/folders.
      */
     public File[] sortFilesFromFolders(File[] theFileList) {
 
@@ -188,6 +197,10 @@ public class FileTools {
     
     /**
      * Helper method to organize methods and reverse sort File List.
+     * 
+     * @author Patrick Tibbals
+     * @author Jasharn Thiara
+     * @return File[] array of reverse sorted files/folders.
      **/
     public File[] reverseSortFilesFromFolders(File[] theFileList) {
         Arrays.sort(theFileList, (a, b) -> {
@@ -207,6 +220,8 @@ public class FileTools {
     /**
      * Uses the userName and search keyword to send the correct directory location
      * to the recursive search method.
+     * 
+     * @author Patrick Tibbals
      * @param searchInput search keyword
      * @param theUser users directory to search in
      * @return the file list of search results
@@ -233,9 +248,10 @@ public class FileTools {
 
     /**
      * Search the folders and files by keyword
+     * 
+     * @author Patrick Tibbals
      * @param input keyword to search for
      */
-
     void searchHelper(String input){
         //Recurse down folders and files to find occurrences
         for (File file : currentFileList) {
@@ -251,11 +267,13 @@ public class FileTools {
 
     /**
      * Used to delete the desired file or directory
+     * 
+     * @author Patrick Tibbals
+     * @author Jasharn Thiara
      * @param fileToDelete name of file to delete
      * @param filePath current file path
      * @return updated File[]
      */
-
     File[] deleteFile(String fileToDelete, String filePath){
     	currentFilePath = filePath;
     	//If File delete file
@@ -273,6 +291,12 @@ public class FileTools {
         currentFileList = new File(currentFilePath).listFiles();
         return sortFilesFromFolders(currentFileList);
     }
+    
+    /**
+     * @author Patrick Tibbals
+     * @param fileToDelete
+     * @param filePath
+     */
     void deleteFolder(String fileToDelete, String filePath){
         //Recurse down folders and files to find occurrences
         String recursiveFilePath;

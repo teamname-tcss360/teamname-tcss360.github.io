@@ -89,6 +89,7 @@ public class FileView {
     /**
      * Getter for userName
      *
+     * @author Patrick Tibbals
      * @return userName
      */
     public String getUserName() {
@@ -97,7 +98,8 @@ public class FileView {
 
     /**
      * Getter for frame
-     *
+     * 
+     * @author Patrick Tibbals
      * @return frame
      */
     public JFrame getFrame() {
@@ -107,6 +109,7 @@ public class FileView {
     /**
      * Getter for current file list
      *
+     * @author Patrick Tibbals
      * @return currentFileList
      */
     public File[] getCurrentFileList() {
@@ -116,6 +119,7 @@ public class FileView {
     /**
      * Getter for current file path
      *
+     * @author Patrick Tibblas
      * @return currentFilePath
      */
     public String getCurrentFilePath() {
@@ -125,6 +129,7 @@ public class FileView {
     /**
      * Getter for fileTools instance
      *
+     * @author Patrick Tibbals
      * @return fileTools
      */
     public FileTools getFileTools() {
@@ -134,6 +139,7 @@ public class FileView {
     /**
      * Setter for currentFilePath
      *
+     * @author Patrick Tibbals
      * @param filePath
      */
     public void setCurrentFilePath(String filePath) {
@@ -143,6 +149,7 @@ public class FileView {
     /**
      * Setter for currentFileList
      *
+     * @author Patrick Tibbals
      * @param fileList
      */
     public void setCurrentFileList(File[] fileList) {
@@ -152,6 +159,7 @@ public class FileView {
     /**
      * FileView constructor
      *
+     * @author Patrick Tibbals
      * @param f    frame pass from LogInScreen
      * @param user userName from login
      */
@@ -187,13 +195,25 @@ public class FileView {
         toolBar();
         view();
     }
+    
+    /**
+     * Class returns result of whether directory is empty. 
+     * 
+     * @author Patrick Tibbals
+     * @param directory
+     * @return
+     * @throws IOException
+     */
     public boolean isDirectoryEmpty(File directory) throws IOException {
         DirectoryStream<Path> stream = Files.newDirectoryStream(directory.toPath());
         return !stream.iterator().hasNext();
     }
+    
     /**
      * Method is called by constructor and creates desired GUI functionality.
      * Also is used to update the view after actions.
+     * 
+     * @author Patrick Tibbals
      */
     void view() {
         left.removeAll();
@@ -206,8 +226,11 @@ public class FileView {
 
     /**
      * Method creates file list along the left side of the JFrame.
+     * 
+     * @author Patrick Tibbals
      */
     void fileList() {
+    	
         String[] pathArr;
         if(currentFilePath.contains("/")) {
             currentFilePath.replaceAll("/","\\\\");
@@ -274,6 +297,9 @@ public class FileView {
 
     /**
      * Method populates right side panel with folders (made of labels and images) to add to our JFrame.
+     * 
+     * @author Patrick Tibbals
+     * @author Jasharn Thiara
      */
     void visualInterpretation() {
         URL url = ClassLoader.getSystemClassLoader().getResource("folder.png");
@@ -367,6 +393,8 @@ public class FileView {
 
     /**
      * Method creates a tool bar and populates it with necessary functions
+     * 
+     * @author Patrick Tibbals
      */
     void toolBar() {
         JToolBar jtb = fileTools.toolBar();
@@ -375,6 +403,8 @@ public class FileView {
 
     /**
      * Method creates file menubar
+     * 
+     * @author Patrick Tibbals
      */
     void menuBar() {
         // Menu's
