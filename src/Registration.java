@@ -31,20 +31,16 @@ public class Registration {
      */
     public static File USERFILE;
 
-
-
-
-
     /**
      * The registered user list for signin.
      */
     ArrayList<User> myUserList;
 
     /**
+     * Constructs a sigin/registration system.
+     * 
      * @author Jasharn Thiara
      * @throws FileNotFoundException 
-     * 
-     * Constructs a sigin/registration system.
      */
     public Registration(String folder) throws FileNotFoundException, URISyntaxException {
 		String temp = folder + "\\Users" + "\\UserFile.txt";
@@ -75,10 +71,10 @@ public class Registration {
     }
     
     /**
-     * @author Jasharn Thiara
-     * @return boolean login result
-     * 
      * Checks if Username and password given is in database. 
+     * 
+     *  @author Jasharn Thiara
+     *  @return boolean login result
      */
     public boolean loginSuccessful(String theUserName, String theEmail, String thePassword) { 
     	
@@ -92,10 +88,10 @@ public class Registration {
     }
     
     /**
-     * @author Jasharn Thiara
-     * @throws IOException 
-     * 
      * Method will take in a email, username, password, and priviliges and create a new user to add into the userList arraylist.
+     * 
+     * @author Jasharn Thiara 
+     * @throws IOException
      */ 
     public void addToList(String theName, String theEmail, String thePassword, boolean thePrivileges) throws IOException {
 
@@ -115,16 +111,16 @@ public class Registration {
     }
     
     /**
-     * @author Jasharn Thiara
-     * Method reads from User file and creates an array of user objects.
-     * 
-     * @param theFile
-     * @return Array List of Users
-     * @throws FileNotFoundException 
-     * 
+
      * Method reads from User file and creates an array of user objeccts.
      * User File values are seperated by spaces, so the scanner rader will read token by token and get
      * username, email, password and priveleges in this order until there are no more lines to read.
+     * 
+     * @author Jasharn Thiara
+
+     * @param theFile
+     * @return Array List of Users
+     * @throws FileNotFoundException 
      */
     public ArrayList<User> readItemsFromFile(File theFile) throws FileNotFoundException {
 
@@ -168,12 +164,12 @@ public class Registration {
     }
     
     /**
+     * For the sake of testing, prints out the current list of Users, as well as their email, password, and whether or not they
+     * have special privileges.
+     * 
      * @author Jasharn Thiara
      * @param args
      * @throws FileNotFoundException
-     * 
-     * For the sake of testing, prints out the current list of Users, as well as their email, password, and whether or not they
-     * have special privileges.
      */
 
     public static void main(String[] args) throws FileNotFoundException, URISyntaxException {

@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * Class creates the about view
+ * 
  * @author Patrick Tibbals
+ * @version 1.0
+ * @since 2022-06-01
  */
 public class AboutView {
     /**
@@ -16,6 +20,8 @@ public class AboutView {
 
     /**
      *  Build about Window
+     *  
+     *  @author Patrick Tibbals
      */
     void viewBuilder(){
         JFrame f = new JFrame();

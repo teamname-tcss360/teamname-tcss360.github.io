@@ -17,17 +17,30 @@ package src;
 
 public class User {
 	
+	/**
+	 * String field to represent name.
+	 */
 	private String myName; 
-	
+
+	/**
+	 * String field to represent Password.
+	 */
 	private String myPassword;
 	
+	/**
+	 * String field to represent Email.
+	 */
 	private String myEmail;
 
+	/**
+	 * Boolean field to represent whether the User has priveleges or not. 
+	 */
 	private boolean hasPriveleges;
 	
 	/**
 	 * User constructor
 	 * 
+	 * @author Jasharn Thiara
 	 * @param theName
 	 * @param thePassword
 	 * @param theHasPriveleges
@@ -40,32 +53,32 @@ public class User {
 	}
 	
 	/**
-	 * getter for User name
-	 * @return String UserName
+	 * @author JasharnThiara
+	 * @return String UserName ~ getter for User name
 	 */
 	public String getUserName() {
 		return this.myName;
 	}
 	
 	/**
-	 * getter for Password 
-	 * @return String myPasssword
+	 * @author Jasharn Thiara
+	 * @return String myPasssword ~ getter for Password 
 	 */
 	public String getPassword() {
 		return this.myPassword;
 	}
 	
 	/**
-	 * getter for myEmail
-	 * @return String myEmail
+	 * @author Jasharn Thiara
+	 * @return String myEmail ~ getter for myEmail
 	 */
 	public String getEmail() {
 		return this.myEmail;
 	}
 
 	/**
-	 * getter for hasPriveleges
-	 * @return boolean hasPriveleges
+	 * @author Jasharn Thiara
+	 * @return boolean hasPriveleges ~ getter for hasPriveleges
 	 */
 	public Boolean getPriveleges() {
 		return this.hasPriveleges;
