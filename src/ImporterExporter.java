@@ -41,10 +41,9 @@ public class ImporterExporter {
 
         }
 
-        File file = new File(fileName);
-
         String userHomeFolder = System.getProperty("user.home")+"\\Desktop";
         File textFile = new File(userHomeFolder, row[0]+".txt");
+
 
         String headerLine = arrayToCSV(headers);
         String rowLine = arrayToCSV(row);
@@ -52,21 +51,12 @@ public class ImporterExporter {
         System.out.println(headerLine);
         System.out.println(rowLine);
 
-        boolean fileExists = file.isFile();
 
-        FileWriter writer = new FileWriter(file, fileExists);
         BufferedWriter out = new BufferedWriter(new FileWriter(textFile));
         try {
-            if (!fileExists){
-                writer.write(headerLine + "\n");
-
-                writer.write(rowLine + "\n");
-
-            }
             out.write(headerLine +"\n");
             out.write(rowLine + "\n");
             out.close();
-            writer.close();
         }
 
         catch (Exception e) {
@@ -77,6 +67,39 @@ public class ImporterExporter {
 
 
     }
+
+
+    /**
+     * Export a file from the system to the desktop location
+     * Allowed for use by JButton and MenuItem
+     * @param button
+     * @param menuButton
+     * @param userName
+     */
+    public static void exportFile(JButton button,JMenuItem menuButton,String userName,String folder){
+        JFileChooser jFileChooser = new JFileChooser(folder + "\\FileHub\\" + userName);
+        jFileChooser.setApproveButtonText("Export");
+        jFileChooser.setVisible(true);
+        if(button.getText().equals("")){
+            jFileChooser.showOpenDialog(menuButton);
+        }else {
+            jFileChooser.showOpenDialog(button);
+        }
+        File file = jFileChooser.getSelectedFile();
+
+        String userHomeFolder = System.getProperty("user.home") + "\\Desktop";
+
+        try {
+            Files.copy(Paths.get(file.getAbsolutePath()), Paths.get(userHomeFolder, file.getName()));
+        } catch (IOException ex ) {
+            JOptionPane.showMessageDialog(null,"File already exists in location.");
+            ex.printStackTrace();
+        }
+    }
+
+
+
+
     /***
      * Takes a string array and converts it to a single string
      * where each value is seperated by a comma.
@@ -106,7 +129,7 @@ public class ImporterExporter {
      * @param r
      * @param logInScreen
      */
-    public static void importProfile(JButton importButton , src.Registration r, src.LogInScreen logInScreen){
+    public static void importProfile(JButton importButton , src.Registration r, src.LogInScreen logInScreen,String folder){
         try {
             FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
             String userHomeFolder = System.getProperty("user.home") + "\\Desktop";
@@ -129,7 +152,7 @@ public class ImporterExporter {
 
             r.addToList(sArr[0], sArr[1], sArr[2], tempBool);
             Boolean makeFile = true;
-            File[] homeDirs = new File(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub").listFiles();
+            File[] homeDirs = new File(folder + "\\FileHub").listFiles();
             for (File f : homeDirs) {
                 if(f.getName().equals(sArr[0])) {
                     makeFile = false;
@@ -137,7 +160,7 @@ public class ImporterExporter {
                 }
             }
             if(makeFile) {
-                new File(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub\\" + sArr[0]).mkdir();
+                new File(folder + "\\FileHub\\" + sArr[0]).mkdir();
             }
             logInScreen.changePanel(logInScreen.createButtonPanel());
 
@@ -173,34 +196,6 @@ public class ImporterExporter {
         }
         File[] currentFileList = new File(fV.getCurrentFilePath()).listFiles();
         fV.setCurrentFileList(currentFileList);
-    }
-
-    /**
-     * Export a file from the system to the desktop location
-     * Allowed for use by JButton and MenuItem
-     * @param button
-     * @param menuButton
-     * @param userName
-     */
-    public static void exportFile(JButton button,JMenuItem menuButton,String userName){
-        JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "FileHub\\" + userName);
-        jFileChooser.setApproveButtonText("Export");
-        jFileChooser.setVisible(true);
-        if(button.getText().equals("")){
-            jFileChooser.showOpenDialog(menuButton);
-        }else {
-            jFileChooser.showOpenDialog(button);
-        }
-        File file = jFileChooser.getSelectedFile();
-
-        String userHomeFolder = System.getProperty("user.home") + "\\Desktop";
-
-        try {
-            Files.copy(Paths.get(file.getAbsolutePath()), Paths.get(userHomeFolder, file.getName()));
-        } catch (IOException ex ) {
-            JOptionPane.showMessageDialog(null,"File already exists in location.");
-            ex.printStackTrace();
-        }
     }
 
 }

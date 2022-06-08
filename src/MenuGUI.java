@@ -17,12 +17,15 @@ public class MenuGUI {
      */
     private src.FileView fileView;
 
+    private String folder;
+
     /**
      * Constructor for MenuGUI that also starts the buildMenuBar method
      * @param fv current instance of fileView class
      */
-    public MenuGUI(src.FileView fv) {
+    public MenuGUI(src.FileView fv,String folderLocation) {
         fileView = fv;
+        folder = folderLocation;
         buildMenuBar();
     }
 
@@ -38,17 +41,7 @@ public class MenuGUI {
         Image imageNew = iconNew.getImage();
         Image newImgNew = imageNew.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         iconNew = new ImageIcon(newImgNew);
-/*
-        ImageIcon iconOpen = new ImageIcon("src/resources/open.png");
-        Image imageOpen = iconOpen.getImage();
-        Image newImgOpen = imageOpen.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconOpen = new ImageIcon(newImgOpen);
 
-        ImageIcon iconSave = new ImageIcon("src/resources/save.png");
-        Image imageSave = iconSave.getImage();
-        Image newImgSave = imageSave.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        iconSave = new ImageIcon(newImgSave);
-*/
         URL url2 = ClassLoader.getSystemClassLoader().getResource("exit.png");
         ImageIcon iconExit = new ImageIcon(url2);
         Image imageExit = iconExit.getImage();
@@ -77,7 +70,7 @@ public class MenuGUI {
         exportMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                src.ImporterExporter.exportFile(new JButton(""),exportMenuItem, fileView.getUserName());
+                src.ImporterExporter.exportFile(new JButton(""),exportMenuItem, fileView.getUserName(),folder);
             }
         });
 
@@ -133,7 +126,7 @@ public class MenuGUI {
             public void actionPerformed(ActionEvent e) {
                 fileView.getFrame().dispose();
                 MainView m = new MainView();
-                m.guiBuilder();
+                m.guiBuilder(folder);
             }
         });
 

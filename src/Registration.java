@@ -46,12 +46,11 @@ public class Registration {
      * 
      * Constructs a sigin/registration system.
      */
-    public Registration() throws FileNotFoundException, URISyntaxException {
-
-//		InputStream in = uri;
-		//USERFILE = new File(getClass().getResource("/Users/UserFile.txt").toExternalForm());
-		USERFILE = new File(System.getProperty("user.home") + "\\Desktop\\TEAMNAME-File Explorer\\" + "FileViewer\\" + "Users" + "\\UserFile.txt");
-
+    public Registration(String folder) throws FileNotFoundException, URISyntaxException {
+		String temp = folder + "\\Users" + "\\UserFile.txt";
+		USERFILE = new File(temp);
+		System.out.println(USERFILE.getPath());
+		System.out.println(temp);
 /*
 		InputStream is = getClass().getResourceAsStream("/Users/UserFile.txt");
 		InputStreamReader isr = new InputStreamReader(is);
@@ -116,12 +115,9 @@ public class Registration {
     }
     
     /**
-<<<<<<< HEAD
      * @author Jasharn Thiara
-=======
      * Method reads from User file and creates an array of user objects.
      * 
->>>>>>> e5686c069c2c938b417a9bd90edb8f73f665f992
      * @param theFile
      * @return Array List of Users
      * @throws FileNotFoundException 
@@ -181,8 +177,8 @@ public class Registration {
      */
 
     public static void main(String[] args) throws FileNotFoundException, URISyntaxException {
-		Registration r = new Registration();
-
+		//	Registration r = new Registration();
+/*
 		for (int i = 0; i < r.myUserList.size(); i++) {
 			System.out.println("Username = " + r.myUserList.get(i).getUserName());
 			System.out.println("Email = " + r.myUserList.get(i).getEmail());
@@ -191,4 +187,6 @@ public class Registration {
 		}
 	}
 
+ */
+	}
 }
