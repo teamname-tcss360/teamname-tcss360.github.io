@@ -173,8 +173,8 @@ public class Registration {
      */
 
     public static void main(String[] args) throws FileNotFoundException, URISyntaxException {
-		//	Registration r = new Registration();
-/*
+			Registration r = new Registration("src/resources/");
+
 		for (int i = 0; i < r.myUserList.size(); i++) {
 			System.out.println("Username = " + r.myUserList.get(i).getUserName());
 			System.out.println("Email = " + r.myUserList.get(i).getEmail());
@@ -183,6 +183,5 @@ public class Registration {
 		}
 	}
 
- */
-	}
+
 }

@@ -8,19 +8,15 @@
 package src;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.*;
-import java.util.*;
 
 /**
  * File view panel for the GUI
@@ -85,6 +81,9 @@ public class FileView {
      */
     private final JPopupMenu popupmenu = new JPopupMenu("Edit");
 
+    /**
+     *  Folder variable for folder path
+     */
     private String folder;
 
 

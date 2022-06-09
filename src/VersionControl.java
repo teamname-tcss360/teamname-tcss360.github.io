@@ -17,7 +17,7 @@ public class VersionControl {
 	/**
 	 * String to represent version number
 	 */
-	private static String myVersion = "1.2.0";
+	private static String myVersion = "2.0.0";
 
 	/**
 	 * @author Jasharn Thiara
