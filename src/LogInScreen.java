@@ -6,19 +6,15 @@
 
 package src;
 
-//import javafx.beans.binding.BooleanExpression;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.*;
 import java.io.*;
 import java.awt.GridLayout;
 import java.net.URL;
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+
 /**
  * Login Screen for GUI.
  * First state loaded after start of program.

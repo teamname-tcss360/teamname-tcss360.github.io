@@ -9,6 +9,7 @@ import java.io.File;
 import org.junit.jupiter.api.Test;
 
 import src.FileTools;
+import src.FileView;
 
 /**
  * Class tests TeamName project, class has functionality to test the FileTools class.
@@ -20,7 +21,7 @@ import src.FileTools;
 
 class FileToolsTest {
 
-	private FileTools ft = new FileTools(null); 
+	private FileTools ft = new FileTools(null,null);
 	
 	/**
 	 * @author Jasharn Thiara

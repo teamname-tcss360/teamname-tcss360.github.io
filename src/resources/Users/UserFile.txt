@@ -1,3 +1,2 @@
-Bob_Keener Bob@bob.com ********** yes
-Donnie Donnie@gmail.com 666666 no
-josh josh@email.com Josh123 no
+Joe joe@joe.com 123123123 yes
+joeshmo shmody@123.com 768 no

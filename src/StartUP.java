@@ -1,15 +1,9 @@
 package src;
 
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Replace;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.security.ProtectionDomain;
+
 
 public class StartUP{
 
@@ -56,32 +50,20 @@ public class StartUP{
 
 
         while (start) {
-      //          System.out.println(System.getProperty("user.dir"));
-
                 File fileViewer = new File(folderLocation);
                 fileViewer.mkdir();
-            System.out.println(fileViewer);
 
                 File fileHub = new File(folderLocation+"\\FileHub");
                 fileHub.mkdir();
-                System.out.println(fileHub);
 
                 File Users = new File(folderLocation + "\\Users");
-                System.out.println("Users folder");
                 Users.mkdir();
 
                 File UsersTXT = new File(folderLocation + "\\Users" + "\\UserFile.txt");
-                System.out.println(" Users Text file :  "+folderLocation + "\\Users" + "\\UserFile.txt");
                 UsersTXT.createNewFile();
-
-            System.out.println(folderLocation);
 
                 start = false;
         }
         return folderLocation;
     }
-
-
-
-
 }
