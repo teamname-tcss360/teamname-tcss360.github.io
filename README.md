@@ -1,5 +1,5 @@
-# teamname's FileViewer program
-> A Fileviewer application for TCSS360 written in Java
+# Teamname's file viewer program
+> A file viewer application for TCSS360 written in Java
 
 ![GitHub](https://img.shields.io/github/license/teamname-tcss360/teamname-tcss360.github.io)
 
