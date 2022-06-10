@@ -1,4 +1,4 @@
-package src;
+package FileHub.Bob_Keener.Source;
 
 /**
  * TCSS 360
@@ -15,8 +15,20 @@ public class User {
 	 */
 	
 	private String myName; 
-LETS BREAK SHIT
+	
+	/**
+	 * String field to represent Password.
+	 */
+	private String myPassword;
+	
+	/**
+	 * String field to represent Email.
+	 */
+	private String myEmail;
 
+	/**
+	 * Boolean field to represent whether the User has priveleges or not. 
+	 */
 	private boolean hasPriveleges;
 	
 	/**
